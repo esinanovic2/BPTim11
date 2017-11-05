@@ -21,6 +21,13 @@ public class KorisnikJDBCTemplate implements KorisnikDAO {
 	      System.out.println("Created Record Ime = " + ime + " Prezime = " + prezime + " Uloga = " + uloga);
 	      return;
 	}
+	
+	public void create(Korisnik k) {
+	      String SQL = "insert into korisnici (ime, prezime, uloga) values (?, ?, ?)";
+	      jdbcTemplateObject.update( SQL, k.getIme(), k.getPrezime(), k.getUloga());
+	      System.out.println("Created Record Ime = " + k.getIme() + " Prezime = " + k.getPrezime() + " Uloga = " + k.getUloga());
+	      return;
+	}
 
 	public Korisnik getKorisnik(Integer id) {
 	      String SQL = "select * from korisnici where id = ?";

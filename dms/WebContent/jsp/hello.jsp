@@ -1,7 +1,7 @@
 <%@ page contentType = "text/html; charset = UTF-8" %>
 <html>
    <head>
-      <title>Hello World</title>
+      <title>DMS</title>
    </head>
    
    <body>

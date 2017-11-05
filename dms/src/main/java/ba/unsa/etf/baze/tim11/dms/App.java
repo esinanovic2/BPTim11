@@ -18,23 +18,8 @@ public class App {
 
 		    UlogaJDBCTemplate ulogaJDBCTemplate = (UlogaJDBCTemplate)context.getBean("ulogaJDBCTemplate");
 		    
-		    System.out.println("------Records Creation--------" );
-		    ulogaJDBCTemplate.create("Administrator2");
+		    System.out.println("------Delete extra uloga--------" );
+		    ulogaJDBCTemplate.delete(5);
 
-		    System.out.println("------Listing Multiple Records--------" );
-		    List<Uloga> uloge = ulogaJDBCTemplate.listUloge();
-		    
-		    for (Uloga record : uloge) {
-		       System.out.print("ID : " + record.getId() );
-		       System.out.print(", Name : " + record.getNaziv() );
-		    }
-
-		    System.out.println("----Updating Record with ID = 2 -----" );
-		    ulogaJDBCTemplate.update(5,"Admin2");
-
-		    System.out.println("----Listing Record with ID = 2 -----" );
-		    Uloga uloga = ulogaJDBCTemplate.getUloga(5);
-		    System.out.print("ID : " + uloga.getId() );
-		    System.out.print(", Name : " + uloga.getNaziv() );
     	 }
 }

@@ -21,4 +21,12 @@
       class = "ba.unsa.etf.baze.tim11.dao.UlogaJDBCTemplate">
       <property name = "dataSource" ref = "dataSource" />    
    </bean>
+   
+   
+      <!-- Definition for studentJDBCTemplate bean -->
+   <bean id = "korisnikJDBCTemplate" 
+      class = "ba.unsa.etf.baze.tim11.dao.KorisnikJDBCTemplate">
+      <property name = "dataSource" ref = "dataSource" />    
+   </bean>
+   
 </beans>

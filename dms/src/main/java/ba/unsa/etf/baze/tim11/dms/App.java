@@ -6,6 +6,8 @@ import org.springframework.context.ApplicationContext;
 import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 
+import ba.unsa.etf.baze.tim11.dao.Korisnik;
+import ba.unsa.etf.baze.tim11.dao.KorisnikJDBCTemplate;
 import ba.unsa.etf.baze.tim11.dao.Uloga;
 import ba.unsa.etf.baze.tim11.dao.UlogaJDBCTemplate;
 
@@ -14,12 +16,21 @@ import ba.unsa.etf.baze.tim11.dao.UlogaJDBCTemplate;
 
 public class App {
 	   public static void main(String[] args) {
-		    ApplicationContext context = new ClassPathXmlApplicationContext("Beans.xml");
+		   ApplicationContext context = new ClassPathXmlApplicationContext("Beans.xml");
+		   KorisnikJDBCTemplate korisnikJDBCTemplate = 
+			         (KorisnikJDBCTemplate) context.getBean("korisnikJDBCTemplate");
+			      
+			      System.out.println("------Records Creation--------" );
+			      korisnikJDBCTemplate.create("AAA","BBB", 2);
 
-		    UlogaJDBCTemplate ulogaJDBCTemplate = (UlogaJDBCTemplate)context.getBean("ulogaJDBCTemplate");
-		    
-		    System.out.println("------Delete extra uloga--------" );
-		    ulogaJDBCTemplate.delete(5);
 
+			      System.out.println("------Listing Multiple Records--------" );
+			      List<Korisnik> korisnici = korisnikJDBCTemplate.listKorisnici();
+			      
+			      for (Korisnik record : korisnici) {
+			         System.out.print("ID : " + record.getId() );
+			         System.out.print(", Ime : " + record.getIme() );
+			         System.out.println(", Prezime : " + record.getPrezime());
+			      }
     	 }
 }

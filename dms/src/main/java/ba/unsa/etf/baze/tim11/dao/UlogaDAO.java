@@ -39,6 +39,6 @@ public interface UlogaDAO {
 	     * This is the method to be used to update
 	     * a record into the Student table.
 	     */
-	public void update(Integer id, Integer age);
+	public void update(Integer id, String naziv);
 	
 }

@@ -1,0 +1,66 @@
+
+#korisnickiErr{
+    font-family:monospace;
+    display:  block;
+    color:#ff0000;
+    font-size: 13px;
+    margin-top: 0;
+}
+#korisnickiErrP{
+    font-family:monospace;
+    display:  block;
+    color:#ff0000;
+    font-size: 13px;
+    margin-top: 0;
+}
+#emailErr{
+    font-family:monospace;
+    display:  block;
+    color:#ff0000;
+    font-size: 13px;
+    margin-top: 0;
+}
+#emailErrV{
+    font-family:monospace;
+    display:  block;
+    color:#ff0000;
+    font-size: 13px;
+    margin-top: 0;
+}
+#passErr{
+    font-family:monospace;
+    display:  block;
+    color:#ff0000;
+    font-size: 13px;
+    margin-top: 0;
+}
+#passErrP{
+    font-family:monospace;
+    display:  block;
+    color:#ff0000;
+    font-size: 13px;
+    margin-top: 0;
+}
+#ppassErr{
+    font-family:monospace;
+    display:  block;
+    color:#ff0000;
+    font-size: 13px;
+    margin-top: 0;
+}
+#obav{
+    font-family:monospace;
+    display:inline-block;
+    color:#ff0000;
+    font-size: 13px;
+    margin-top: 0;
+
+}
+#obavPod{
+    font-family:monospace;
+    font-weight:bolder;
+    display:inline-block;
+    color:#ff0000;
+    font-size: 13px;
+    margin-top:20px;
+}

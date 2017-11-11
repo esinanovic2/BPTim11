@@ -1,0 +1,333 @@
+@font-face {
+    font-family: 'Font';
+    src: url('MontserratAlternates-Regular.otf');
+}
+* {
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Font';
+    background-image: url("bcg.jpg");
+    display: block;
+    margin: 0px;
+    margin-top: 0px;
+    margin-right: 0px;
+    margin-bottom: 0px;
+    margin-left: 0px;
+    background-repeat: no-repeat;
+
+}
+
+.header{
+    background-color:transparent;
+    overflow:auto;
+}
+
+#row-1{
+     background-color:transparent;
+
+}
+
+#row-1 img{
+    display: inline-block;
+    width: 100%;
+    height: 100%;
+    object-fit:cover;
+}
+
+#logo{
+    color: #570d9b;
+    text-align: center;
+    display:inline-table;
+}
+
+#menu{
+    display: inline-block;;
+    margin-top: 1em;
+    margin-bottom: 1em;
+    display: inline-block;
+}
+
+
+#logo a{
+    text-decoration: none;
+    color: #f2f2f2;
+
+}
+
+#row-1::after{
+    content: "";
+    clear: both;
+    display: block;
+}
+.row::after {
+    content: "";
+    clear: both;
+    display: block;
+}
+
+[class*="col-"] {
+    float: left;
+    padding: 15px;
+
+}
+
+#glavni{
+     background-color: transparent;
+     display: flex;
+     width: 100%;
+     padding: 0px;
+     align-items:center;
+}
+
+#glavni button{
+      font-size:40px;
+      background-color:inherit;
+      color: #ffffff;
+}
+
+.naslov{
+    position: center;
+}
+
+.btn1{
+    display:block;
+    background-color: #7a858a;
+    outline: none;
+    color: #fff;
+    font-size: 14px;
+    height: auto;
+    font-weight: normal;
+    padding:10px 40px;
+    border-radius:7px;
+    margin-left:auto;
+    margin-right:auto;
+    border-color: #4f5355;
+    text-align:center;
+    font-family:Font;
+
+}
+.textStil1{
+    border-radius:5px;
+    height:30px;
+    width:100%;
+    margin-bottom:10px;
+}
+.zaboravioPas{
+    text-decoration: underline;
+    color:#ffffff;
+}
+.zaboravioPas:hover{
+    color:#be766a;
+}
+
+#containerRL{
+   background-color: transparent;
+   width:35%;
+   height:auto;
+   margin-top:30px;
+   margin:50%;
+   border-radius:10px;
+}
+#tabbox{
+    height:40px;
+    border-bottom: 3px solid #e5d0d0;
+    width:300px;
+    max-width:300px;
+}
+
+.tab{
+    display:block;
+    width:50%;
+    height:40px;
+    line-height:40px;
+    text-align:center;
+    -webkit-border-top-left-radius:20px;
+    -webkit-border-top-right-radius:20px;
+}
+#tabbox a{
+    float:left;
+    text-decoration:none;
+    color:#fff;
+    cursor:pointer;
+    margin-bottom:10px;
+}
+
+.SignIn{
+    background-color: transparent;
+    color:#ffffff;
+}
+.SignUp{
+    background-color: transparent;
+    color:#ffffff;
+}
+
+label{
+    display:block;
+    padding:3px;
+}
+
+.textStil{
+    border-radius:5px;
+    height:25px;
+    width:80%;
+    font-family: Font;
+    margin-bottom:10px;
+
+}
+.cxbCenter{
+    display: inline-block;
+    padding:10px 0px;
+    color:#ffffff;
+}
+.btn{
+    display: block;
+    background-color: #7a858a;
+    outline: none;
+    color: #fff;
+    font-size: 14px;
+    height: auto;
+    font-weight: normal;
+    padding:10px 40px;
+    border-radius:7px;
+    border-color: #4f5355;
+    margin-left: auto;
+    margin-right: auto;
+
+}
+#formPanel{
+    background-color: transparent;
+    width:250px;
+    display: inline-block;
+
+}
+#prijaviSebox {
+    padding:15px;
+    width:300px;
+    max-width:300px;
+}
+
+#registrujSebox{
+    padding:15px;
+     width:300px;
+    max-width:300px;
+}
+
+#RegistracijaForma input{
+  font-family: monospace;
+}
+
+#LogInForma input{
+  font-family: monospace;
+}
+
+#VratiForma input{
+  font-family: monospace;
+}
+
+#Vratibox{
+    padding:15px;
+    width:300px;
+    max-width:300px;
+}
+.text-center{
+    padding:50px;
+}
+span{
+    color:#ffffff;
+}
+
+.desc {
+    padding: 10px;
+    text-align: center;
+    color: #ffffff;
+}
+
+/*For tablets: */
+@media only screen and (max-width: 700px){
+    #menu-trigger{
+        display: block;
+    }
+    #menu{
+        display: none;
+    }
+    #glavni{
+        display:block;
+        align-items:center;
+    }
+      #glavni button{
+      font-size:20px;
+      width:100%;
+    }
+    .nav-expanded{
+        display: block;
+    }
+ 
+     #glavni img{
+      display: inline-block;
+      width: 100%;
+      height: 100%;
+     }
+}
+
+ /* For mobile phones: */
+ @media only screen and (max-width: 500px){
+    #menu-trigger{
+        display: block;
+    }
+    #menu{
+        display: none;
+    }
+    #glavni{
+        display:block;
+        align-items:center;
+    }
+
+    #glavni button{
+      font-size:20px;
+      width:100%;
+    }
+
+    .nav-expanded{
+        display: block;
+    }
+
+    #menu ul li a{
+        display:block;
+       float:none;
+        border-bottom: 1px solid;
+    }
+
+    #containerRL{
+      width:100%;
+      height:auto;
+    }
+
+    #glavni img{
+      display: inline-block;
+      width: 100%;
+      height: 100%;
+     }
+ }
+
+[class*="col-"]{
+    width: 100%;
+}
+
+@media only screen and (min-width: 858px){
+    /* For desktop: */
+    .col-1 {width: 8.33%; }
+    .col-2 {width: 16.66%;}
+    .col-3 {width: 25%; }
+    .col-4 {width: 33.33%;}
+    .col-5 {width: 41.66%;}
+    .col-6 {width: 50%;}
+    .col-7 {width: 58.33%;}
+    .col-8 {width: 66.66%; }
+    .col-9 {width: 75%; }
+    .col-10 {width: 83.33%;}
+    .col-11 {width: 91.66%;}
+    .col-12 {width: 100%;}
+}
+

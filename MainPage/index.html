@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Baze podataka</title>
+
+<META http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<script src="js/jquery.min.js"></script>
+<script type="text/javascript" src="js/jquery-3.1.1.min.js"></script>
+<script type="text/javascript" src="js/indexJS.js"></script>
+<script type="text/javascript" src="js/validacijeJS.js"></script>
+
+<link rel="stylesheet" href="css/indexStil.css">
+<link rel="stylesheet" href="css/errori.css">
+
+</head>
+<body>
+	<div class="header" >
+		<div id="row-1" class="col-12">
+			<div id="logo" class="col-3">
+		<h3><a href="index.html"><img class="logo" src="" alt="Datotečni sistem" ></a></h3>
+	</div>
+		</div>
+	</div>
+
+	<div class="row">
+		<div id="glavni" class="col-12">
+			<div class="container registracijaILogin-container">
+			
+			<div id="containerRL">
+				<div id=tabbox>
+					<a href="#" id="signIn" class="tab SignIn">Prijavi se</a>
+					<a href="#" id="signUp" class="tab SignUp">Registruj se</a>
+				</div>
+				<div id="formpanel">
+					<div id="prijaviSebox">
+						<form id="LogInForma"  action="form_action.asp" onsubmit="return validacijaP()" method="post">  
+ 							<input type="text" id="userP" name="userP" class="textStil" tabindex="1" placeholder="Korisničko ime">
+							<p id="obav">*</p>
+							<p id="korisnickiErrP" ></p>
+							<input type="password" id="passP" name="passP" class="textStil" tabindex="2" placeholder="Šifra">
+							<p id="obav">*</p>
+							<p id="passErrP" ></p>
+							<div class="cxbCenter">
+							<input type="checkbox" name="zapamti" value="zapamti" tabindex="3">Zapamti me
+	  						</div>
+	 			 			<input type="submit" form="LogInForma" value="Prijavi se" class="btn" tabindex="4">
+							<p id="obavPod">Polja označena (*) su obavezna!</p>
+							<div class="text-center">
+								<a href="zaboravljenaSifra.html" tabindex="5" class="zaboravioPas">Zaboravljena šifra?</a>
+							</div>	
+ 						</form> 
+ 					</div>
+ 					<div id="registrujSebox">
+ 						<form id="RegistracijaForma"  action="form_action.asp" onsubmit="return validacijaR()" method="post">  
+	  						<input type="text" id="userR" name="userR" class="textStil" tabindex="1" placeholder="Korisničko ime (A-Z a-z 0-9)">
+							<p id="obav">*</p>
+							<p id="korisnickiErr" ></p>
+							<input type="text" id="emailR" name="emailR" class="textStil" tabindex="2" placeholder="E-mail">
+							<p id="obav">*</p>
+							<p id="emailErr" ></p>
+							<input type="password" id="passR" name="passR" class="textStil" tabindex="3" placeholder="Šifra (min8 max20)">
+							<p id="obav">*</p>
+							<p id="passErr" ></p>
+							<input type="password" id="passPR"  name="passPR" class="textStil" tabindex="4" placeholder="Potvrdi šifru">
+							<p id="obav">*</p>
+							<p id="ppassErr" ></p>
+							<input type="submit" form="RegistracijaForma" value="Registruj se" class="btn" tabindex="5">
+							<p id="obavPod">Polja označena (*) su obavezna!</p>
+  				
+  						</form> 
+  					</div>
+  				</div>
+			</div>
+		</div>
+	</div>
+
+</body>
+</html>
+
+<!-- by Ena Muratspahić-->
+

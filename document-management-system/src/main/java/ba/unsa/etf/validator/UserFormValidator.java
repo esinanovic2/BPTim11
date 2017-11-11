@@ -62,7 +62,5 @@ public class UserFormValidator implements Validator {
 		if (user.getSkill() == null || user.getSkill().size() < 3) {
 			errors.rejectValue("skill", "Valid.userForm.skill");
 		}
-
 	}
-
 }

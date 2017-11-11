@@ -18,7 +18,6 @@ public class KorisnikServiceImplementation implements KorisnikService {
 		this.korisnikDao = korisnikDao;
 	}
 	
-	
 	@Override
 	public Korisnik findById(Integer id) {
 		return korisnikDao.findById(id);	
@@ -42,8 +41,4 @@ public class KorisnikServiceImplementation implements KorisnikService {
 	public void delete(Integer id) {
 		korisnikDao.delete(id);
 	}
-
-
-
-
 }

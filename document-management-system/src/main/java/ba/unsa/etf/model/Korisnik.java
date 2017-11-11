@@ -6,6 +6,7 @@ public class Korisnik {
 	private String prezime;
 	private String korisnickoIme;
 	private String sifra;
+	private String potvrdisifru;
 	private Integer uloga;
 	
 	public Integer getId() {
@@ -43,5 +44,15 @@ public class Korisnik {
 	}
 	public void setSifra(String sifra) {
 		this.sifra = sifra;
+	}
+	
+	public boolean isNew() {
+		return (this.id == null);
+	}
+	public String getPotvrdisifru() {
+		return potvrdisifru;
+	}
+	public void setPotvrdisifru(String potvrdisifru) {
+		this.potvrdisifru = potvrdisifru;
 	}
 }

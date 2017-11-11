@@ -1,7 +1,13 @@
+C:\Users\serio\eclipse-workspace\BPTim11\document-management-system\src\main\java\ba\unsa\etf\model\Korisnik.java
 C:\Users\serio\eclipse-workspace\BPTim11\document-management-system\src\main\java\ba\unsa\etf\service\UserServiceImpl.java
 C:\Users\serio\eclipse-workspace\BPTim11\document-management-system\src\main\java\ba\unsa\etf\config\SpringWebConfig.java
 C:\Users\serio\eclipse-workspace\BPTim11\document-management-system\src\main\java\ba\unsa\etf\dao\UserDaoImpl.java
 C:\Users\serio\eclipse-workspace\BPTim11\document-management-system\src\main\java\ba\unsa\etf\service\UserService.java
+C:\Users\serio\eclipse-workspace\BPTim11\document-management-system\src\main\java\ba\unsa\etf\validator\KorisnikFormValidator.java
+C:\Users\serio\eclipse-workspace\BPTim11\document-management-system\src\main\java\ba\unsa\etf\dao\KorisnikDao.java
+C:\Users\serio\eclipse-workspace\BPTim11\document-management-system\src\main\java\ba\unsa\etf\web\KorisnikController.java
+C:\Users\serio\eclipse-workspace\BPTim11\document-management-system\src\main\java\ba\unsa\etf\service\KorisnikService.java
+C:\Users\serio\eclipse-workspace\BPTim11\document-management-system\src\main\java\ba\unsa\etf\dao\KorisnikDaoImplementation.java
 C:\Users\serio\eclipse-workspace\BPTim11\document-management-system\src\main\java\ba\unsa\etf\validator\UserFormValidator.java
 C:\Users\serio\eclipse-workspace\BPTim11\document-management-system\src\main\java\ba\unsa\etf\web\MainPageController.java
 C:\Users\serio\eclipse-workspace\BPTim11\document-management-system\src\main\java\ba\unsa\etf\config\SpringDBConfig.java
@@ -11,3 +17,4 @@ C:\Users\serio\eclipse-workspace\BPTim11\document-management-system\src\main\jav
 C:\Users\serio\eclipse-workspace\BPTim11\document-management-system\src\main\java\ba\unsa\etf\exception\GlobalExceptionHandler.java
 C:\Users\serio\eclipse-workspace\BPTim11\document-management-system\src\main\java\ba\unsa\etf\model\User.java
 C:\Users\serio\eclipse-workspace\BPTim11\document-management-system\src\main\java\ba\unsa\etf\web\UserController.java
+C:\Users\serio\eclipse-workspace\BPTim11\document-management-system\src\main\java\ba\unsa\etf\service\KorisnikServiceImplementation.java

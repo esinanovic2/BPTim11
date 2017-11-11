@@ -13,9 +13,13 @@ import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.jdbc.core.namedparam.SqlParameterSource;
+import org.springframework.jdbc.support.GeneratedKeyHolder;
+import org.springframework.jdbc.support.KeyHolder;
+import org.springframework.stereotype.Repository;
 
 import ba.unsa.etf.model.Korisnik;
 
+@Repository
 public class KorisnikDaoImplementation implements KorisnikDao {
 	
 	NamedParameterJdbcTemplate namedParameterJdbcTemplate;
@@ -57,13 +61,17 @@ public class KorisnikDaoImplementation implements KorisnikDao {
 
 	@Override
 	public void save(Korisnik korisnik) {
+		KeyHolder keyHolder = new GeneratedKeyHolder();
+		
 		String sql = "INSERT INTO korisnici(ime, prezime, korisnickoime, sifra, uloga) values (:ime, :prezime, :korisnickoime, :sifra, :uloga)";
-		namedParameterJdbcTemplate.update(sql, getSqlParameterByModel(korisnik));
+		namedParameterJdbcTemplate.update(sql, getSqlParameterByModel(korisnik), keyHolder);
+		
+		korisnik.setId(keyHolder.getKey().intValue());
 	}
 
 	@Override
 	public void update(Korisnik korisnik) {
-		String sql = "UPDATE korisnici SET ime = :ime prezime = :prezime korisnickoime = :korisnickoime sifra = :sifra  uloga = :uloga  where id = :id";
+		String sql = "UPDATE korisnici SET ime = :ime prezime = :prezime korisnickoime = :korisnickoime sifra = :sifra uloga = :uloga where id = :id";
 		
 		namedParameterJdbcTemplate.update(sql, getSqlParameterByModel(korisnik));
 	}
@@ -84,7 +92,6 @@ public class KorisnikDaoImplementation implements KorisnikDao {
 	
 	private SqlParameterSource getSqlParameterByModel(Korisnik korisnik) {
 		MapSqlParameterSource paramSource = new MapSqlParameterSource();
-		paramSource.addValue("id", korisnik.getId());
 		paramSource.addValue("ime", korisnik.getIme());
 		paramSource.addValue("sifra", korisnik.getSifra());
 		paramSource.addValue("uloga", korisnik.getUloga());

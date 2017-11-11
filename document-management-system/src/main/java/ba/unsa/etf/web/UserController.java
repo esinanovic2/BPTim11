@@ -51,11 +51,11 @@ public class UserController {
 		this.userService = userService;
 	}
 
-	@RequestMapping(value = "/", method = RequestMethod.GET)
-	public String index(Model model) {
-		logger.debug("index()");
-		return "redirect:/users";
-	}
+//	@RequestMapping(value = "/", method = RequestMethod.GET)
+//	public String index(Model model) {
+//		logger.debug("index()");
+//		return "redirect:/users";
+//	}
 
 	// list page
 	@RequestMapping(value = "/users", method = RequestMethod.GET)
@@ -64,7 +64,6 @@ public class UserController {
 		logger.debug("showAllUsers()");
 		model.addAttribute("users", userService.findAll());
 		return "users/list";
-
 	}
 
 	// save or update user

@@ -12,6 +12,7 @@
 
 <spring:url value="/" var="urlHome" />
 <spring:url value="/users/add" var="urlAddUser" />
+<spring:url value="/navigation/login" var="urlLogin" />
 
 <nav class="navbar navbar-inverse ">
 	<div class="container">
@@ -21,6 +22,9 @@
 		<div id="navbar">
 			<ul class="nav navbar-nav navbar-right">
 				<li class="active"><a href="${urlAddUser}">Dodaj Korisnika</a></li>
+			</ul>
+			<ul class="nav navbar-nav navbar-right">
+				<li class="active"><a href="${urlLogin}">Login</a></li>
 			</ul>
 		</div>
 	</div>

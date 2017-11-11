@@ -22,6 +22,9 @@
 			<ul class="nav navbar-nav navbar-right">
 				<li class="active"><a href="${urlAddUser}">Dodaj Korisnika</a></li>
 			</ul>
+			<ul class="nav navbar-nav navbar-right">
+				<li class="active"><a href="${urlAddUser}">Dodaj Opet sam na drugom mjestu</a></li>
+			</ul>
 		</div>
 	</div>
 </nav>

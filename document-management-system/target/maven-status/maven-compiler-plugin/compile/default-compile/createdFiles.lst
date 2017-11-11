@@ -1,4 +1,5 @@
 ba\unsa\etf\validator\EmailValidator.class
+ba\unsa\etf\web\MainPageController.class
 ba\unsa\etf\exception\GlobalExceptionHandler.class
 ba\unsa\etf\config\SpringWebConfig.class
 ba\unsa\etf\dao\UserDaoImpl$1.class

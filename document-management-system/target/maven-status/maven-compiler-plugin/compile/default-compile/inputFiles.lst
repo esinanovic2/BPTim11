@@ -1,0 +1,12 @@
+C:\Users\serio\eclipse-workspace\document-management-system\src\main\java\ba\unsa\etf\model\User.java
+C:\Users\serio\eclipse-workspace\document-management-system\src\main\java\ba\unsa\etf\config\SpringWebConfig.java
+C:\Users\serio\eclipse-workspace\document-management-system\src\main\java\ba\unsa\etf\dao\UserDaoImpl.java
+C:\Users\serio\eclipse-workspace\document-management-system\src\main\java\ba\unsa\etf\validator\UserFormValidator.java
+C:\Users\serio\eclipse-workspace\document-management-system\src\main\java\ba\unsa\etf\config\SpringDBConfig.java
+C:\Users\serio\eclipse-workspace\document-management-system\src\main\java\ba\unsa\etf\service\UserServiceImpl.java
+C:\Users\serio\eclipse-workspace\document-management-system\src\main\java\ba\unsa\etf\dao\UserDao.java
+C:\Users\serio\eclipse-workspace\document-management-system\src\main\java\ba\unsa\etf\exception\GlobalExceptionHandler.java
+C:\Users\serio\eclipse-workspace\document-management-system\src\main\java\ba\unsa\etf\validator\EmailValidator.java
+C:\Users\serio\eclipse-workspace\document-management-system\src\main\java\ba\unsa\etf\web\UserFormController.java
+C:\Users\serio\eclipse-workspace\document-management-system\src\main\java\ba\unsa\etf\web\UserController.java
+C:\Users\serio\eclipse-workspace\document-management-system\src\main\java\ba\unsa\etf\service\UserService.java

@@ -71,7 +71,7 @@ public class KorisnikDaoImplementation implements KorisnikDao {
 
 	@Override
 	public void update(Korisnik korisnik) {
-		String sql = "UPDATE korisnici SET ime = :ime prezime = :prezime korisnickoime = :korisnickoime sifra = :sifra uloga = :uloga where id = :id";
+		String sql = "UPDATE korisnici SET ime = :ime, prezime = :prezime, korisnickoime = :korisnickoime, sifra = :sifra, uloga = :uloga WHERE id = :id";
 		
 		namedParameterJdbcTemplate.update(sql, getSqlParameterByModel(korisnik));
 	}
@@ -92,6 +92,7 @@ public class KorisnikDaoImplementation implements KorisnikDao {
 	
 	private SqlParameterSource getSqlParameterByModel(Korisnik korisnik) {
 		MapSqlParameterSource paramSource = new MapSqlParameterSource();
+		paramSource.addValue("id", korisnik.getId());
 		paramSource.addValue("ime", korisnik.getIme());
 		paramSource.addValue("sifra", korisnik.getSifra());
 		paramSource.addValue("uloga", korisnik.getUloga());

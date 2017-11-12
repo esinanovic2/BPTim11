@@ -41,6 +41,7 @@
 					</td>
 					<td>${korisnik.ime}</td>
 					<td>${korisnik.prezime}</td>
+					<td>${korisnik.uloga}</td>
 					<td>
 						<spring:url value="/korisnici/${korisnik.id}" var="korisnikUrl" />
 						<spring:url value="/korisnici/${korisnik.id}/obrisi" var="obrisiUrl" /> 

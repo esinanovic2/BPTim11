@@ -11,6 +11,7 @@
 </head>
 
 <spring:url value="/" var="urlHome" />
+<spring:url value="/korisnici" var="urlKorisnici" />
 <spring:url value="/korisnici/dodaj" var="urlDodajKorisnika" />
 <spring:url value="/navigation/login" var="urlLogin" />
 
@@ -20,6 +21,9 @@
 			<a class="navbar-brand" href="${urlHome}">Glavna</a>
 		</div>
 		<div id="navbar">
+			<ul class="nav navbar-nav navbar-right">
+				<li class="active"><a href="${urlKorisnici}">Korisnici</a></li>
+			</ul>
 			<ul class="nav navbar-nav navbar-right">
 				<li class="active"><a href="${urlDodajKorisnika}">Dodaj Korisnika</a></li>
 			</ul>

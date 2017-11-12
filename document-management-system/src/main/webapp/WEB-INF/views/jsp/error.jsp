@@ -5,7 +5,7 @@
 <!DOCTYPE html>
 <html lang="en">
 
-<jsp:include page="fragments/header.jsp" />
+<jsp:include page="fragments/login_header.jsp" />
 
 <body>
 

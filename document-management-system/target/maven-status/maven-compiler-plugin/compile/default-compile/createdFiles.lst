@@ -1,4 +1,5 @@
 ba\unsa\etf\validator\KorisnikFormValidator.class
+ba\unsa\etf\validator\LoginFormValidator.class
 ba\unsa\etf\web\KorisnikController.class
 ba\unsa\etf\service\KorisnikService.class
 ba\unsa\etf\model\Login.class

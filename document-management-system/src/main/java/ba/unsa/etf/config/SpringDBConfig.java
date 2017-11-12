@@ -28,6 +28,14 @@ public class SpringDBConfig {
         dataSource.setUrl("jdbc:mysql://localhost:3306/bpTim11db");
         dataSource.setUsername("bpUser");
         dataSource.setPassword("1234ab");
+
+//        DriverManagerDataSource dataSource = new DriverManagerDataSource();
+//        dataSource.setDriverClassName("oracle.jdbc.OracleDriver");
+//        dataSource.setUrl("jdbc:oracle:thin:@//80.65.65.66:1521/etflab");
+////        dataSource.setUsername("es16165");
+////        dataSource.setPassword("t3KzTd18");
+//        dataSource.setUsername("BP18");
+//        dataSource.setPassword("RDnjyHMK");
          
         return dataSource;
 	}

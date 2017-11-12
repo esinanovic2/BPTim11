@@ -8,6 +8,7 @@ C:\Users\serio\eclipse-workspace\BPTim11\document-management-system\src\main\jav
 C:\Users\serio\eclipse-workspace\BPTim11\document-management-system\src\main\java\ba\unsa\etf\web\KorisnikController.java
 C:\Users\serio\eclipse-workspace\BPTim11\document-management-system\src\main\java\ba\unsa\etf\service\KorisnikService.java
 C:\Users\serio\eclipse-workspace\BPTim11\document-management-system\src\main\java\ba\unsa\etf\dao\KorisnikDaoImplementation.java
+C:\Users\serio\eclipse-workspace\BPTim11\document-management-system\src\main\java\ba\unsa\etf\validator\LoginFormValidator.java
 C:\Users\serio\eclipse-workspace\BPTim11\document-management-system\src\main\java\ba\unsa\etf\validator\UserFormValidator.java
 C:\Users\serio\eclipse-workspace\BPTim11\document-management-system\src\main\java\ba\unsa\etf\web\MainPageController.java
 C:\Users\serio\eclipse-workspace\BPTim11\document-management-system\src\main\java\ba\unsa\etf\config\SpringDBConfig.java

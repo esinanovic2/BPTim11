@@ -14,6 +14,7 @@
 <spring:url value="/korisnici" var="urlKorisnici" />
 <spring:url value="/korisnici/dodaj" var="urlDodajKorisnika" />
 <spring:url value="/navigation/login" var="urlLogin" />
+<spring:url value="/navigation/logout" var="urlLogout" />
 
 <nav class="navbar navbar-inverse ">
 	<div class="container">
@@ -22,13 +23,13 @@
 		</div>
 		<div id="navbar">
 			<ul class="nav navbar-nav navbar-right">
+				<li class="active"><a href="${urlLogout}">Logout</a></li>
+			</ul>
+			<ul class="nav navbar-nav navbar-right">
 				<li class="active"><a href="${urlKorisnici}">Korisnici</a></li>
 			</ul>
 			<ul class="nav navbar-nav navbar-right">
 				<li class="active"><a href="${urlDodajKorisnika}">Dodaj Korisnika</a></li>
-			</ul>
-			<ul class="nav navbar-nav navbar-right">
-				<li class="active"><a href="${urlLogin}">Login</a></li>
 			</ul>
 		</div>
 	</div>

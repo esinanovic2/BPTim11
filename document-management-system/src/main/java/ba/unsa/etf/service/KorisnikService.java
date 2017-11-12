@@ -7,6 +7,8 @@ import ba.unsa.etf.model.Korisnik;
 public interface KorisnikService {
 
 	Korisnik findById(Integer id);
+	
+	Korisnik findByUsernameAndPassword(String username, String password);
 
 	List<Korisnik> findAll();
 

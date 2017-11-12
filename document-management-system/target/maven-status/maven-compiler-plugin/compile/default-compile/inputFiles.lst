@@ -16,5 +16,6 @@ C:\Users\serio\eclipse-workspace\BPTim11\document-management-system\src\main\jav
 C:\Users\serio\eclipse-workspace\BPTim11\document-management-system\src\main\java\ba\unsa\etf\validator\EmailValidator.java
 C:\Users\serio\eclipse-workspace\BPTim11\document-management-system\src\main\java\ba\unsa\etf\exception\GlobalExceptionHandler.java
 C:\Users\serio\eclipse-workspace\BPTim11\document-management-system\src\main\java\ba\unsa\etf\model\User.java
+C:\Users\serio\eclipse-workspace\BPTim11\document-management-system\src\main\java\ba\unsa\etf\model\Login.java
 C:\Users\serio\eclipse-workspace\BPTim11\document-management-system\src\main\java\ba\unsa\etf\web\UserController.java
 C:\Users\serio\eclipse-workspace\BPTim11\document-management-system\src\main\java\ba\unsa\etf\service\KorisnikServiceImplementation.java

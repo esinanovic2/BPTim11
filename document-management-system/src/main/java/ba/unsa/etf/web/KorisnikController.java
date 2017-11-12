@@ -80,13 +80,6 @@ public class KorisnikController {
 		logger.debug("showDodajKorisnikaForm()");
 
 		Korisnik korisnik = new Korisnik();
-//
-//		korisnik.setIme("Korisnik1");
-//		korisnik.setPrezime("Korisnikovic");
-//		korisnik.setKorisnickoIme("kkorisnik");
-//		korisnik.setSifra("1234");
-//		korisnik.setUloga(2);
-//
 		model.addAttribute("korisnikForm", korisnik);
 
 		return "korisnici/korisnikform";

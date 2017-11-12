@@ -1,6 +1,7 @@
 ba\unsa\etf\validator\KorisnikFormValidator.class
 ba\unsa\etf\web\KorisnikController.class
 ba\unsa\etf\service\KorisnikService.class
+ba\unsa\etf\model\Login.class
 ba\unsa\etf\exception\GlobalExceptionHandler.class
 ba\unsa\etf\dao\UserDaoImpl$1.class
 ba\unsa\etf\dao\KorisnikDaoImplementation.class

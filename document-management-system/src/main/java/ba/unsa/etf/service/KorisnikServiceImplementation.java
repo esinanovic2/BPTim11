@@ -41,4 +41,10 @@ public class KorisnikServiceImplementation implements KorisnikService {
 	public void delete(Integer id) {
 		korisnikDao.delete(id);
 	}
+
+	@Override
+	public Korisnik findByUsernameAndPassword(String username, String password) {
+		// TODO Auto-generated method stub
+		return null;
+	}
 }

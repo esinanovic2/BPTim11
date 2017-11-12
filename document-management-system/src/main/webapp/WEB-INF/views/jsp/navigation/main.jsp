@@ -6,8 +6,20 @@
 <!DOCTYPE html>
 <html lang="en">
 
+<c:if test="${loginAcces==true}">
+	
+</c:if>
 
-<jsp:include page="../fragments/header.jsp" />
+
+<c:choose>
+  <c:when test="${loginAcces==true}">
+	<jsp:include page="../fragments/header.jsp" />
+  </c:when>
+  <c:otherwise>
+	<jsp:include page="../fragments/main_header.jsp" />
+  </c:otherwise>
+</c:choose>
+
 
 <body>
 

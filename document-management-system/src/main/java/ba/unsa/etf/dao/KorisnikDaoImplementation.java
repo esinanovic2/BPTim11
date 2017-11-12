@@ -45,6 +45,22 @@ public class KorisnikDaoImplementation implements KorisnikDao {
 	}
 	
 	@Override
+	public Korisnik findByUsernameAndPassword(String username, String password) {
+		Map<String, Object> params = new HashMap<String, Object>();
+		params.put("korisnickoime", username);
+		params.put("sifra", password);
+
+		String sql = "SELECT korisnik FROM korisnici WHERE korisnickoime=:korisnickoime AND sifra=:sifra";
+
+		Korisnik result = null;
+		try {
+			result = namedParameterJdbcTemplate.queryForObject(sql, params, new KorisnikMapper());
+		} catch (EmptyResultDataAccessException e) {}
+
+		return result;
+	}
+	
+	@Override
 	public List<Korisnik> findAll() {
 		String sql = "SELECT * FROM korisnici";
 		List<Korisnik> result = namedParameterJdbcTemplate.query(sql, new KorisnikMapper());
@@ -101,4 +117,6 @@ public class KorisnikDaoImplementation implements KorisnikDao {
 
 		return paramSource;
 	}
+
+
 }

@@ -44,7 +44,6 @@ public class KorisnikServiceImplementation implements KorisnikService {
 
 	@Override
 	public Korisnik findByUsernameAndPassword(String username, String password) {
-		// TODO Auto-generated method stub
-		return null;
+		return korisnikDao.findByUsernameAndPassword(username, password);
 	}
 }

@@ -50,7 +50,7 @@ public class KorisnikDaoImplementation implements KorisnikDao {
 		params.put("korisnickoime", username);
 		params.put("sifra", password);
 
-		String sql = "SELECT korisnik FROM korisnici WHERE korisnickoime=:korisnickoime AND sifra=:sifra";
+		String sql = "SELECT * FROM korisnici WHERE korisnickoime=:korisnickoime AND sifra=:sifra";
 
 		Korisnik result = null;
 		try {

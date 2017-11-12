@@ -6,11 +6,6 @@
 <!DOCTYPE html>
 <html lang="en">
 
-<c:if test="${loginAcces==true}">
-	
-</c:if>
-
-
 <c:choose>
   <c:when test="${loginAcces==true}">
 	<jsp:include page="../fragments/header.jsp" />
@@ -24,20 +19,16 @@
 <body>
 
 	<div class="container">
-
 		<c:if test="${not empty msg}">
 			<div class="alert alert-${css} alert-dismissible" role="alert">
 				<button type="button" class="close" data-dismiss="alert" aria-label="Close">
 					<span aria-hidden="true">&times;</span>
 				</button>
-				<strong>${msg}</strong>
+				<h1>
+					Dobrodosli u DMS: <strong class="text-success">${msg}</strong> 
+				</h1>
 			</div>
 		</c:if>
-
-		<h1>Sistem za upravljanje dokumentima</h1>
-
-		
-
 	</div>
 
 	<jsp:include page="../fragments/footer.jsp" />

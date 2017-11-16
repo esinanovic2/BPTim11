@@ -56,6 +56,7 @@ public class MainPageController {
 	@RequestMapping(value ="/navigation/login", method = RequestMethod.GET)
 	public String loginPageGet(Model model) {
 		
+		loginAccess="false";
 		Login login = new Login();
 		
 		model.addAttribute("loginForm", login);

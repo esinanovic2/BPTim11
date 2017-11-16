@@ -1,0 +1,2 @@
+    mvn install:install-file -Dfile=C:\Users\serio\eclipse-workspace\BPTim11\ojdbc7.jar -DgroupId=com.oracle.jdbc \
+        -DartifactId=ojdbc7 -Dversion=12.1.0.1 -Dpackaging=jar

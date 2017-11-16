@@ -1,0 +1,8 @@
+Production =
+(DESCRIPTION =
+ (ADDRESS = (PROTOCOL = TCP)(HOST = 80.65.65.66)(PORT = 1521)
+  )
+ (CONNECT_DATA =
+  (SERVICE_NAME= etflab)
+  )
+ )

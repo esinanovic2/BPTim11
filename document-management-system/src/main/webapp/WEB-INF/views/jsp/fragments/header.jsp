@@ -16,6 +16,9 @@
 <spring:url value="/navigation/login" var="urlLogin" />
 <spring:url value="/navigation/logout" var="urlLogout" />
 
+<spring:url value="/dokumenti" var="urlDocuments" />
+<spring:url value="/dokumenti/dodaj" var="urlDodajDokument" />
+
 <nav class="navbar navbar-inverse ">
 	<div class="container">
 		<div class="navbar-header">
@@ -30,6 +33,12 @@
 			</ul>
 			<ul class="nav navbar-nav navbar-right">
 				<li class="active"><a href="${urlDodajKorisnika}">Dodaj Korisnika</a></li>
+			</ul>
+			<ul class="nav navbar-nav navbar-right">
+				<li class="active"><a href="${urlDocuments}">Dokumenti</a></li>
+			</ul>
+			<ul class="nav navbar-nav navbar-right">
+				<li class="active"><a href="${urlDodajDokument}">Dodaj Dokument</a></li>
 			</ul>
 		</div>
 	</div>

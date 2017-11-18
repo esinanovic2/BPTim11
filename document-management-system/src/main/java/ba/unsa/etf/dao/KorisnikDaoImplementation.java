@@ -74,7 +74,6 @@ public class KorisnikDaoImplementation implements KorisnikDao {
 		namedParameterJdbcTemplate.update(sql, new MapSqlParameterSource("id", id));
 	}
 
-
 	@Override
 	public void save(Korisnik korisnik) {
 		KeyHolder keyHolder = new GeneratedKeyHolder();
@@ -117,6 +116,4 @@ public class KorisnikDaoImplementation implements KorisnikDao {
 
 		return paramSource;
 	}
-
-
 }

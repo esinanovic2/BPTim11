@@ -37,15 +37,7 @@
 			</div>
 		</spring:bind>
 
-		<spring:bind path="fajl">
-			<div class="form-group ${status.error ? 'has-error' : ''}">
-				<label class="col-sm-2 control-label">Fajl</label>
-				<div class="col-sm-10">
-					<form:input path="fajl" class="form-control" id="fajl" placeholder="Fajl" />
-					<form:errors path="fajl" class="control-label" />
-				</div>
-			</div>
-		</spring:bind>
+	
 
 		<spring:bind path="vlasnik">
 			<div class="form-group ${status.error ? 'has-error' : ''}">
@@ -61,10 +53,23 @@
 			<div class="form-group ${status.error ? 'has-error' : ''}">
 				<label class="col-sm-2 control-label">Vidljivost</label>
 				<div class="col-sm-10">
-					<form:password path="vidljivost" class="form-control" id="vidljivost" placeholder="Vidljivost" />
+					<form:input path="vidljivost" type="text" class="form-control" id="vidljivost" placeholder="Vidljivost" />
 					<form:errors path="vidljivost" class="control-label" />
 				</div>
 			</div>
+		</spring:bind>
+		
+		<spring:bind path="fajl"> 
+			<input type="file" id="upload" name="upload" style="visibility: hidden; width: 1px; height: 1px" multiple />
+			<a href="" onclick="document.getElementById('upload').click(); return false">Upload File</a>
+		
+	<!--		<div class="form-group ${status.error ? 'has-error' : ''}">
+				<label class="col-sm-2 control-label">Fajl</label>
+				<div class="col-sm-10">
+					<form:input path="fajl" class="form-control" id="fajl" placeholder="Fajl" />
+					<form:errors path="fajl" class="control-label" />
+				</div>
+			</div> -->
 		</spring:bind>
 
 		<div class="form-group">

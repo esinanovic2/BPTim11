@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 C:\Users\Ena\workspace\BPTim11\document-management-system\src\main\java\ba\unsa\etf\service\KorisnikService.java
 C:\Users\Ena\workspace\BPTim11\document-management-system\src\main\java\ba\unsa\etf\service\UlogaService.java
 C:\Users\Ena\workspace\BPTim11\document-management-system\src\main\java\ba\unsa\etf\web\UlogaController.java
@@ -27,3 +28,27 @@ C:\Users\Ena\workspace\BPTim11\document-management-system\src\main\java\ba\unsa\
 C:\Users\Ena\workspace\BPTim11\document-management-system\src\main\java\ba\unsa\etf\dao\UserDaoImpl.java
 C:\Users\Ena\workspace\BPTim11\document-management-system\src\main\java\ba\unsa\etf\validator\UserFormValidator.java
 C:\Users\Ena\workspace\BPTim11\document-management-system\src\main\java\ba\unsa\etf\model\User.java
+=======
+C:\Users\AyLLa\eclipse-workspace\BPTim11\document-management-system\src\main\java\ba\unsa\etf\config\SpringDBConfig.java
+C:\Users\AyLLa\eclipse-workspace\BPTim11\document-management-system\src\main\java\ba\unsa\etf\dao\KorisnikDao.java
+C:\Users\AyLLa\eclipse-workspace\BPTim11\document-management-system\src\main\java\ba\unsa\etf\model\User.java
+C:\Users\AyLLa\eclipse-workspace\BPTim11\document-management-system\src\main\java\ba\unsa\etf\dao\KorisnikDaoImplementation.java
+C:\Users\AyLLa\eclipse-workspace\BPTim11\document-management-system\src\main\java\ba\unsa\etf\model\Login.java
+C:\Users\AyLLa\eclipse-workspace\BPTim11\document-management-system\src\main\java\ba\unsa\etf\web\UserController.java
+C:\Users\AyLLa\eclipse-workspace\BPTim11\document-management-system\src\main\java\ba\unsa\etf\web\UserFormController.java
+C:\Users\AyLLa\eclipse-workspace\BPTim11\document-management-system\src\main\java\ba\unsa\etf\dao\UserDaoImpl.java
+C:\Users\AyLLa\eclipse-workspace\BPTim11\document-management-system\src\main\java\ba\unsa\etf\model\Korisnik.java
+C:\Users\AyLLa\eclipse-workspace\BPTim11\document-management-system\src\main\java\ba\unsa\etf\service\UserServiceImpl.java
+C:\Users\AyLLa\eclipse-workspace\BPTim11\document-management-system\src\main\java\ba\unsa\etf\service\UserService.java
+C:\Users\AyLLa\eclipse-workspace\BPTim11\document-management-system\src\main\java\ba\unsa\etf\service\KorisnikServiceImplementation.java
+C:\Users\AyLLa\eclipse-workspace\BPTim11\document-management-system\src\main\java\ba\unsa\etf\web\MainPageController.java
+C:\Users\AyLLa\eclipse-workspace\BPTim11\document-management-system\src\main\java\ba\unsa\etf\web\KorisnikController.java
+C:\Users\AyLLa\eclipse-workspace\BPTim11\document-management-system\src\main\java\ba\unsa\etf\validator\EmailValidator.java
+C:\Users\AyLLa\eclipse-workspace\BPTim11\document-management-system\src\main\java\ba\unsa\etf\config\SpringWebConfig.java
+C:\Users\AyLLa\eclipse-workspace\BPTim11\document-management-system\src\main\java\ba\unsa\etf\exception\GlobalExceptionHandler.java
+C:\Users\AyLLa\eclipse-workspace\BPTim11\document-management-system\src\main\java\ba\unsa\etf\validator\KorisnikFormValidator.java
+C:\Users\AyLLa\eclipse-workspace\BPTim11\document-management-system\src\main\java\ba\unsa\etf\dao\UserDao.java
+C:\Users\AyLLa\eclipse-workspace\BPTim11\document-management-system\src\main\java\ba\unsa\etf\service\KorisnikService.java
+C:\Users\AyLLa\eclipse-workspace\BPTim11\document-management-system\src\main\java\ba\unsa\etf\validator\LoginFormValidator.java
+C:\Users\AyLLa\eclipse-workspace\BPTim11\document-management-system\src\main\java\ba\unsa\etf\validator\UserFormValidator.java
+>>>>>>> 40d8a9d5ab3392e921c4b25071bb95c02e5b7443

@@ -4,8 +4,7 @@
 <title>Sistem za upravljanje dokumentima</title>
 
 <spring:url value="/resources/core/css/hello.css" var="coreCss" />
-<spring:url value="/resources/core/css/bootstrap.min.css"
-	var="bootstrapCss" />
+<spring:url value="/resources/core/css/bootstrap.min.css"	var="bootstrapCss" />
 <link href="${bootstrapCss}" rel="stylesheet" />
 <link href="${coreCss}" rel="stylesheet" />
 </head>
@@ -15,6 +14,10 @@
 <spring:url value="/korisnici/dodaj" var="urlDodajKorisnika" />
 <spring:url value="/navigation/login" var="urlLogin" />
 <spring:url value="/navigation/logout" var="urlLogout" />
+<spring:url value="/uloge" var="urlUloge" />
+<spring:url value="/uloge/dodaj" var="urlDodajUlogu" />
+<spring:url value="/vidljivosti" var="urlVidljivosti" />
+<spring:url value="/vidljivosti/dodaj" var="urlDodajVidljivost" />
 
 <spring:url value="/dokumenti" var="urlDocuments" />
 <spring:url value="/dokumenti/dodaj" var="urlDodajDokument" />
@@ -22,7 +25,7 @@
 <nav class="navbar navbar-inverse ">
 	<div class="container">
 		<div class="navbar-header">
-			<a class="navbar-brand" href="${urlHome}">Glavna</a>
+			<a class="navbar-brand">Dokumet menadzment sistem</a>
 		</div>
 		<div id="navbar">
 			<ul class="nav navbar-nav navbar-right">
@@ -39,6 +42,18 @@
 			</ul>
 			<ul class="nav navbar-nav navbar-right">
 				<li class="active"><a href="${urlDodajDokument}">Dodaj Dokument</a></li>
+			</ul>
+			<ul class="nav navbar-nav navbar-right">
+				<li class="active"><a href="${urlUloge}">Uloge</a></li>
+			</ul>
+			<ul class="nav navbar-nav navbar-right">
+				<li class="active"><a href="${urlDodajUlogu}">Dodaj uloge</a></li>
+			</ul>		
+			<ul class="nav navbar-nav navbar-right">
+				<li class="active"><a href="${urlVidljivosti}">Vidljivosti</a></li>
+			</ul>
+			<ul class="nav navbar-nav navbar-right">
+				<li class="active"><a href="${urlDodajVidljivost}">Dodaj Vidljivost</a></li>
 			</ul>
 		</div>
 	</div>

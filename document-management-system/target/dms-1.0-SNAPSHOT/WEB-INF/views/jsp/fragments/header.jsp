@@ -15,6 +15,8 @@
 <spring:url value="/korisnici/dodaj" var="urlDodajKorisnika" />
 <spring:url value="/navigation/login" var="urlLogin" />
 <spring:url value="/navigation/logout" var="urlLogout" />
+<spring:url value="/uloge" var="urlUloge" />
+<spring:url value="/uloge/dodaj" var="urlDodajUlogu" />
 
 <nav class="navbar navbar-inverse ">
 	<div class="container">
@@ -30,6 +32,12 @@
 			</ul>
 			<ul class="nav navbar-nav navbar-right">
 				<li class="active"><a href="${urlDodajKorisnika}">Dodaj Korisnika</a></li>
+			</ul>
+			<ul class="nav navbar-nav navbar-right">
+				<li class="active"><a href="${urlUloge}">Uloge</a></li>
+			</ul>
+			<ul class="nav navbar-nav navbar-right">
+				<li class="active"><a href="${urlDodajUlogu}">Dodaj uloge</a></li>
 			</ul>
 		</div>
 	</div>

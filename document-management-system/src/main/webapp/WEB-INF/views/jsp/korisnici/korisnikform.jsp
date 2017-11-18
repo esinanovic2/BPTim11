@@ -5,8 +5,12 @@
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 
 <!DOCTYPE html>
-<html lang="en">
-
+<html>
+<style type="text/css">
+body {
+	background-image: url('http://crunchify.com/bg.png');
+}
+</style>
 <jsp:include page="../fragments/header.jsp" />
 
 <div class="container">
@@ -71,8 +75,7 @@
 			<div class="form-group ${status.error ? 'has-error' : ''}">
 				<label class="col-sm-2 control-label">Potvrdi Sifru</label>
 				<div class="col-sm-10">
-					<form:password path="potvrdisifru" class="form-control"
-						id="potvrdisifru" placeholder="potvrdisifru" />
+					<form:password path="potvrdisifru" class="form-control" id="potvrdisifru" placeholder="potvrdisifru" />
 					<form:errors path="potvrdisifru" class="control-label" />
 				</div>
 			</div>

@@ -62,7 +62,7 @@ public class KorisnikDaoImplementation implements KorisnikDao {
 	
 	@Override
 	public List<Korisnik> findAll() {
-		String sql = "SELECT * FROM korisnici";
+		String sql = "SELECT * FROM korisnici";		
 		List<Korisnik> result = namedParameterJdbcTemplate.query(sql, new KorisnikMapper());
 
 		return result;

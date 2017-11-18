@@ -5,7 +5,11 @@
 
 <!DOCTYPE html>
 <html lang="en">
-
+<style type="text/css">
+body {
+	background-image: url('http://crunchify.com/bg.png');
+}
+</style>
 <c:if test="${loginAcces==true}">
 	
 </c:if>
@@ -20,9 +24,7 @@
   </c:otherwise>
 </c:choose>
 
-
 <body>
-
 	<div class="container">
 
 		<c:if test="${not empty msg}">
@@ -35,9 +37,6 @@
 		</c:if>
 
 		<h1>Sistem za upravljanje dokumentima</h1>
-
-		
-
 	</div>
 
 	<jsp:include page="../fragments/footer.jsp" />

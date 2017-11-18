@@ -5,7 +5,11 @@
 
 <!DOCTYPE html>
 <html lang="en">
-
+<style type="text/css">
+body {
+	background-image: url('http://crunchify.com/bg.png');
+}
+</style>
 <jsp:include page="../fragments/header.jsp" />
 
 <body>

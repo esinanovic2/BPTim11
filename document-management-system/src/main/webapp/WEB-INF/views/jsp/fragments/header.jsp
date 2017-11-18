@@ -22,7 +22,7 @@
 <nav class="navbar navbar-inverse ">
 	<div class="container">
 		<div class="navbar-header">
-			<a class="navbar-brand" href="${urlHome}">Glavna</a>
+			<a class="navbar-brand" href="${urlHome}">Dokumet menadzment sistem</a>
 		</div>
 		<div id="navbar">
 			<ul class="nav navbar-nav navbar-right">

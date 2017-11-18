@@ -5,8 +5,10 @@
 
 <spring:url value="/resources/core/css/hello.css" var="coreCss" />
 <spring:url value="/resources/core/css/bootstrap.min.css"	var="bootstrapCss" />
+<spring:url value="/resources/core/css/style.css"	var="styleCss" />
 <link href="${bootstrapCss}" rel="stylesheet" />
 <link href="${coreCss}" rel="stylesheet" />
+<link href="${styleCss}" rel="stylesheet" />
 </head>
 
 <spring:url value="/" var="urlHome" />
@@ -29,22 +31,27 @@
 				<li class="active"><a href="${urlLogout}">Logout</a></li>
 			</ul>
 			<ul class="nav navbar-nav navbar-right">
-				<li class="active"><a href="${urlKorisnici}">Korisnici</a></li>
+				<li class="active"><a href="${urlKorisnici}">Korisnici</a>
+				<ul class="nav navbar-nav navbar-right" id="unutra">
+					<li class="active"><a href="${urlDodajKorisnika}">Dodaj Korisnika</a></li>
 			</ul>
-			<ul class="nav navbar-nav navbar-right">
-				<li class="active"><a href="${urlDodajKorisnika}">Dodaj Korisnika</a></li>
+				</li>
 			</ul>
+			
 			<ul class="nav navbar-nav navbar-right">
-				<li class="active"><a href="${urlUloge}">Uloge</a></li>
+				<li class="active"><a href="${urlUloge}">Uloge</a>
+				<ul class="nav navbar-nav navbar-right" id="unutra">
+					<li class="active"><a href="${urlDodajUlogu}">Dodaj Ulogu</a></li>
 			</ul>
-			<ul class="nav navbar-nav navbar-right">
-				<li class="active"><a href="${urlDodajUlogu}">Dodaj uloge</a></li>
-			</ul>		
-			<ul class="nav navbar-nav navbar-right">
-				<li class="active"><a href="${urlVidljivosti}">Vidljivosti</a></li>
+				</li>
 			</ul>
+					
 			<ul class="nav navbar-nav navbar-right">
-				<li class="active"><a href="${urlDodajVidljivost}">Dodaj Vidljivost</a></li>
+				<li class="active"><a href="${urlVidljivosti}">Vidljivosti</a>
+				<ul class="nav navbar-nav navbar-right" id="unutra">
+					<li class="active"><a href="${urlDodajVidljivost}">Dodaj Vidljivost</a></li>
+			</ul>
+				</li>
 			</ul>
 		</div>
 	</div>

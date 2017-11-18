@@ -1,0 +1,35 @@
+ 
+ ul{
+ 	margin:0px; padding: 0px;
+ }
+ 
+ ul li a{
+ 	text-decoration:none;
+ 	color:white;
+ 	display:block;
+ }
+ 
+ ul li{
+ 	float:right;
+ 	width: 200px;
+ 	height: 30px;
+ 	background-color:black;
+ 	color:white;
+ 	font-size:16px;
+ 	line-height:30px;
+ 	text-align:center;
+ 	opacity:.5;
+ 	border:5px solid white;
+ }
+ 
+ ul li a:hover{
+ 	background-color:orange;
+ }
+ 
+ #unutra{
+ 	display:none;
+ }
+ 
+ ul li:hover #unutra{
+ 	display:block;
+ }

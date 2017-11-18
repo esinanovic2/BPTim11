@@ -8,11 +8,14 @@
 <html lang="en">
 
 <jsp:include page="../fragments/login_header.jsp" />
-
+<style type="text/css">
+body {
+	background-image: url('http://crunchify.com/bg.png');
+}
+</style>
 <body>
 
 	<div class="container">
-
 		<c:if test="${not empty msg}">
 			<div class="alert alert-${css} alert-dismissible" role="alert">
 				<button type="button" class="close" data-dismiss="alert"
@@ -23,9 +26,7 @@
 			</div>
 		</c:if>
 
-		<h1>LOGIN PAGE!!!</h1>
-
-
+		<h1>Login</h1>
 		<spring:url value="/navigation/login" var="loginActionUrl" />
 
 		<form:form class="form-horizontal" method="post"
@@ -62,11 +63,8 @@
 					<button type="submit" class="btn-lg btn-primary pull-right">Login</button>
 				</div>
 			</div>
-
 		</form:form>
-
 	</div>
-
 	<jsp:include page="../fragments/footer.jsp" />
 
 </body>

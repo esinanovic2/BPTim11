@@ -21,21 +21,17 @@
 <spring:url value="/vidljivosti" var="urlVidljivosti" />
 <spring:url value="/vidljivosti/dodaj" var="urlDodajVidljivost" />
 
+<spring:url value="/dokumenti" var="urlDocuments" />
+<spring:url value="/dokumenti/dodaj" var="urlDodajDokument" />
+
 <nav class="navbar navbar-inverse ">
 	<div class="container">
 		<div class="navbar-header">
-			<a class="navbar-brand" href="${urlHome}">Glavna</a>
+			<a class="navbar-brand">Dokumet menadzment sistem</a>
 		</div>
 		<div id="navbar">
 			<ul class="nav navbar-nav navbar-right">
 				<li class="active"><a href="${urlLogout}">Logout</a></li>
-			</ul>
-			<ul class="nav navbar-nav navbar-right">
-				<li class="active"><a href="${urlKorisnici}">Korisnici</a>
-				<ul class="nav navbar-nav navbar-right" id="unutra">
-					<li class="active"><a href="${urlDodajKorisnika}">Dodaj Korisnika</a></li>
-			</ul>
-				</li>
 			</ul>
 			
 			<ul class="nav navbar-nav navbar-right">
@@ -45,11 +41,27 @@
 			</ul>
 				</li>
 			</ul>
-					
+			
 			<ul class="nav navbar-nav navbar-right">
 				<li class="active"><a href="${urlVidljivosti}">Vidljivosti</a>
 				<ul class="nav navbar-nav navbar-right" id="unutra">
 					<li class="active"><a href="${urlDodajVidljivost}">Dodaj Vidljivost</a></li>
+			</ul>
+				</li>
+			</ul>
+					
+			<ul class="nav navbar-nav navbar-right">
+				<li class="active"><a href="${urlVidljivosti}">Vidljivosti</a>
+				<ul class="nav navbar-nav navbar-right" id="unutra">
+					<li class="active"><a href="${urlDodajDokument}">Dodaj Dokument</a></li>
+			</ul>
+				</li>
+			</ul>
+			
+			<ul class="nav navbar-nav navbar-right">
+				<li class="active"><a href="${urlDocuments}">Dokumenti</a>
+				<ul class="nav navbar-nav navbar-right" id="unutra">
+					<li class="active"><a href="${urlDodajVidljivost}">Dodaj Dokument</a></li>
 			</ul>
 				</li>
 			</ul>

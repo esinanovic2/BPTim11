@@ -10,12 +10,12 @@
 <link href="${coreCss}" rel="stylesheet" />
 </head>
 
-<spring:url value="/" var="urlHome" />
+
 
 <nav class="navbar navbar-inverse ">
 	<div class="container">
 		<div class="navbar-header">
-			<a class="navbar-brand" href="${urlHome}">Glavna</a>
+			<a class="navbar-brand" >Dokumet menadzment sistem</a>
 		</div>
 	</div>
 </nav>

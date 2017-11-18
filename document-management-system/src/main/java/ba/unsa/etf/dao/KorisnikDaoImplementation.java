@@ -62,7 +62,7 @@ public class KorisnikDaoImplementation implements KorisnikDao {
 	
 	@Override
 	public List<Korisnik> findAll() {
-		String sql = "SELECT * FROM korisnici";
+		String sql = "SELECT * FROM korisnici";		
 		List<Korisnik> result = namedParameterJdbcTemplate.query(sql, new KorisnikMapper());
 
 		return result;
@@ -73,7 +73,6 @@ public class KorisnikDaoImplementation implements KorisnikDao {
 		String sql = "DELETE FROM korisnici WHERE id= :id";
 		namedParameterJdbcTemplate.update(sql, new MapSqlParameterSource("id", id));
 	}
-
 
 	@Override
 	public void save(Korisnik korisnik) {
@@ -117,6 +116,4 @@ public class KorisnikDaoImplementation implements KorisnikDao {
 
 		return paramSource;
 	}
-
-
 }

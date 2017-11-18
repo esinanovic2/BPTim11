@@ -43,15 +43,15 @@ public class MainPageController {
 	
 	@RequestMapping("/")
 	public String main(Model model) {
-		return "redirect:/navigation";
+		return "redirect:/navigation/login";
 	}
 	
-	@RequestMapping(value = "/navigation", method = RequestMethod.GET)
-	public String wellcomePage(Model model) {
-		
-		model.addAttribute("loginAcces", loginAccess);
-		return "navigation/main";
-	}
+//	@RequestMapping(value = "/navigation", method = RequestMethod.GET)
+//	public String wellcomePage(Model model) {
+//		
+//		model.addAttribute("loginAcces", loginAccess);
+//		return "redirect:navigation/login";
+//	}
 		
 	@RequestMapping(value ="/navigation/login", method = RequestMethod.GET)
 	public String loginPageGet(Model model) {
@@ -63,13 +63,13 @@ public class MainPageController {
 		return "navigation/login";
 	}
 	
-	@RequestMapping(value = "/navigation/logout", method = RequestMethod.GET)
+	@RequestMapping(value = "navigation/logout", method = RequestMethod.GET)
 	public String logout(Model model) {
 		
 		loginAccess="false";
 		model.addAttribute("loginAcces", loginAccess);
 		
-		return "navigation/main";
+		return "redirect:/navigation/login";
 	}
 	
 	

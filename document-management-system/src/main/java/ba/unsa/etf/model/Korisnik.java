@@ -9,6 +9,7 @@ public class Korisnik {
 	private String potvrdisifru;
 	private Integer uloga;
 	
+	
 	public Integer getId() {
 		return id;
 	}
@@ -28,6 +29,7 @@ public class Korisnik {
 		this.prezime = prezime;
 	}
 	public Integer getUloga() {
+		
 		return uloga;
 	}
 	public void setUloga(Integer uloga) {

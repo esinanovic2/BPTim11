@@ -75,8 +75,7 @@ body {
 			<div class="form-group ${status.error ? 'has-error' : ''}">
 				<label class="col-sm-2 control-label">Potvrdi Sifru</label>
 				<div class="col-sm-10">
-					<form:password path="potvrdisifru" class="form-control"
-						id="potvrdisifru" placeholder="potvrdisifru" />
+					<form:password path="potvrdisifru" class="form-control" id="potvrdisifru" placeholder="potvrdisifru" />
 					<form:errors path="potvrdisifru" class="control-label" />
 				</div>
 			</div>

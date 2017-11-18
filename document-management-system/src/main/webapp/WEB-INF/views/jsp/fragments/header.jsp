@@ -21,7 +21,7 @@
 <spring:url value="/vidljivosti" var="urlVidljivosti" />
 <spring:url value="/vidljivosti/dodaj" var="urlDodajVidljivost" />
 
-<spring:url value="/dokumenti" var="urlDocuments" />
+<spring:url value="/dokumenti" var="urlDokumenti" />
 <spring:url value="/dokumenti/dodaj" var="urlDodajDokument" />
 
 <nav class="navbar navbar-inverse ">
@@ -37,7 +37,7 @@
 			<ul class="nav navbar-nav navbar-right">
 				<li class="active"><a href="${urlUloge}">Uloge</a>
 				<ul class="nav navbar-nav navbar-right" id="unutra">
-					<li class="active"><a href="${urlDodajUlogu}">Dodaj Ulogu</a></li>
+					<li class="active"><a href="${urlDodajUlogu}">Dodaj ulogu</a></li>
 			</ul>
 				</li>
 			</ul>
@@ -45,23 +45,23 @@
 			<ul class="nav navbar-nav navbar-right">
 				<li class="active"><a href="${urlVidljivosti}">Vidljivosti</a>
 				<ul class="nav navbar-nav navbar-right" id="unutra">
-					<li class="active"><a href="${urlDodajVidljivost}">Dodaj Vidljivost</a></li>
+					<li class="active"><a href="${urlDodajVidljivost}">Dodaj vidljivost</a></li>
 			</ul>
 				</li>
 			</ul>
 					
 			<ul class="nav navbar-nav navbar-right">
-				<li class="active"><a href="${urlVidljivosti}">Vidljivosti</a>
+				<li class="active"><a href="${urlKorisnici}">Korisnici</a>
 				<ul class="nav navbar-nav navbar-right" id="unutra">
-					<li class="active"><a href="${urlDodajDokument}">Dodaj Dokument</a></li>
+					<li class="active"><a href="${urlDodajKorisnika}">Dodaj korisnika</a></li>
 			</ul>
 				</li>
 			</ul>
 			
 			<ul class="nav navbar-nav navbar-right">
-				<li class="active"><a href="${urlDocuments}">Dokumenti</a>
+				<li class="active"><a href="${urlDokumenti}">Dokumenti</a>
 				<ul class="nav navbar-nav navbar-right" id="unutra">
-					<li class="active"><a href="${urlDodajVidljivost}">Dodaj Dokument</a></li>
+					<li class="active"><a href="${urlDodajDokument}">Dodaj dokument</a></li>
 			</ul>
 				</li>
 			</ul>

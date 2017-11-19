@@ -23,7 +23,7 @@
 
 	<spring:url value="/dokumenti" var="dokumentActionUrl" />
 
-	<form:form class="form-horizontal" method="post" modelAttribute="dokumentForm" action="${dokumentActionUrl}">
+	<form:form class="form-horizontal" method="post" modelAttribute="dokumentForm" action="${dokumentActionUrl}" enctype="multipart/form-data">
 
 		<form:hidden path="id" />
 
@@ -59,18 +59,14 @@
 			</div>
 		</spring:bind>
 		
-		<spring:bind path="fajl"> 
-			<input type="file" id="upload" name="upload" style="visibility: hidden; width: 1px; height: 1px" multiple />
-			<a href="" onclick="document.getElementById('upload').click(); return false">Upload File</a>
-		
-	<!--		<div class="form-group ${status.error ? 'has-error' : ''}">
+	
+ 			<div class="form-group">
 				<label class="col-sm-2 control-label">Fajl</label>
 				<div class="col-sm-10">
-					<form:input path="fajl" class="form-control" id="fajl" placeholder="Fajl" />
-					<form:errors path="fajl" class="control-label" />
+					<input type="file" class="form-control" name="fajl" />
 				</div>
-			</div> -->
-		</spring:bind>
+			</div>  
+
 
 		<div class="form-group">
 			<div class="col-sm-offset-2 col-sm-10">

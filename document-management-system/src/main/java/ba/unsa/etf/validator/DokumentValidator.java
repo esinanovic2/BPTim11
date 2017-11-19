@@ -23,7 +23,6 @@ public class DokumentValidator implements Validator{
 	@Override
 	public void validate(Object target, Errors errors) {
 		ValidationUtils.rejectIfEmptyOrWhitespace(errors, "naziv", "NotEmpty.dokumentForm.naziv");
-		ValidationUtils.rejectIfEmptyOrWhitespace(errors, "fajl", "NotEmpty.dokumentForm.fajl");
 		ValidationUtils.rejectIfEmptyOrWhitespace(errors, "vlasnik", "NotEmpty.dokumentForm.vlasnik");
 		ValidationUtils.rejectIfEmptyOrWhitespace(errors, "vidljivost", "NotEmpty.dokumentForm.vidljivost");
 	}

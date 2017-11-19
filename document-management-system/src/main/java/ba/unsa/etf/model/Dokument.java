@@ -1,11 +1,12 @@
 package ba.unsa.etf.model;
 
+import java.io.InputStream;
 import java.sql.Blob;
 
 public class Dokument {
 	private Integer id;
 	private String naziv;
-	private Blob fajl;
+	private InputStream fajl;
 	private Integer vlasnik;
 	private Integer vidljivost;
 	
@@ -21,10 +22,10 @@ public class Dokument {
 	public void setNaziv(String naziv) {
 		this.naziv = naziv;
 	}
-	public Blob getFajl() {
+	public InputStream getFajl() {
 		return fajl;
 	}
-	public void setFajl(Blob fajl) {
+	public void setFajl(InputStream fajl) {
 		this.fajl = fajl;
 	}
 	public Integer getVlasnik() {

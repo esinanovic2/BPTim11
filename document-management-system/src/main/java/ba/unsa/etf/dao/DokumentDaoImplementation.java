@@ -1,6 +1,7 @@
 package ba.unsa.etf.dao;
 
 import java.util.List;
+import java.io.InputStream;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -100,7 +101,7 @@ public class DokumentDaoImplementation implements DokumentDao {
 			Dokument dokument = new Dokument();
 		    dokument.setId(rs.getInt("id"));
 		    dokument.setNaziv(rs.getString("naziv"));
-		    dokument.setFajl(rs.getBlob("fajl"));
+		    dokument.setFajl(rs.getBinaryStream("fajl"));
 		    dokument.setVlasnik(rs.getInt("vlasnik"));
 		    dokument.setVidljivost(rs.getInt("vidljivost"));
 		    return dokument;

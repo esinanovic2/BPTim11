@@ -1,8 +1,14 @@
 package ba.unsa.etf.web;
 
-import java.util.ArrayList;
+import java.io.ByteArrayInputStream;
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.sql.Blob;
 import java.util.List;
 
+import javax.servlet.annotation.MultipartConfig;
 import javax.servlet.http.HttpServletRequest;
 
 import org.slf4j.Logger;
@@ -20,6 +26,9 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.multipart.commons.CommonsMultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
@@ -55,26 +64,87 @@ public class DokumentController {
 	}
 	
 	@RequestMapping(value = "/dokumenti", method = RequestMethod.POST)
-	public String snimiIliIzmijeniDokument(@ModelAttribute("dokumentForm") @Validated Dokument dokument,
-			BindingResult result, Model model, final RedirectAttributes redirectAttributes) {
+	public String snimiIliIzmijeniDokument(@RequestParam("id") Integer id, @RequestParam("naziv") String naziv, @RequestParam("vlasnik") Integer vlasnik, 
+			@RequestParam("vidljivost") Integer vidljivost, @RequestParam("fajl") MultipartFile fileUpload ) {
 
-		logger.debug("snimiIliIzmijeniDokument() : {}", dokument);
+		logger.debug("snimiIliIzmijeniDokument() : {}", id + naziv + vlasnik + vidljivost + fileUpload.getOriginalFilename());
 
-		if (result.hasErrors()) {
-			return "dokumenti/dokumentform";
-		} else {
-			redirectAttributes.addFlashAttribute("css", "success");
-			if(dokument.isNew()){
-				redirectAttributes.addFlashAttribute("msg", "Dokument uspjesno dodan!");
-			}else{
-				redirectAttributes.addFlashAttribute("msg", "Dokument uspjesno izmjenjen!");
-			}
-			
-			dokumentService.saveOrUpdate(dokument);
-			
-			return "redirect:/dokumenti/" + dokument.getId();
+		Dokument uploadovanDokument=new Dokument();
+		uploadovanDokument.setId(id);
+		uploadovanDokument.setNaziv(naziv);
+		uploadovanDokument.setVlasnik(vlasnik);
+		uploadovanDokument.setVidljivost(vidljivost);
+		
+		InputStream is=null;
+		try {
+			is= new ByteArrayInputStream(fileUpload.getBytes());
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
 		}
+		
+		uploadovanDokument.setFajl(is);
+		
+		
+		
+//		if (result.hasErrors()) {
+//			return "dokumenti/dokumentform";
+//		} else {
+//			redirectAttributes.addFlashAttribute("css", "success");
+//			if(dokument.isNew()){
+//				redirectAttributes.addFlashAttribute("msg", "Dokument uspjesno dodan!");
+//			}else{
+//				redirectAttributes.addFlashAttribute("msg", "Dokument uspjesno izmjenjen!");
+//			}
+//			
+			dokumentService.saveOrUpdate(uploadovanDokument);
+//			
+			return "redirect:dokumenti/";
+//		}
 	}
+	
+	
+	public File convert(MultipartFile file)
+	{    
+		try {
+	    File convFile = new File(file.getOriginalFilename());
+	    
+			convFile.createNewFile();
+
+	    FileOutputStream fos = new FileOutputStream(convFile); 
+	    fos.write(file.getBytes());
+	    fos.close(); 
+	    return convFile;
+	    
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			return null;
+		} 	
+	}
+	
+	
+//	@RequestMapping(value = "/dokumenti", method = RequestMethod.POST)
+//	public String snimiIliIzmijeniDokument(@ModelAttribute("dokumentForm") @Validated Dokument dokument,
+//			BindingResult result, Model model, final RedirectAttributes redirectAttributes) {
+//
+//		logger.debug("snimiIliIzmijeniDokument() : {}", dokument);
+//
+//		if (result.hasErrors()) {
+//			return "dokumenti/dokumentform";
+//		} else {
+//			redirectAttributes.addFlashAttribute("css", "success");
+//			if(dokument.isNew()){
+//				redirectAttributes.addFlashAttribute("msg", "Dokument uspjesno dodan!");
+//			}else{
+//				redirectAttributes.addFlashAttribute("msg", "Dokument uspjesno izmjenjen!");
+//			}
+//			
+//			dokumentService.saveOrUpdate(dokument);
+//			
+//			return "redirect:/dokumenti/" + dokument.getId();
+//		}
+//	}
 	
 	@RequestMapping(value = "/dokumenti/dodaj", method = RequestMethod.GET)
 	public String prikaziFormuDodajDokument(Model model) {

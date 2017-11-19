@@ -16,7 +16,6 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import ba.unsa.etf.model.Korisnik;
 import ba.unsa.etf.model.Login;
 import ba.unsa.etf.service.KorisnikService;
-import ba.unsa.etf.validator.KorisnikFormValidator;
 import ba.unsa.etf.validator.LoginFormValidator;
 
 @Controller

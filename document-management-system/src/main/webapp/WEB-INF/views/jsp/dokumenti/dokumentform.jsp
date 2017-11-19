@@ -66,6 +66,14 @@
 					<input type="file" class="form-control" name="fajl" />
 				</div>
 			</div>  
+			
+		<spring:bind path="fajl">
+			<div class="form-group ${status.error ? 'has-error' : ''}">
+				<div class="col-sm-10">
+					<form:errors path="fajl" class="control-label" />
+				</div>
+			</div>
+		</spring:bind>
 
 
 		<div class="form-group">

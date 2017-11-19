@@ -21,9 +21,9 @@
 	</c:choose>
 	<br />
 
-	<spring:url value="/dokumenti" var="dokumentActionUrl" />
+	<spring:url value="/edit" var="dokumentActionUrl" />
 
-	<form:form class="form-horizontal" method="post" modelAttribute="dokumentForm" action="${dokumentActionUrl}">
+	<form:form class="form-horizontal" method="post" modelAttribute="dokumentForm" action="${dokumentActionUrl}" enctype="multipart/form-data">
 
 		<form:hidden path="id" />
 
@@ -37,21 +37,12 @@
 			</div>
 		</spring:bind>
 
-		<spring:bind path="fajl">
-			<div class="form-group ${status.error ? 'has-error' : ''}">
-				<label class="col-sm-2 control-label">Fajl</label>
-				<div class="col-sm-10">
-					<form:input path="fajl" class="form-control" id="fajl" placeholder="Fajl" />
-					<form:errors path="fajl" class="control-label" />
-				</div>
-			</div>
-		</spring:bind>
-
 		<spring:bind path="vlasnik">
 			<div class="form-group ${status.error ? 'has-error' : ''}">
 				<label class="col-sm-2 control-label">Vlasnik</label>
 				<div class="col-sm-10">
-					<form:input path="vlasnik" type="text" class="form-control" id="vlasnik" placeholder="Vlasnik" />
+					<form:input path="vlasnik" type="text" class="form-control"
+						id="vlasnik" placeholder="Vlasnik" />
 					<form:errors path="vlasnik" class="control-label" />
 				</div>
 			</div>
@@ -61,11 +52,17 @@
 			<div class="form-group ${status.error ? 'has-error' : ''}">
 				<label class="col-sm-2 control-label">Vidljivost</label>
 				<div class="col-sm-10">
-					<form:password path="vidljivost" class="form-control" id="vidljivost" placeholder="Vidljivost" />
+					<form:input path="vidljivost" class="form-control"
+						id="vidljivost" placeholder="Vidljivost" />
 					<form:errors path="vidljivost" class="control-label" />
 				</div>
 			</div>
 		</spring:bind>
+
+		<label class="col-sm-2 control-label">Fajl</label>
+		<div class="col-sm-10">
+			<textarea name='fajlcontent' rows="20" class="form-control" id='fajlcontent'>${dokumetContent} </textarea>
+		</div>
 
 		<div class="form-group">
 			<div class="col-sm-offset-2 col-sm-10">

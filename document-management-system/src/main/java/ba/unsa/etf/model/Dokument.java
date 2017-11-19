@@ -1,7 +1,14 @@
 package ba.unsa.etf.model;
 
+import java.io.ByteArrayInputStream;
+import java.io.IOException;
 import java.io.InputStream;
-import java.sql.Blob;
+import java.io.StringWriter;
+import java.io.UnsupportedEncodingException;
+import java.nio.charset.StandardCharsets;
+
+import org.apache.commons.io.IOUtils;
+import org.springframework.web.multipart.MultipartFile;
 
 public class Dokument {
 	private Integer id;
@@ -25,9 +32,19 @@ public class Dokument {
 	public InputStream getFajl() {
 		return fajl;
 	}
-	public void setFajl(InputStream fajl) {
-		this.fajl = fajl;
+	public void setFajl(MultipartFile fajl) {
+		try {
+			this.fajl = new ByteArrayInputStream(fajl.getBytes());
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		};
 	}
+	
+	public void setFajlDrugi(InputStream fajl) {
+			this.fajl = fajl;
+	}
+	
 	public Integer getVlasnik() {
 		return vlasnik;
 	}
@@ -42,6 +59,30 @@ public class Dokument {
 	}
 	public boolean isNew() {
 		return (this.id == null);
+	}
+	
+	public String getContent() {
+		StringWriter writer = new StringWriter();
+		try {
+			IOUtils.copy(fajl, writer, "UTF-8");
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		String sadrzaj = writer.toString();
+		
+		return sadrzaj;
+	}
+	
+	public void contentToInputStream(String s) {
+		
+		try {
+			InputStream stream = new ByteArrayInputStream(s.getBytes(StandardCharsets.UTF_8.name()));
+			fajl=stream;
+		} catch (UnsupportedEncodingException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 
 }

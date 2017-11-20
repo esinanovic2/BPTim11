@@ -1,14 +1,12 @@
 package ba.unsa.etf.dao;
 
 import java.util.List;
+import java.io.InputStream;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
 import org.springframework.dao.EmptyResultDataAccessException;
@@ -19,9 +17,6 @@ import org.springframework.jdbc.core.namedparam.SqlParameterSource;
 import org.springframework.jdbc.support.GeneratedKeyHolder;
 import org.springframework.jdbc.support.KeyHolder;
 import org.springframework.stereotype.Repository;
-
-import com.mysql.jdbc.Blob;
-
 import ba.unsa.etf.model.Dokument;
 
 @Repository
@@ -99,8 +94,10 @@ public class DokumentDaoImplementation implements DokumentDao {
 		public Dokument mapRow(ResultSet rs, int rowNum) throws SQLException {
 			Dokument dokument = new Dokument();
 		    dokument.setId(rs.getInt("id"));
-		    dokument.setNaziv(rs.getString("naziv"));
-		    dokument.setFajl(rs.getBlob("fajl"));
+		    String naziv=rs.getString("naziv");
+		    dokument.setNaziv(naziv);
+		    InputStream is=rs.getBinaryStream("fajl");
+		    dokument.setFajlDrugi(is);
 		    dokument.setVlasnik(rs.getInt("vlasnik"));
 		    dokument.setVidljivost(rs.getInt("vidljivost"));
 		    return dokument;

@@ -14,7 +14,7 @@ import javax.servlet.ServletRegistration;
 public class MyWebInitializer implements WebApplicationInitializer {
 	 
 	private String TMP_FOLDER = "/tmp"; 
-    private int MAX_UPLOAD_SIZE = 5 * 1024 * 1024; 
+    private int MAX_UPLOAD_SIZE = 512000000; //512MB
      
     @Override
     public void onStartup(ServletContext sc) throws ServletException {

@@ -77,7 +77,7 @@ public class DokumentDaoImplementation implements DokumentDao {
 	public void save(Dokument dokument) {
 		KeyHolder keyHolder = new GeneratedKeyHolder();
 		
-		String sql = "INSERT INTO dokumenti(naziv, fajl, vlasnik, vidljivost) values (:naziv, :fajl, :vlasnik, :vidljivost)";
+		String sql = "INSERT INTO dokumenti(naziv, contenttype, extenzija, fajl, vlasnik, vidljivost) values (:naziv, :contenttype, :extenzija, :fajl, :vlasnik, :vidljivost)";
 		namedParameterJdbcTemplate.update(sql, getSqlParameterByModel(dokument), keyHolder);
 		
 		dokument.setId(keyHolder.getKey().intValue());
@@ -96,6 +96,10 @@ public class DokumentDaoImplementation implements DokumentDao {
 		    dokument.setId(rs.getInt("id"));
 		    String naziv=rs.getString("naziv");
 		    dokument.setNaziv(naziv);
+		    String contentType=rs.getString("contenttype");
+		    dokument.setContentType(contentType);
+		    String extenzija=rs.getString("extenzija");
+		    dokument.setExtenzija(extenzija);
 		    InputStream is=rs.getBinaryStream("fajl");
 		    dokument.setFajlDrugi(is);
 		    dokument.setVlasnik(rs.getInt("vlasnik"));
@@ -111,6 +115,9 @@ public class DokumentDaoImplementation implements DokumentDao {
 		paramSource.addValue("fajl", dokument.getFajl());
 		paramSource.addValue("vlasnik", dokument.getVlasnik());
 		paramSource.addValue("vidljivost", dokument.getVidljivost());
+		paramSource.addValue("contenttype", dokument.getContentType());
+		paramSource.addValue("extenzija", dokument.getExtenzija());
+		
 		
 		return paramSource;
 	}

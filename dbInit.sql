@@ -77,6 +77,8 @@ DROP TABLE IF EXISTS `bpTim11db`.`dokumenti` ;
 CREATE TABLE IF NOT EXISTS `bpTim11db`.`dokumenti` (
   `id` INT NOT NULL AUTO_INCREMENT,
   `naziv` VARCHAR(45) NULL,
+  `contenttype` VARCHAR(200) NULL,
+  `extenzija` VARCHAR(45) NULL,
   `fajl` longblob NULL,
   `vlasnik` INT NULL,
   `vidljivost` INT NULL,

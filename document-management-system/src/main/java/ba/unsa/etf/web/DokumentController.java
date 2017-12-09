@@ -62,11 +62,20 @@ public class DokumentController {
 			BindingResult result, Model model, final RedirectAttributes redirectAttributes, @RequestParam("naziv") String naziv, @RequestParam("vlasnik") Integer vlasnik, 
 			@RequestParam("vidljivost") Integer vidljivost, @RequestParam(value="fajl",required=false) MultipartFile fileUpload) {
 
-			logger.debug("snimiIliIzmijeniDokument() : {}", naziv + vlasnik + vidljivost + fileUpload.getOriginalFilename());
+			logger.debug("snimiIliIzmijeniDokument():", naziv + vlasnik + vidljivost + fileUpload.getOriginalFilename());
 		
-			String extenzija=fileUpload.getContentType();
-			  	 	   	 
-   	 		logger.debug("prikaz dokumenta ekstenzija: " + extenzija, extenzija);
+			String contentType=fileUpload.getContentType();
+			
+			logger.debug("Content type before substring : {}",contentType);
+			
+			String extenzija=fileUpload.getOriginalFilename();
+			logger.debug("Extenzija before substring : {}",extenzija);
+			extenzija=extenzija.substring(extenzija.lastIndexOf(".")+1, extenzija.length());
+			
+			logger.debug("Extenzija after substring : {}",extenzija);
+			
+			
+			 	 		
 		
 		if (result.hasErrors()) {
 			logger.debug("snimi ili izmijeni if has errors");
@@ -78,6 +87,8 @@ public class DokumentController {
 			}else{
 				redirectAttributes.addFlashAttribute("msg", "Dokument uspjesno izmjenjen!");
 			}
+			dokument.setContentType(contentType);
+			dokument.setExtenzija(extenzija);
 			dokumentService.saveOrUpdate(dokument);
 			logger.debug("snimi ili izmijeni saveor update");
 			return "redirect:/dokumenti/" + dokument.getId();
@@ -145,33 +156,20 @@ public class DokumentController {
 	 protected String preivewSection(@PathVariable("id") int id,HttpServletRequest request, HttpSession httpSession, HttpServletResponse response) {
 	     try {
 	    	 Dokument dokument = dokumentService.findById(id);
-	    	 String naziv=dokument.getNaziv();
 	    	 
-	    	 String extenzija=naziv.substring(naziv.length()-4, naziv.length());
+	    	 String extenzija=dokument.getExtenzija();
 	    	 
 	    	 logger.debug("prikaz dokumenta ekstenzija: " + extenzija, extenzija);
 	    	 
 	         byte[] documentInBytes = IOUtils.toByteArray(dokument.getFajl());  
-	         /*
-	          if(ekstenzija==pdf){
-	          	response.setHeader("Content-Disposition", "inline; filename=\""+dokument.getNaziv()+".pdf\"");
-	          	response.setContentType("application/pdf");
-	          }
-	          else if(ekstenzija==doc(x)){
-	          	response.setHeader("Content-Disposition", "inline; filename=\""+dokument.getNaziv()+".doc\"");
-	          	response.setContentType("application/msword");
-	          }
-	          else if(ekstenzija==txt){
-	          	response.setHeader("Content-Disposition", "inline; filename=\""+dokument.getNaziv()+".txt\"");
-	          	response.setContentType("text/plain");
-	          }
+	         
 	          
-	          
-	          
-	          */
-	         response.setHeader("Content-Disposition", "inline; filename=\""+dokument.getNaziv()+".pdf\"");
+	         response.setHeader("Content-Disposition", "inline; filename=\""+dokument.getNaziv()+""+dokument.getExtenzija()+"\"");
+	         response.setContentType(dokument.getContentType());
+
+	         //response.setHeader("Content-Disposition", "inline; filename=\""+dokument.getNaziv()+".pdf\"");
 	         response.setDateHeader("Expires", -1);
-	         response.setContentType("application/pdf");
+	         //response.setContentType("application/pdf");
 	         response.setContentLength(documentInBytes.length);
 	         response.getOutputStream().write(documentInBytes);
 	     } catch (Exception ioe) {

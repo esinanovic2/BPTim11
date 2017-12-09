@@ -17,6 +17,10 @@ public class Dokument {
 	private Integer vlasnik;
 	private Integer vidljivost;
 	
+	private String contentType;
+	private String extenzija;
+	
+	
 	public Integer getId() {
 		return id;
 	}
@@ -83,6 +87,18 @@ public class Dokument {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+	}
+	public String getContentType() {
+		return contentType;
+	}
+	public void setContentType(String contentType) {
+		this.contentType = contentType;
+	}
+	public String getExtenzija() {
+		return extenzija;
+	}
+	public void setExtenzija(String extenzija) {
+		this.extenzija = extenzija;
 	}
 
 }

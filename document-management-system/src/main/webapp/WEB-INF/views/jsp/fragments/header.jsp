@@ -37,7 +37,7 @@
 			<ul class="nav navbar-nav navbar-right">
 				<li class="active"><a href=#>Uloge</a>
 					<ul id="unutra">
-						<li class="active"><a href="${urlUloge}">Pregled uloga</a></li>
+						<li class="active"><a href="${urlUloge}">Sve uloge</a></li>
 						<li class="active"><a href="${urlDodajUlogu}">Dodaj ulogu</a></li>
 					</ul>
 				</li>
@@ -46,7 +46,7 @@
 			<ul class="nav navbar-nav navbar-right">
 				<li class="active"><a href=#>Vidljivosti</a>
 					<ul id="unutra">
-						<li class="active"><a href="${urlVidljivosti}">Pregled vidljivosti</a></li>
+						<li class="active"><a href="${urlVidljivosti}">Sve vidljivosti</a></li>
 						<li class="active"><a href="${urlDodajVidljivost}">Dodaj vidljivost</a></li>
 					</ul>
 				</li>
@@ -55,7 +55,7 @@
 			<ul class="nav navbar-nav navbar-right">
 				<li class="active"><a href=#>Korisnici</a>
 					<ul id="unutra">
-						<li class="active"><a href="${urlKorisnici}">Pregled korisnika</a></li>
+						<li class="active"><a href="${urlKorisnici}">Svi korisnici</a></li>
 						<li class="active"><a href="${urlDodajKorisnika}">Dodaj korisnika</a></li>
 					</ul>
 				</li>
@@ -64,7 +64,7 @@
 			<ul class="nav navbar-nav navbar-right">
 				<li class="active"><a href=#>Dokumenti</a>
 					<ul id="unutra">
-						<li class="active"><a href="${urlDokumenti}">Pregled dokumenata</a></li>
+						<li class="active"><a href="${urlDokumenti}">Svi dokumenti</a></li>
 						<li class="active"><a href="${urlDodajDokument}">Dodaj dokument</a></li>
 					</ul>
 				</li>

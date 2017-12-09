@@ -62,7 +62,11 @@ public class DokumentController {
 			BindingResult result, Model model, final RedirectAttributes redirectAttributes, @RequestParam("naziv") String naziv, @RequestParam("vlasnik") Integer vlasnik, 
 			@RequestParam("vidljivost") Integer vidljivost, @RequestParam(value="fajl",required=false) MultipartFile fileUpload) {
 
-		logger.debug("snimiIliIzmijeniDokument() : {}", naziv + vlasnik + vidljivost + fileUpload.getOriginalFilename());
+			logger.debug("snimiIliIzmijeniDokument() : {}", naziv + vlasnik + vidljivost + fileUpload.getOriginalFilename());
+		
+			String extenzija=fileUpload.getContentType();
+			  	 	   	 
+   	 		logger.debug("prikaz dokumenta ekstenzija: " + extenzija, extenzija);
 		
 		if (result.hasErrors()) {
 			logger.debug("snimi ili izmijeni if has errors");
@@ -141,7 +145,30 @@ public class DokumentController {
 	 protected String preivewSection(@PathVariable("id") int id,HttpServletRequest request, HttpSession httpSession, HttpServletResponse response) {
 	     try {
 	    	 Dokument dokument = dokumentService.findById(id);
-	         byte[] documentInBytes = IOUtils.toByteArray(dokument.getFajl());         
+	    	 String naziv=dokument.getNaziv();
+	    	 
+	    	 String extenzija=naziv.substring(naziv.length()-4, naziv.length());
+	    	 
+	    	 logger.debug("prikaz dokumenta ekstenzija: " + extenzija, extenzija);
+	    	 
+	         byte[] documentInBytes = IOUtils.toByteArray(dokument.getFajl());  
+	         /*
+	          if(ekstenzija==pdf){
+	          	response.setHeader("Content-Disposition", "inline; filename=\""+dokument.getNaziv()+".pdf\"");
+	          	response.setContentType("application/pdf");
+	          }
+	          else if(ekstenzija==doc(x)){
+	          	response.setHeader("Content-Disposition", "inline; filename=\""+dokument.getNaziv()+".doc\"");
+	          	response.setContentType("application/msword");
+	          }
+	          else if(ekstenzija==txt){
+	          	response.setHeader("Content-Disposition", "inline; filename=\""+dokument.getNaziv()+".txt\"");
+	          	response.setContentType("text/plain");
+	          }
+	          
+	          
+	          
+	          */
 	         response.setHeader("Content-Disposition", "inline; filename=\""+dokument.getNaziv()+".pdf\"");
 	         response.setDateHeader("Expires", -1);
 	         response.setContentType("application/pdf");

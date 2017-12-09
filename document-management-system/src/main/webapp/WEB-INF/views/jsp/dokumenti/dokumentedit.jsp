@@ -21,7 +21,16 @@
 	</c:choose>
 	<br />
 
-	<spring:url value="/edit" var="dokumentActionUrl" />
+
+	<c:choose>
+		<c:when test="${showTextArea}">
+			<spring:url value="/edit" var="dokumentActionUrl" />
+		</c:when>
+		<c:otherwise>
+			<spring:url value="/editnocontent" var="dokumentActionUrl" />
+		</c:otherwise>
+	</c:choose>
+
 
 	<form:form class="form-horizontal" method="post" modelAttribute="dokumentForm" action="${dokumentActionUrl}" enctype="multipart/form-data">
 
@@ -59,10 +68,18 @@
 			</div>
 		</spring:bind>
 
-		<label class="col-sm-2 control-label">Fajl</label>
-		<div class="col-sm-10">
-			<textarea name='fajlcontent' rows="20" class="form-control" id='fajlcontent'>${dokumetContent} </textarea>
-		</div>
+
+		<c:choose>
+			<c:when test="${showTextArea}">
+				<label class="col-sm-2 control-label">Fajl</label>
+				<div class="col-sm-10">
+					<textarea name='fajlcontent' rows="20" class="form-control"
+						id='fajlcontent'>${dokumetContent} </textarea>
+				</div>
+			</c:when>
+			<c:otherwise>
+			</c:otherwise>
+		</c:choose>
 
 		<div class="form-group">
 			<div class="col-sm-offset-2 col-sm-10">

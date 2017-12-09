@@ -70,8 +70,7 @@ public class DokumentController {
 			
 			String extenzija=fileUpload.getOriginalFilename();
 			logger.debug("Extenzija before substring : {}",extenzija);
-			extenzija=extenzija.substring(extenzija.lastIndexOf(".")+1, extenzija.length());
-			
+			extenzija=extenzija.substring(extenzija.lastIndexOf(".")+1, extenzija.length());			
 			logger.debug("Extenzija after substring : {}",extenzija);
 			
 			
@@ -113,6 +112,28 @@ public class DokumentController {
 		return "redirect:/dokumenti/";
 	}
 	
+	
+	@RequestMapping(value = "/editnocontent", method = RequestMethod.POST)
+	public String izmijeniBezSadrzaja(@RequestParam("id") Integer id, @RequestParam("naziv") String naziv, @RequestParam("vlasnik") Integer vlasnik, 
+			@RequestParam("vidljivost") Integer vidljivost) {
+
+		logger.debug("snimiIliIzmijeniDokument() : {}", id + naziv + vlasnik + vidljivost);
+		
+		Dokument dokument=dokumentService.findById(id);
+		dokument.setId(id);
+		dokument.setNaziv(naziv);
+		dokument.setVlasnik(vlasnik);
+		dokument.setVidljivost(vidljivost);
+		
+		
+		dokumentService.saveOrUpdate(dokument);
+			
+		return "redirect:/dokumenti/";
+	}
+	
+	
+	
+	
 			
 	@RequestMapping(value = "/dokumenti/dodaj", method = RequestMethod.GET)
 	public String prikaziFormuDodajDokument(Model model) {
@@ -131,11 +152,19 @@ public class DokumentController {
 
 		logger.debug("showPromijeniDokumentForm() : {}", id);
 
+		boolean showFileContentForm=false;
 		Dokument dokument = dokumentService.findById(id);
+		
+		String extenzija= dokument.getExtenzija();
 		model.addAttribute("dokumentForm", dokument);
 		
+		if("txt".equals(extenzija)) {
+			showFileContentForm=true;
+		}
+		
 		model.addAttribute("dokumetContent",dokument.getContent());
-
+		model.addAttribute("showTextArea",showFileContentForm);
+			
 		return "dokumenti/dokumentedit";
 	}
 	
@@ -152,8 +181,8 @@ public class DokumentController {
 		return "redirect:/dokumenti";
 	}
 	
-	 @RequestMapping(value = "/dokumenti/{id}", method = RequestMethod.GET)
-	 protected String preivewSection(@PathVariable("id") int id,HttpServletRequest request, HttpSession httpSession, HttpServletResponse response) {
+	 @RequestMapping(value = "/dokumenti/{id}/prikazi/", method = RequestMethod.GET)
+	 protected String prikaziDokument(@PathVariable("id") int id,HttpServletRequest request, HttpSession httpSession, HttpServletResponse response) {
 	     try {
 	    	 Dokument dokument = dokumentService.findById(id);
 	    	 
@@ -161,37 +190,33 @@ public class DokumentController {
 	    	 
 	    	 logger.debug("prikaz dokumenta ekstenzija: " + extenzija, extenzija);
 	    	 
-	         byte[] documentInBytes = IOUtils.toByteArray(dokument.getFajl());  
-	         
-	          
-	         response.setHeader("Content-Disposition", "inline; filename=\""+dokument.getNaziv()+""+dokument.getExtenzija()+"\"");
+	         byte[] dokumentBytes = IOUtils.toByteArray(dokument.getFajl());  
+	        
+	         response.setHeader("Content-Disposition", "inline; filename=\""+dokument.getNaziv()+""+"."+dokument.getExtenzija()+"\"");
 	         response.setContentType(dokument.getContentType());
-
-	         //response.setHeader("Content-Disposition", "inline; filename=\""+dokument.getNaziv()+".pdf\"");
 	         response.setDateHeader("Expires", -1);
-	         //response.setContentType("application/pdf");
-	         response.setContentLength(documentInBytes.length);
-	         response.getOutputStream().write(documentInBytes);
+	         response.setContentLength(dokumentBytes.length);
+	         response.getOutputStream().write(dokumentBytes);
 	     } catch (Exception ioe) {
 	     } finally {
 	     }
 	     return null;
 	 }
 	
-//	@RequestMapping(value = "/dokumenti/{id}", method = RequestMethod.GET)
-//	public String prikaziDokument(@PathVariable("id") int id, Model model) {
-//
-//		logger.debug("prikaziDokument() id: {}", id);
-//
-//		Dokument dokument = dokumentService.findById(id);
-//		if (dokument == null) {
-//			model.addAttribute("css", "danger");
-//			model.addAttribute("msg", "Dokument nije pronadjen");
-//		}
-//		model.addAttribute("dokument", dokument);
-//
-//		return "dokumenti/prikazi";
-//	}
+	@RequestMapping(value = "/dokumenti/{id}", method = RequestMethod.GET)
+	public String prikaziDokument(@PathVariable("id") int id, Model model) {
+
+		logger.debug("prikaziDokument() id: {}", id);
+
+		Dokument dokument = dokumentService.findById(id);
+		if (dokument == null) {
+			model.addAttribute("css", "danger");
+			model.addAttribute("msg", "Dokument nije pronadjen");
+		}
+		model.addAttribute("dokument", dokument);
+
+		return "dokumenti/prikazi";
+	}
 	
 	@ExceptionHandler(EmptyResultDataAccessException.class)
 	public ModelAndView handleEmptyData(HttpServletRequest req, Exception ex) {

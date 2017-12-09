@@ -39,11 +39,14 @@
 					<td>${dokument.id}</td>
 					<td>${dokument.naziv}</td>
 					<td>${dokument.vlasnik}</td>
-					<td><spring:url value="/dokumenti/${dokument.id}"
-							var="dokumentUrl" /> <spring:url
+					<td><spring:url value="/dokumenti/${dokument.id}/prikazi/"
+							var="dokumentPrikazi" /> <spring:url
+							value="/dokumenti/${dokument.id}" var="dokumentUrl" /> <spring:url
 							value="/dokumenti/${dokument.id}/obrisi" var="obrisiUrl" /> <spring:url
 							value="/dokumenti/${dokument.id}/promijeni" var="promijeniUrl" />
 
+						<button class="btn btn-info"
+							onclick="location.href='${dokumentPrikazi}'">Prikazi</button>
 						<button class="btn btn-info"
 							onclick="location.href='${dokumentUrl}'">Detaljno</button>
 						<button class="btn btn-primary"

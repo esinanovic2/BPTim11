@@ -30,7 +30,6 @@
 					<th>#ID</th>
 					<th>Naziv</th>
 					<th>Vlasnik</th>
-					<th>Vidljivost</th>
 					<th>Akcija</th>
 				</tr>
 			</thead>

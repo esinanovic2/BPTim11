@@ -3,7 +3,10 @@ package ba.unsa.etf.web;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
+import org.apache.commons.io.IOUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -134,20 +137,36 @@ public class DokumentController {
 		return "redirect:/dokumenti";
 	}
 	
-	@RequestMapping(value = "/dokumenti/{id}", method = RequestMethod.GET)
-	public String prikaziDokument(@PathVariable("id") int id, Model model) {
-
-		logger.debug("prikaziDokument() id: {}", id);
-
-		Dokument dokument = dokumentService.findById(id);
-		if (dokument == null) {
-			model.addAttribute("css", "danger");
-			model.addAttribute("msg", "Dokument nije pronadjen");
-		}
-		model.addAttribute("dokument", dokument);
-
-		return "dokumenti/prikazi";
-	}
+	 @RequestMapping(value = "/dokumenti/{id}", method = RequestMethod.GET)
+	 protected String preivewSection(@PathVariable("id") int id,HttpServletRequest request, HttpSession httpSession, HttpServletResponse response) {
+	     try {
+	    	 Dokument dokument = dokumentService.findById(id);
+	         byte[] documentInBytes = IOUtils.toByteArray(dokument.getFajl());         
+	         response.setHeader("Content-Disposition", "inline; filename=\""+dokument.getNaziv()+".pdf\"");
+	         response.setDateHeader("Expires", -1);
+	         response.setContentType("application/pdf");
+	         response.setContentLength(documentInBytes.length);
+	         response.getOutputStream().write(documentInBytes);
+	     } catch (Exception ioe) {
+	     } finally {
+	     }
+	     return null;
+	 }
+	
+//	@RequestMapping(value = "/dokumenti/{id}", method = RequestMethod.GET)
+//	public String prikaziDokument(@PathVariable("id") int id, Model model) {
+//
+//		logger.debug("prikaziDokument() id: {}", id);
+//
+//		Dokument dokument = dokumentService.findById(id);
+//		if (dokument == null) {
+//			model.addAttribute("css", "danger");
+//			model.addAttribute("msg", "Dokument nije pronadjen");
+//		}
+//		model.addAttribute("dokument", dokument);
+//
+//		return "dokumenti/prikazi";
+//	}
 	
 	@ExceptionHandler(EmptyResultDataAccessException.class)
 	public ModelAndView handleEmptyData(HttpServletRequest req, Exception ex) {

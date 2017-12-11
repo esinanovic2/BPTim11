@@ -61,6 +61,5 @@ public class Korisnik {
 	public String toString() {
 		return korisnickoIme;
 	}
-	
-	
+
 }

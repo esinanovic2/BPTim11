@@ -34,11 +34,11 @@
 				</tr>
 			</thead>
 
-			<c:forEach var="dokument" items="${dokumenti}">
+			<c:forEach var="dokument" items="${dokumenti}" varStatus = "status">
 				<tr>
 					<td>${dokument.id}</td>
 					<td>${dokument.naziv}</td>
-					<td>${dokument.vlasnik}</td>
+					<td>${vlasnici[status.index].ime}</td>
 					<td><spring:url value="/dokumenti/${dokument.id}/prikazi/"
 							var="dokumentPrikazi" /> <spring:url
 							value="/dokumenti/${dokument.id}" var="dokumentUrl" /> <spring:url

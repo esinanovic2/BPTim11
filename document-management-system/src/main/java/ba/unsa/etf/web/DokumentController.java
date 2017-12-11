@@ -1,5 +1,6 @@
 package ba.unsa.etf.web;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
@@ -72,7 +73,13 @@ public class DokumentController {
 	@RequestMapping(value = "/dokumenti", method = RequestMethod.GET)
 	public String prikaziSveDokumente(Model model) {
 		List<Dokument> sviDokumenti = dokumentService.findAll();
+		List<Korisnik> sviVlasnici = new ArrayList<>();
+		for(int i = 0; i< sviDokumenti.size(); i++) {
+			sviVlasnici.add(korisnikService.findById(sviDokumenti.get(i).getVlasnik()));
+		}
+
 		model.addAttribute("dokumenti", sviDokumenti);
+		model.addAttribute("vlasnici", sviVlasnici);
 		return "dokumenti/listadokumenata";
 	}
 	

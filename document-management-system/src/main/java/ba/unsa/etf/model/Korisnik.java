@@ -57,4 +57,10 @@ public class Korisnik {
 	public void setPotvrdisifru(String potvrdisifru) {
 		this.potvrdisifru = potvrdisifru;
 	}
+	@Override
+	public String toString() {
+		return korisnickoIme;
+	}
+	
+	
 }

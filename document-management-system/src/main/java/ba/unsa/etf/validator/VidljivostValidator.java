@@ -22,8 +22,7 @@ public class VidljivostValidator implements Validator{
 
 	@Override
 	public void validate(Object target, Errors errors) {
-		ValidationUtils.rejectIfEmptyOrWhitespace(errors, "naziv", "NotEmpty.vidljivostForm.naziv");
-		
+		ValidationUtils.rejectIfEmptyOrWhitespace(errors, "naziv", "NotEmpty.vidljivostForm.naziv");	
 	}
 
 }

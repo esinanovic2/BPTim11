@@ -53,8 +53,10 @@
 			<div class="form-group ${status.error ? 'has-error' : ''}">
 				<label class="col-sm-2 control-label">Vidljivost</label>
 				<div class="col-sm-10">
-					<form:input path="vidljivost" type="text" class="form-control" id="vidljivost" placeholder="Vidljivost" />
-					<form:errors path="vidljivost" class="control-label" />
+					<form:select path = "vidljivost">
+                     <form:option value = "" label = "Vidljivosti"/>
+                     <form:options items = "${vidljivosti}" itemValue="id"/>
+                  </form:select>
 				</div>
 			</div>
 		</spring:bind>

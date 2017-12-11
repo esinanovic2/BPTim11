@@ -27,7 +27,9 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import ba.unsa.etf.model.Dokument;
+import ba.unsa.etf.model.Vidljivost;
 import ba.unsa.etf.service.DokumentService;
+import ba.unsa.etf.service.VidljivostService;
 import ba.unsa.etf.validator.DokumentValidator;
 
 @Controller
@@ -48,6 +50,14 @@ public class DokumentController {
 	@Autowired
 	public void setDokumentService(DokumentService dokumentService) {
 		this.dokumentService = dokumentService;
+	}
+	
+	private VidljivostService vidljivostService;
+	
+	@Autowired
+	public void setVidljivostService (VidljivostService vidljivostService)
+	{
+		this.vidljivostService=vidljivostService;
 	}
 	
 	@RequestMapping(value = "/dokumenti", method = RequestMethod.GET)
@@ -125,25 +135,25 @@ public class DokumentController {
 		dokument.setVlasnik(vlasnik);
 		dokument.setVidljivost(vidljivost);
 		
-		
 		dokumentService.saveOrUpdate(dokument);
 			
 		return "redirect:/dokumenti/";
 	}
 	
 	
-	
-	
-			
+
 	@RequestMapping(value = "/dokumenti/dodaj", method = RequestMethod.GET)
 	public String prikaziFormuDodajDokument(Model model) {
 
 		logger.debug("showDodajDokumentForm()");
+		List<Vidljivost> listaVidljivosti=vidljivostService.findAll();
 
 		Dokument dokument= new Dokument();
 		model.addAttribute("dokumentForm", dokument);
-
+		model.addAttribute("vidljivosti",listaVidljivosti);
+		logger.debug("Lista vidljivosti:"+  listaVidljivosti.get(1).getNaziv());
 		return "dokumenti/dokumentform";
+		
 
 	}
 	

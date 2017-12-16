@@ -1,13 +1,27 @@
 package ba.unsa.etf.web;
 
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import org.apache.commons.io.IOUtils;
+import org.apache.poi.openxml4j.exceptions.InvalidFormatException;
+import org.apache.poi.openxml4j.opc.OPCPackage;
+import org.apache.poi.xwpf.extractor.XWPFWordExtractor;
+import org.apache.poi.xwpf.usermodel.XWPFDocument;
+import org.apache.poi.xwpf.usermodel.XWPFParagraph;
+import org.apache.poi.xwpf.usermodel.XWPFRun;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -39,6 +53,8 @@ import ba.unsa.etf.validator.DokumentValidator;
 public class DokumentController {
 	
 	private final Logger logger = LoggerFactory.getLogger(DokumentController.class);
+	
+	private XWPFDocument xdoc=null;
 	
 	@Autowired
 	DokumentValidator dokumentValidator;
@@ -99,9 +115,6 @@ public class DokumentController {
 			extenzija=extenzija.substring(extenzija.lastIndexOf(".")+1, extenzija.length());			
 			logger.debug("Extenzija after substring : {}",extenzija);
 			
-			
-			 	 		
-		
 		if (result.hasErrors()) {
 			logger.debug("snimi ili izmijeni if has errors");
 			return "dokumenti/dokumentform";
@@ -124,18 +137,94 @@ public class DokumentController {
 	public String izmijeniDokument(@RequestParam("id") Integer id, @RequestParam("naziv") String naziv, @RequestParam("vlasnik") Integer vlasnik, 
 			@RequestParam("vidljivost") Integer vidljivost, @RequestParam("fajlcontent") String fajlcontent) {
 
-		logger.debug("snimiIliIzmijeniDokument() : {}", id + naziv + vlasnik + vidljivost + fajlcontent);
-		
-		Dokument dokument=new Dokument();
+		logger.debug("snimiIliIzmijeniDokument() : {}", id + naziv + vlasnik + vidljivost + xdoc);
+	
+		Dokument dokument=dokumentService.findById(id);
 		dokument.setId(id);
 		dokument.setNaziv(naziv);
 		dokument.setVlasnik(vlasnik);
 		dokument.setVidljivost(vidljivost);
-		dokument.contentToInputStream(fajlcontent);
+		if("docx".equals(dokument.getExtenzija())) {
+			InputStream inputStream=replaceText(fajlcontent);
+			dokument.setFajlDrugi(inputStream);		
+		}else if("txt".equals(dokument.getExtenzija()))
+			dokument.contentToInputStream(fajlcontent);
 		
 		dokumentService.saveOrUpdate(dokument);
 			
 		return "redirect:/dokumenti/";
+	}
+	
+	private InputStream replaceText(String fajlcontent) {
+		List<XWPFParagraph> paragraphs = xdoc.getParagraphs();
+
+	    for (XWPFParagraph paragraph : paragraphs){
+	        for (int i = 0; i <= paragraph.getRuns().size(); i++){
+	              paragraph.removeRun(i);
+	           }
+	    }
+		
+		// create Paragraph
+		XWPFParagraph paragraph = paragraphs.get(0);
+		paragraph.removeRun(0);
+		XWPFRun run = paragraph.createRun();
+		run.setText(fajlcontent);
+
+		ByteArrayOutputStream b = new ByteArrayOutputStream();
+		
+		try {
+			xdoc.write(b);
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		InputStream inputStream = new ByteArrayInputStream(b.toByteArray());
+		return inputStream;
+	}
+	
+	
+	@RequestMapping(value = "/dokumenti/{id}/promijeni", method = RequestMethod.GET)
+	public String prikaziFormuIzmijeniDokument(@PathVariable("id") int id, Model model) {
+
+		logger.debug("showPromijeniDokumentForm() : {}", id);
+
+		boolean showFileContentForm=false;
+		Dokument dokument = dokumentService.findById(id);
+		String extenzija= dokument.getExtenzija();
+		String documentContent="";
+		
+		Map<String,String> documentMap=new HashMap<>();
+		xdoc=null;
+		if("docx".equals(extenzija)) {
+			InputStream dokumentFile= dokument.getFajl();
+			
+			try {
+				xdoc = new XWPFDocument(OPCPackage.open(dokumentFile));
+				XWPFWordExtractor extractor = new XWPFWordExtractor(xdoc); 
+				
+				System.out.println(extractor.getText());
+				documentContent=extractor.getText();
+				showFileContentForm=true;
+				extractor.close();
+			} catch (InvalidFormatException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} 
+		}
+				
+		model.addAttribute("dokumentForm", dokument);
+		
+		if("txt".equals(extenzija)) {
+			documentContent=dokument.getContent();
+			showFileContentForm=true;
+		}
+		
+		model.addAttribute("dokumetContent",documentContent);
+		model.addAttribute("showTextArea",showFileContentForm);			
+		return "dokumenti/dokumentedit";
 	}
 	
 	
@@ -157,7 +246,6 @@ public class DokumentController {
 	}
 	
 	
-
 	@RequestMapping(value = "/dokumenti/dodaj", method = RequestMethod.GET)
 	public String prikaziFormuDodajDokument(Model model) {
 
@@ -171,30 +259,9 @@ public class DokumentController {
 		model.addAttribute("vidljivosti",listaVidljivosti);
 		logger.debug("Lista vidljivosti:"+  listaVidljivosti.get(1).getNaziv());
 		return "dokumenti/dokumentform";
-		
-
 	}
 	
-	@RequestMapping(value = "/dokumenti/{id}/promijeni", method = RequestMethod.GET)
-	public String prikaziFormuIzmijeniDokument(@PathVariable("id") int id, Model model) {
 
-		logger.debug("showPromijeniDokumentForm() : {}", id);
-
-		boolean showFileContentForm=false;
-		Dokument dokument = dokumentService.findById(id);
-		
-		String extenzija= dokument.getExtenzija();
-		model.addAttribute("dokumentForm", dokument);
-		
-		if("txt".equals(extenzija)) {
-			showFileContentForm=true;
-		}
-		
-		model.addAttribute("dokumetContent",dokument.getContent());
-		model.addAttribute("showTextArea",showFileContentForm);
-			
-		return "dokumenti/dokumentedit";
-	}
 	
 	@RequestMapping(value = "/dokumenti/{id}/obrisi", method = RequestMethod.POST)
 	public String obrisiDokument(@PathVariable("id") int id, final RedirectAttributes redirectAttributes) {
@@ -225,6 +292,7 @@ public class DokumentController {
 	         response.setDateHeader("Expires", -1);
 	         response.setContentLength(dokumentBytes.length);
 	         response.getOutputStream().write(dokumentBytes);
+	         
 	     } catch (Exception ioe) {
 	     } finally {
 	     }

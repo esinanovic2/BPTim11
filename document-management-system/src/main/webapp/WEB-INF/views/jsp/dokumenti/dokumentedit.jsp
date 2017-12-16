@@ -75,6 +75,7 @@
 				<div class="col-sm-10">
 					<textarea name='fajlcontent' rows="20" class="form-control"
 						id='fajlcontent'>${dokumetContent} </textarea>
+						<input id="xwpf" name="xwpf" type="hidden" value="${xdoc}"/>
 				</div>
 			</c:when>
 			<c:otherwise>

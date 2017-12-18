@@ -11,6 +11,7 @@ body {
 }
 </style>
 <jsp:include page="../fragments/header.jsp" />
+<spring:url value="/vidljivosti/dodaj" var="urlDodajVidljivost" />
 
 <body>
 
@@ -26,6 +27,9 @@ body {
 		</c:if>
 
 		<h1>Sve vidljivosti</h1>
+		
+		<button class="btn btn-primary btn-lg pull-right" 	onclick="location.href='${urlDodajVidljivost}'">Dodaj vidljivost</button>
+		
 
 		<table class="table table-striped">
 			<thead>

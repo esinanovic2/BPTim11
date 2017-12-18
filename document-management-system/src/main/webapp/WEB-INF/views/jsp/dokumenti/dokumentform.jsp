@@ -29,7 +29,7 @@
 
 		<spring:bind path="naziv">
 			<div class="form-group ${status.error ? 'has-error' : ''}">
-				<label class="col-sm-2 control-label">Naziv</label>
+				<label class="col-sm-2 control-label">Naziv dokumenta</label>
 				<div class="col-sm-10">
 					<form:input path="naziv" type="text" class="form-control " id="naziv" placeholder="Naziv" />
 					<form:errors path="naziv" class="control-label" />

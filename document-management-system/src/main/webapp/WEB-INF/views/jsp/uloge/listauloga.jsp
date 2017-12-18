@@ -11,6 +11,8 @@ body {
 }
 </style>
 <jsp:include page="../fragments/header.jsp" />
+<spring:url value="/uloge/dodaj" var="urlDodajUlogu" />
+
 
 <body>
 
@@ -26,6 +28,8 @@ body {
 		</c:if>
 
 		<h1>Sve uloge</h1>
+		
+		<button class="btn btn-primary btn-lg pull-right" 	onclick="location.href='${urlDodajUlogu}'">Dodaj ulogu</button>
 
 		<table class="table table-striped">
 			<thead>

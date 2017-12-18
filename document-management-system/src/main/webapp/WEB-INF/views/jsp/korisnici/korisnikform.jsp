@@ -53,7 +53,7 @@ body {
 
 		<spring:bind path="korisnickoIme">
 			<div class="form-group ${status.error ? 'has-error' : ''}">
-				<label class="col-sm-2 control-label">Korisnicko Ime</label>
+				<label class="col-sm-2 control-label">Korisnicko ime</label>
 				<div class="col-sm-10">
 					<form:input path="korisnickoIme" type="text" class="form-control" id="korisnickoIme" placeholder="korisnickoIme" />
 					<form:errors path="korisnickoIme" class="control-label" />
@@ -73,7 +73,7 @@ body {
 
 		<spring:bind path="potvrdisifru">
 			<div class="form-group ${status.error ? 'has-error' : ''}">
-				<label class="col-sm-2 control-label">Potvrdi Sifru</label>
+				<label class="col-sm-2 control-label">Potvrdi sifru</label>
 				<div class="col-sm-10">
 					<form:password path="potvrdisifru" class="form-control" id="potvrdisifru" placeholder="potvrdisifru" />
 					<form:errors path="potvrdisifru" class="control-label" />

@@ -7,6 +7,7 @@
 <html lang="en">
 
 <jsp:include page="../fragments/header.jsp" />
+<spring:url value="/dokumenti/dodaj" var="urlDodajDokument" />
 
 <body>
 
@@ -23,7 +24,9 @@
 		</c:if>
 
 		<h1>Svi dokumenti</h1>
-
+		
+		<button class="btn btn-primary btn-lg pull-right" 	onclick="location.href='${urlDodajDokument}'">Dodaj dokument</button>
+				
 		<table class="table table-striped">
 			<thead>
 				<tr>

@@ -13,16 +13,13 @@
 
 <spring:url value="/" var="urlHome" />
 <spring:url value="/korisnici" var="urlKorisnici" />
-<spring:url value="/korisnici/dodaj" var="urlDodajKorisnika" />
 <spring:url value="/navigation/login" var="urlLogin" />
 <spring:url value="/navigation/logout" var="urlLogout" />
 <spring:url value="/uloge" var="urlUloge" />
-<spring:url value="/uloge/dodaj" var="urlDodajUlogu" />
 <spring:url value="/vidljivosti" var="urlVidljivosti" />
-<spring:url value="/vidljivosti/dodaj" var="urlDodajVidljivost" />
 
 <spring:url value="/dokumenti" var="urlDokumenti" />
-<spring:url value="/dokumenti/dodaj" var="urlDodajDokument" />
+
 
 <nav class="navbar navbar-inverse ">
 	<div class="container">
@@ -35,39 +32,19 @@
 			</ul>
 			
 			<ul class="nav navbar-nav navbar-right">
-				<li class="active"><a href=#>Uloge</a>
-					<ul id="unutra">
-						<li class="active"><a href="${urlUloge}">Sve uloge</a></li>
-						<li class="active"><a href="${urlDodajUlogu}">Dodaj ulogu</a></li>
-					</ul>
-				</li>
+				<li class="active"><a href="${urlUloge}">Uloge</a></li>
 			</ul>
 			
 			<ul class="nav navbar-nav navbar-right">
-				<li class="active"><a href=#>Vidljivosti</a>
-					<ul id="unutra">
-						<li class="active"><a href="${urlVidljivosti}">Sve vidljivosti</a></li>
-						<li class="active"><a href="${urlDodajVidljivost}">Dodaj vidljivost</a></li>
-					</ul>
-				</li>
+				<li class="active"><a href="${urlVidljivosti}">Vidljivosti</a></li>
 			</ul>
 					
 			<ul class="nav navbar-nav navbar-right">
-				<li class="active"><a href=#>Korisnici</a>
-					<ul id="unutra">
-						<li class="active"><a href="${urlKorisnici}">Svi korisnici</a></li>
-						<li class="active"><a href="${urlDodajKorisnika}">Dodaj korisnika</a></li>
-					</ul>
-				</li>
+				<li class="active"><a href="${urlKorisnici}">Korisnici</a></li>
 			</ul>
 			
 			<ul class="nav navbar-nav navbar-right">
-				<li class="active"><a href=#>Dokumenti</a>
-					<ul id="unutra">
-						<li class="active"><a href="${urlDokumenti}">Svi dokumenti</a></li>
-						<li class="active"><a href="${urlDodajDokument}">Dodaj dokument</a></li>
-					</ul>
-				</li>
+				<li class="active"><a href="${urlDokumenti}">Dokumenti</a></li>
 			</ul>
 		</div>
 	</div>

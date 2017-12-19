@@ -45,12 +45,10 @@ body {
 						${vidljivost.id}
 					</td>
 					<td>${vidljivost.naziv}</td>
-					<td>
-						<spring:url value="/vidljivosti/${vidljivost.id}" var="vidljivostUrl" />
+					<td  class="pull-right">
 						<spring:url value="/vidljivosti/${vidljivost.id}/obrisi" var="obrisiUrl" /> 
 						<spring:url value="/vidljivosti/${vidljivost.id}/promijeni" var="promijeniUrl" />
 
-						<button class="btn btn-info" onclick="location.href='${vidljivostUrl}'">Detaljno</button>
 						<button class="btn btn-primary" onclick="location.href='${promijeniUrl}'">Izmijeni</button>
 						<button class="btn btn-danger" onclick="this.disabled=true;post('${obrisiUrl}')">Obrisi</button></td>
 				</tr>

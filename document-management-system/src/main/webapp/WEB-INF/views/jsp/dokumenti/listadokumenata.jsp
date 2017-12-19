@@ -33,7 +33,7 @@
 					<th>#ID</th>
 					<th>Naziv</th>
 					<th>Vlasnik</th>
-					<th>Akcija</th>
+					<th></th>
 				</tr>
 			</thead>
 
@@ -42,7 +42,7 @@
 					<td>${dokument.id}</td>
 					<td>${dokument.naziv}</td>
 					<td>${vlasnici[status.index].ime}</td>
-					<td><spring:url value="/dokumenti/${dokument.id}/prikazi/"
+					<td  class="pull-right"><spring:url value="/dokumenti/${dokument.id}/prikazi/"
 							var="dokumentPrikazi" /> <spring:url
 							value="/dokumenti/${dokument.id}" var="dokumentUrl" /> <spring:url
 							value="/dokumenti/${dokument.id}/obrisi" var="obrisiUrl" /> <spring:url

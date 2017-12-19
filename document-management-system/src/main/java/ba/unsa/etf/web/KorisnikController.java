@@ -1,5 +1,8 @@
 package ba.unsa.etf.web;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import javax.servlet.http.HttpServletRequest;
 
 import org.slf4j.Logger;
@@ -20,8 +23,12 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import ba.unsa.etf.model.Dokument;
 import ba.unsa.etf.model.Korisnik;
+import ba.unsa.etf.model.Uloga;
 import ba.unsa.etf.service.KorisnikService;
+import ba.unsa.etf.service.UlogaService;
+import ba.unsa.etf.service.VidljivostService;
 import ba.unsa.etf.validator.KorisnikFormValidator;
 
 @Controller
@@ -42,12 +49,25 @@ public class KorisnikController {
 	public void setKorisnikService(KorisnikService korisnikService) {
 		this.korisnikService = korisnikService;
 	}
+	
+	private UlogaService ulogaService;
+	@Autowired
+	public void setUlogaService (UlogaService ulogaService)
+	{
+		this.ulogaService=ulogaService;
+	}
 
 	@RequestMapping(value = "/korisnici", method = RequestMethod.GET)
 	public String prikaziSveKorisnike(Model model) {
-
+		List<Korisnik> sviKorisnici = korisnikService.findAll();
+		List<Uloga> sveUloge = new ArrayList<>();
+		for(int i = 0; i< sviKorisnici.size(); i++) {
+			sveUloge.add(ulogaService.findById(sviKorisnici.get(i).getUloga()));
+		}
+		
 		logger.debug("showPrikaziSveKorisnike()");
-		model.addAttribute("korisnici", korisnikService.findAll());
+		model.addAttribute("korisnici", sviKorisnici);
+		model.addAttribute("uloge", sveUloge);
 		return "korisnici/listakorisnika";
 	}
 

@@ -45,12 +45,10 @@ body {
 						${uloga.id}
 					</td>
 					<td>${uloga.naziv}</td>
-					<td>
-						<spring:url value="/uloge/${uloga.id}" var="ulogaUrl" />
+					<td  class="pull-right">
 						<spring:url value="/uloge/${uloga.id}/obrisi" var="obrisiUrl" /> 
 						<spring:url value="/uloge/${uloga.id}/promijeni" var="promijeniUrl" />
 
-						<button class="btn btn-info" onclick="location.href='${ulogaUrl}'">Detaljno</button>
 						<button class="btn btn-primary" onclick="location.href='${promijeniUrl}'">Izmijeni</button>
 						<button class="btn btn-danger" onclick="this.disabled=true;post('${obrisiUrl}')">Obrisi</button></td>
 				</tr>

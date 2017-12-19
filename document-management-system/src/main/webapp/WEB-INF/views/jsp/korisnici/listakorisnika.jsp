@@ -37,19 +37,19 @@ body {
 					<th>Ime</th>
 					<th>Prezime</th>
 					<th>Uloga</th>
-					<th>Akcija</th>
+					<th></th>
 				</tr>
 			</thead>
 
-			<c:forEach var="korisnik" items="${korisnici}">
+			<c:forEach var="korisnik" items="${korisnici}" varStatus = "status">
 				<tr>
 					<td>
 						${korisnik.id}
 					</td>
 					<td>${korisnik.ime}</td>
 					<td>${korisnik.prezime}</td>
-					<td>${korisnik.uloga}</td>
-					<td>
+					<td>${uloge[status.index].naziv}</td>
+					<td class="pull-right">
 						<spring:url value="/korisnici/${korisnik.id}" var="korisnikUrl" />
 						<spring:url value="/korisnici/${korisnik.id}/obrisi" var="obrisiUrl" /> 
 						<spring:url value="/korisnici/${korisnik.id}/promijeni" var="promijeniUrl" />

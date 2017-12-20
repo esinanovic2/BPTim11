@@ -228,7 +228,7 @@ public class DokumentController {
 		vidljivosti.add(prva);
 		
 		for(int i=0; i<sveVidljivosti.size(); i++){
-			if(!(prva).equals(sveVidljivosti.get(i)))
+			if(!(prva.getNaziv()).equals(sveVidljivosti.get(i).getNaziv()))
 				vidljivosti.add(sveVidljivosti.get(i));
 		}
 			

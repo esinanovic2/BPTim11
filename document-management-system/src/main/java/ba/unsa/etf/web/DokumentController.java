@@ -144,15 +144,14 @@ public class DokumentController {
 	}
 	
 	@RequestMapping(value = "/edit", method = RequestMethod.POST)
-	public String izmijeniDokument(@RequestParam("id") Integer id, @RequestParam("naziv") String naziv, @RequestParam("vlasnik") Integer vlasnik, 
+	public String izmijeniDokument(@RequestParam("id") Integer id, @RequestParam("naziv") String naziv, 
 			@RequestParam("vidljivost") Integer vidljivost, @RequestParam("fajlcontent") String fajlcontent, Model model, HttpSession session) {
 
-		logger.debug("snimiIliIzmijeniDokument() : {}", id + naziv + vlasnik + vidljivost + xdoc);
+		logger.debug("snimiIliIzmijeniDokument() : {}", id + naziv + vidljivost + xdoc);
 	
 		Dokument dokument=dokumentService.findById(id);
 		dokument.setId(id);
 		dokument.setNaziv(naziv);
-		dokument.setVlasnik(vlasnik);
 		dokument.setVidljivost(vidljivost);
 		if("docx".equals(dokument.getExtenzija())) {
 			InputStream inputStream=replaceText(fajlcontent);
@@ -259,15 +258,14 @@ public class DokumentController {
 	
 
 	@RequestMapping(value = "/editnocontent", method = RequestMethod.POST)
-	public String izmijeniBezSadrzaja(@RequestParam("id") Integer id, @RequestParam("naziv") String naziv, @RequestParam("vlasnik") Integer vlasnik, 
+	public String izmijeniBezSadrzaja(@RequestParam("id") Integer id, @RequestParam("naziv") String naziv, 
 			@RequestParam("vidljivost") Integer vidljivost) {
 
-		logger.debug("snimiIliIzmijeniDokument() : {}", id + naziv + vlasnik + vidljivost);
+		logger.debug("snimiIliIzmijeniDokument() : {}", id + naziv + vidljivost);
 		
 		Dokument dokument=dokumentService.findById(id);
 		dokument.setId(id);
 		dokument.setNaziv(naziv);
-		dokument.setVlasnik(vlasnik);
 		dokument.setVidljivost(vidljivost);
 		
 		dokumentService.saveOrUpdate(dokument);

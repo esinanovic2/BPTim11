@@ -31,19 +31,7 @@
 			<ul class="nav navbar-nav navbar-right">
 				<li class="active"><a href="${urlLogout}">Logout</a></li>
 			</ul>
-			
-			<ul class="nav navbar-nav navbar-right">
-				<li class="active"><a href="${urlUloge}">Uloge</a></li>
-			</ul>
-			
-			<ul class="nav navbar-nav navbar-right">
-				<li class="active"><a href="${urlVidljivosti}">Vidljivosti</a></li>
-			</ul>
-					
-			<ul class="nav navbar-nav navbar-right">
-				<li class="active"><a href="${urlKorisnici}">Korisnici</a></li>
-			</ul>
-			
+						
 			<ul class="nav navbar-nav navbar-right">
 				<li class="active"><a href="${urlDokumenti}">Dokumenti</a></li>
 			</ul>

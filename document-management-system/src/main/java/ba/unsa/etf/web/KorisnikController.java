@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -59,17 +60,23 @@ public class KorisnikController {
 	}
 	
 	@RequestMapping(value = "/korisnici", method = RequestMethod.GET)
-	public String prikaziSveKorisnike(Model model) {
-		List<Korisnik> sviKorisnici = korisnikService.findAll();
-		List<Uloga> sveUloge = new ArrayList<>();
-		for(int i = 0; i< sviKorisnici.size(); i++) {
-			sveUloge.add(ulogaService.findById(sviKorisnici.get(i).getUloga()));
-		}
+	public String prikaziSveKorisnike(Model model,HttpSession session) {
+		logger.debug("prikaziSveKorisnike():", "Sessija "+ session.getAttribute("roleid") );
 		
-		logger.debug("showPrikaziSveKorisnike()");
-		model.addAttribute("korisnici", sviKorisnici);
-		model.addAttribute("uloge", sveUloge);
-		return "korisnici/listakorisnika";
+		if(session.getAttribute("roleid").toString().equals("1")){
+			List<Korisnik> sviKorisnici = korisnikService.findAll();
+			List<Uloga> sveUloge = new ArrayList<>();
+			for(int i = 0; i< sviKorisnici.size(); i++) {
+				sveUloge.add(ulogaService.findById(sviKorisnici.get(i).getUloga()));
+			}
+		
+			logger.debug("showPrikaziSveKorisnike()");
+			model.addAttribute("korisnici", sviKorisnici);
+			model.addAttribute("uloge", sveUloge);
+			return "korisnici/listakorisnika";
+		}
+		return null;	
+		
 	}
 
 	@RequestMapping(value = "/korisnici", method = RequestMethod.POST)

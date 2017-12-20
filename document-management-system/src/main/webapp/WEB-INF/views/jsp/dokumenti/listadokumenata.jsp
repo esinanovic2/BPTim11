@@ -6,7 +6,21 @@
 <!DOCTYPE html>
 <html lang="en">
 
-<jsp:include page="../fragments/header.jsp" />
+<c:choose>
+  <c:when test="${loggedRole==0}">
+	<jsp:include page="../fragments/main_header.jsp" />
+  </c:when>
+  <c:when test="${loggedRole==4}">
+	<jsp:include page="../fragments/headerStudentska.jsp" />
+  </c:when>
+  <c:when test="${loggedRole==3}">
+	<jsp:include page="../fragments/headerStudent.jsp" />
+  </c:when>
+  <c:otherwise>
+	<jsp:include page="../fragments/header.jsp" />
+  </c:otherwise>
+</c:choose>
+
 <spring:url value="/dokumenti/dodaj" var="urlDodajDokument" />
 
 <body>

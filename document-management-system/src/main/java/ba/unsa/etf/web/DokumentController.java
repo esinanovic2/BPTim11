@@ -57,9 +57,10 @@ public class DokumentController {
 	
 	private XWPFDocument xdoc=null;
 	
-	@Autowired
-	DokumentValidator dokumentValidator;
+	String loggedRole = "0";
 	
+	@Autowired
+	DokumentValidator dokumentValidator;	
 	
 	@InitBinder
 	protected void initBinder(WebDataBinder binder) {
@@ -89,12 +90,15 @@ public class DokumentController {
 	}
 	
 	@RequestMapping(value = "/dokumenti", method = RequestMethod.GET)
-	public String prikaziSveDokumente(Model model) {
+	public String prikaziSveDokumente(Model model, HttpSession session) {
 		List<Dokument> sviDokumenti = dokumentService.findAll();
 		List<Korisnik> sviVlasnici = new ArrayList<>();
 		for(int i = 0; i< sviDokumenti.size(); i++) {
 			sviVlasnici.add(korisnikService.findById(sviDokumenti.get(i).getVlasnik()));
 		}
+		
+		loggedRole = String.valueOf(session.getAttribute("roleid"));
+		model.addAttribute("loggedRole", loggedRole);
 
 		model.addAttribute("dokumenti", sviDokumenti);
 		model.addAttribute("vlasnici", sviVlasnici);
@@ -105,7 +109,7 @@ public class DokumentController {
 	public String snimiIliIzmijeniDokument(@ModelAttribute("dokumentForm") @Validated Dokument dokument,
 			BindingResult result, Model model, final RedirectAttributes redirectAttributes, @RequestParam("naziv") String naziv,
 			@RequestParam("vlasnik") Integer vlasnik, @RequestParam("vidljivost") Integer vidljivost, 
-			@RequestParam(value="fajl",required=false) MultipartFile fileUpload) {
+			@RequestParam(value="fajl",required=false) MultipartFile fileUpload, HttpSession session) {
 
 			logger.debug("snimiIliIzmijeniDokument():", naziv + vlasnik + vidljivost + fileUpload.getOriginalFilename());
 		
@@ -118,6 +122,9 @@ public class DokumentController {
 			extenzija=extenzija.substring(extenzija.lastIndexOf(".")+1, extenzija.length());			
 			logger.debug("Extenzija after substring : {}",extenzija);
 			
+			loggedRole = String.valueOf(session.getAttribute("roleid"));
+			model.addAttribute("loggedRole", loggedRole);
+
 		if (result.hasErrors()) {
 			logger.debug("snimi ili izmijeni if has errors");
 			return "dokumenti/dokumentform";
@@ -138,7 +145,7 @@ public class DokumentController {
 	
 	@RequestMapping(value = "/edit", method = RequestMethod.POST)
 	public String izmijeniDokument(@RequestParam("id") Integer id, @RequestParam("naziv") String naziv, @RequestParam("vlasnik") Integer vlasnik, 
-			@RequestParam("vidljivost") Integer vidljivost, @RequestParam("fajlcontent") String fajlcontent) {
+			@RequestParam("vidljivost") Integer vidljivost, @RequestParam("fajlcontent") String fajlcontent, Model model, HttpSession session) {
 
 		logger.debug("snimiIliIzmijeniDokument() : {}", id + naziv + vlasnik + vidljivost + xdoc);
 	
@@ -153,6 +160,9 @@ public class DokumentController {
 		}else if("txt".equals(dokument.getExtenzija()))
 			dokument.contentToInputStream(fajlcontent);
 		
+		loggedRole = String.valueOf(session.getAttribute("roleid"));
+		model.addAttribute("loggedRole", loggedRole);
+
 		dokumentService.saveOrUpdate(dokument);
 			
 		return "redirect:/dokumenti/";
@@ -187,10 +197,11 @@ public class DokumentController {
 	
 	
 	@RequestMapping(value = "/dokumenti/{id}/promijeni", method = RequestMethod.GET)
-	public String prikaziFormuIzmijeniDokument(@PathVariable("id") int id, Model model) {
+	public String prikaziFormuIzmijeniDokument(@PathVariable("id") int id, Model model, HttpSession session) {
 
 		logger.debug("showPromijeniDokumentForm() : {}", id);
-
+		
+	
 		boolean showFileContentForm=false;
 		Dokument dokument = dokumentService.findById(id);
 		String extenzija= dokument.getExtenzija();
@@ -241,6 +252,8 @@ public class DokumentController {
 		
 		model.addAttribute("dokumetContent",documentContent);
 		model.addAttribute("showTextArea",showFileContentForm);			
+		loggedRole = String.valueOf(session.getAttribute("roleid"));
+		model.addAttribute("loggedRole", loggedRole);
 		return "dokumenti/dokumentedit";
 	}
 	
@@ -264,7 +277,7 @@ public class DokumentController {
 	
 	
 	@RequestMapping(value = "/dokumenti/dodaj", method = RequestMethod.GET)
-	public String prikaziFormuDodajDokument(Model model) {
+	public String prikaziFormuDodajDokument(Model model, HttpSession session) {
 
 		logger.debug("showDodajDokumentForm()");
 		List<Vidljivost> listaVidljivosti=vidljivostService.findAll();
@@ -275,11 +288,15 @@ public class DokumentController {
 		model.addAttribute("dokumentForm", dokument);
 		model.addAttribute("vlasnici", listaVlasnika);
 		model.addAttribute("vidljivosti",listaVidljivosti);
+		
+		loggedRole = String.valueOf(session.getAttribute("roleid"));
+		model.addAttribute("loggedRole", loggedRole);
+		
 		return "dokumenti/dokumentform";
 	}
 		
 	@RequestMapping(value = "/dokumenti/{id}/obrisi", method = RequestMethod.POST)
-	public String obrisiDokument(@PathVariable("id") int id, final RedirectAttributes redirectAttributes) {
+	public String obrisiDokument(@PathVariable("id") int id, final RedirectAttributes redirectAttributes, HttpSession session) {
 
 		logger.debug("deleteDokument() : {}", id);
 
@@ -292,7 +309,7 @@ public class DokumentController {
 	}
 	
 	 @RequestMapping(value = "/dokumenti/{id}/prikazi/", method = RequestMethod.GET)
-	 protected String prikaziDokument(@PathVariable("id") int id,HttpServletRequest request, HttpSession httpSession, HttpServletResponse response) {
+	 protected String prikaziDokument(@PathVariable("id") int id,HttpServletRequest request, Model model, HttpSession httpSession, HttpServletResponse response) {
 	     try {
 	    	 Dokument dokument = dokumentService.findById(id);
 	    	 
@@ -302,6 +319,9 @@ public class DokumentController {
 	    	 
 	         byte[] dokumentBytes = IOUtils.toByteArray(dokument.getFajl());  
 	        
+	         loggedRole = String.valueOf(httpSession.getAttribute("roleid"));
+	         model.addAttribute("loggedRole", loggedRole);
+	 		
 	         response.setHeader("Content-Disposition", "inline; filename=\""+dokument.getNaziv()+""+"."+dokument.getExtenzija()+"\"");
 	         response.setContentType(dokument.getContentType());
 	         response.setDateHeader("Expires", -1);
@@ -315,7 +335,7 @@ public class DokumentController {
 	 }
 	
 	@RequestMapping(value = "/dokumenti/{id}", method = RequestMethod.GET)
-	public String prikaziDokument(@PathVariable("id") int id, Model model) {
+	public String prikaziDokument(@PathVariable("id") int id, Model model, HttpSession session) {
 
 		logger.debug("prikaziDokument() id: {}", id);
 
@@ -325,6 +345,9 @@ public class DokumentController {
 			model.addAttribute("msg", "Dokument nije pronadjen");
 		}
 		model.addAttribute("dokument", dokument);
+
+		loggedRole = String.valueOf(session.getAttribute("roleid"));
+		model.addAttribute("loggedRole", loggedRole);
 
 		return "dokumenti/prikazi";
 	}

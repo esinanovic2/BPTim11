@@ -44,15 +44,12 @@
 					<td>${vlasnici[status.index].ime}</td>
 					<td  class="pull-right"><spring:url value="/dokumenti/${dokument.id}/prikazi/"
 							var="dokumentPrikazi" /> <spring:url
-							value="/dokumenti/${dokument.id}" var="dokumentUrl" /> <spring:url
 							value="/dokumenti/${dokument.id}/obrisi" var="obrisiUrl" /> <spring:url
 							value="/dokumenti/${dokument.id}/promijeni" var="promijeniUrl" />
 
 						<button class="btn btn-info"
 							onclick="location.href='${dokumentPrikazi}'">Prikazi</button>
-						<button class="btn btn-info"
-							onclick="location.href='${dokumentUrl}'">Detaljno</button>
-						<button class="btn btn-primary"
+							<button class="btn btn-primary"
 							onclick="location.href='${promijeniUrl}'">Izmijeni</button>
 						<button class="btn btn-danger"
 							onclick="this.disabled=true;post('${obrisiUrl}')">Obrisi</button></td>

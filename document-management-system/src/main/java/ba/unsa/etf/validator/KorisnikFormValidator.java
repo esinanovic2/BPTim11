@@ -29,4 +29,5 @@ public class KorisnikFormValidator implements Validator {
 		ValidationUtils.rejectIfEmptyOrWhitespace(errors, "potvrdisifru","NotEmpty.korisnikForm.potvrdisifru");
 		ValidationUtils.rejectIfEmptyOrWhitespace(errors, "uloga", "NotEmpty.korisnikForm.uloga");
 	}
+	
 }

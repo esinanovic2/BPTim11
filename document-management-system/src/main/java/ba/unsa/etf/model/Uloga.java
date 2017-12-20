@@ -20,4 +20,9 @@ public class Uloga {
 	public boolean isNew() {
 		return (this.id == null);		
 	}
+	
+	@Override
+	public String toString() {
+		return naziv;
+	}
 }

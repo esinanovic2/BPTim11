@@ -24,5 +24,6 @@ public class UlogaFormValidator implements Validator{
 	public void validate(Object target, Errors errors) {
 		ValidationUtils.rejectIfEmptyOrWhitespace(errors, "naziv", "NotEmpty.ulogaForm.naziv");
 	}
+	
 
 }

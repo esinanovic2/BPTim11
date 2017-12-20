@@ -20,6 +20,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
@@ -56,7 +57,7 @@ public class KorisnikController {
 	{
 		this.ulogaService=ulogaService;
 	}
-
+	
 	@RequestMapping(value = "/korisnici", method = RequestMethod.GET)
 	public String prikaziSveKorisnike(Model model) {
 		List<Korisnik> sviKorisnici = korisnikService.findAll();
@@ -72,11 +73,11 @@ public class KorisnikController {
 	}
 
 	@RequestMapping(value = "/korisnici", method = RequestMethod.POST)
-	public String snimiIliIzmijeniKorisnika(@ModelAttribute("korisnikForm") @Validated Korisnik korisnik,
+	public String snimiIliIzmijeniKorisnika(@ModelAttribute("korisnikForm") @Validated Korisnik korisnik, 
+			@RequestParam("uloga") Integer uloga,
 			BindingResult result, Model model, final RedirectAttributes redirectAttributes) {
 
-		logger.debug("snimiIliIzmijeniKorisnika() : {}", korisnik);
-
+		logger.debug("snimiIliIzmijeniKorisnika():", korisnik.getId() + "dddd "+ uloga );
 		if (result.hasErrors()) {
 			return "korisnici/korisnikform";
 		} else {
@@ -88,7 +89,8 @@ public class KorisnikController {
 			}
 			
 			korisnikService.saveOrUpdate(korisnik);
-			
+			logger.debug("snimi ili izmijeni saveor update");
+
 			return "redirect:/korisnici/" + korisnik.getId();
 		}
 
@@ -96,12 +98,15 @@ public class KorisnikController {
 
 	@RequestMapping(value = "/korisnici/dodaj", method = RequestMethod.GET)
 	public String prikaziFormuDodajKorisnika(Model model) {
-
 		logger.debug("showDodajKorisnikaForm()");
+		List<Korisnik> sviKorisnici = korisnikService.findAll();
+		List<Uloga> sveUloge = ulogaService.findAll();
+		
 
 		Korisnik korisnik = new Korisnik();
 		model.addAttribute("korisnikForm", korisnik);
-
+		model.addAttribute("uloge", sveUloge);
+		
 		return "korisnici/korisnikform";
 
 	}
@@ -111,9 +116,12 @@ public class KorisnikController {
 
 		logger.debug("showPromijeniKorisnikaForm() : {}", id);
 
+		List<Uloga> sveUloge = ulogaService.findAll();
+
 		Korisnik korisnik = korisnikService.findById(id);
 		model.addAttribute("korisnikForm", korisnik);
-
+		model.addAttribute("uloge",sveUloge);
+		
 		return "korisnici/korisnikform";
 	}
 
@@ -135,13 +143,20 @@ public class KorisnikController {
 	public String prikaziKorisnika(@PathVariable("id") int id, Model model) {
 
 		logger.debug("prikaziKorisnika() id: {}", id);
-
+	
 		Korisnik korisnik = korisnikService.findById(id);
 		if (korisnik == null) {
 			model.addAttribute("css", "danger");
 			model.addAttribute("msg", "Korisnik nije pronadjen");
 		}
+		logger.debug("prikaziKorisnika() korisnik: {}", korisnik.getKorisnickoIme() + korisnik.getUloga());
+		
+		logger.debug("prikaziKorisnika() aaaaa: {}", ulogaService.findById(korisnik.getUloga()));
+
+//		Uloga uloga = ulogaService.findById(korisnik.getUloga());
+
 		model.addAttribute("korisnik", korisnik);
+//		model.addAttribute("uloga", uloga);
 
 		return "korisnici/prikazi";
 	}

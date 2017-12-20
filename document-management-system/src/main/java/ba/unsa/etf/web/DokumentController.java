@@ -48,6 +48,7 @@ import ba.unsa.etf.service.DokumentService;
 import ba.unsa.etf.service.KorisnikService;
 import ba.unsa.etf.service.VidljivostService;
 import ba.unsa.etf.validator.DokumentValidator;
+import ba.unsa.etf.validator.KorisnikFormValidator;
 
 @Controller
 public class DokumentController {
@@ -59,10 +60,16 @@ public class DokumentController {
 	@Autowired
 	DokumentValidator dokumentValidator;
 	
+	
 	@InitBinder
 	protected void initBinder(WebDataBinder binder) {
 		binder.setValidator(dokumentValidator);
 	}
+	
+//	@InitBinder("vlasnik")
+//	protected void initUserBinder(WebDataBinder binder) {
+//	    binder.setValidator(new KorisnikFormValidator());
+//	}
 	
 	private DokumentService dokumentService;
 	
@@ -101,8 +108,9 @@ public class DokumentController {
 	
 	@RequestMapping(value = "/dokumenti", method = RequestMethod.POST)
 	public String snimiIliIzmijeniDokument(@ModelAttribute("dokumentForm") @Validated Dokument dokument,
-			BindingResult result, Model model, final RedirectAttributes redirectAttributes, @RequestParam("naziv") String naziv, @RequestParam("vlasnik") Integer vlasnik, 
-			@RequestParam("vidljivost") Integer vidljivost, @RequestParam(value="fajl",required=false) MultipartFile fileUpload) {
+			BindingResult result, Model model, final RedirectAttributes redirectAttributes, @RequestParam("naziv") String naziv,
+			@RequestParam("vlasnik") Integer vlasnik, @RequestParam("vidljivost") Integer vidljivost, 
+			@RequestParam(value="fajl",required=false) MultipartFile fileUpload) {
 
 			logger.debug("snimiIliIzmijeniDokument():", naziv + vlasnik + vidljivost + fileUpload.getOriginalFilename());
 		
@@ -214,8 +222,22 @@ public class DokumentController {
 				e.printStackTrace();
 			} 
 		}
-				
+				 
+//		Korisnik vlasnik = korisnikService.findById(dokument.getVlasnik());
 		model.addAttribute("dokumentForm", dokument);
+//		model.addAttribute("vlasnik",vlasnik);
+		
+		Vidljivost prva = vidljivostService.findById(dokument.getVidljivost());
+		List<Vidljivost> sveVidljivosti = vidljivostService.findAll();
+		List<Vidljivost> vidljivosti = new ArrayList<>();
+		vidljivosti.add(prva);
+		
+		for(int i=0; i<sveVidljivosti.size(); i++){
+			if(!(prva).equals(sveVidljivosti.get(i)))
+				vidljivosti.add(sveVidljivosti.get(i));
+		}
+			
+		model.addAttribute("vidljivosti", vidljivosti);
 		
 		if("txt".equals(extenzija)) {
 			documentContent=dokument.getContent();
@@ -257,12 +279,9 @@ public class DokumentController {
 		model.addAttribute("dokumentForm", dokument);
 		model.addAttribute("vlasnici", listaVlasnika);
 		model.addAttribute("vidljivosti",listaVidljivosti);
-		logger.debug("Lista vidljivosti:"+  listaVidljivosti.get(1).getNaziv());
 		return "dokumenti/dokumentform";
 	}
-	
-
-	
+		
 	@RequestMapping(value = "/dokumenti/{id}/obrisi", method = RequestMethod.POST)
 	public String obrisiDokument(@PathVariable("id") int id, final RedirectAttributes redirectAttributes) {
 

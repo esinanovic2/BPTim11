@@ -85,8 +85,10 @@ body {
 			<div class="form-group ${status.error ? 'has-error' : ''}">
 				<label class="col-sm-2 control-label">Uloga</label>
 				<div class="col-sm-10">
-					<form:input path="uloga" type="text" class="form-control" id="uloga" placeholder="uloga" />
-					<form:errors path="uloga" class="control-label" />
+				<form:select path = "uloga">
+                	 	<form:option value = "" label = "Uloge"/>
+                    	<form:options items = "${uloge}" itemValue="id"/>
+                  	</form:select>
 				</div>
 			</div>
 		</spring:bind>

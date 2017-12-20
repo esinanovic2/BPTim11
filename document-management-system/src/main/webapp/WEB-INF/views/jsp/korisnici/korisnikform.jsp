@@ -86,8 +86,7 @@ body {
 				<label class="col-sm-2 control-label">Uloga</label>
 				<div class="col-sm-10">
 				<form:select path = "uloga">
-                	 	<form:option value = "" label = "Uloge"/>
-                    	<form:options items = "${uloge}" itemValue="id"/>
+                      	<form:options items = "${uloge}" itemValue="id"/>
                   	</form:select>
 				</div>
 			</div>

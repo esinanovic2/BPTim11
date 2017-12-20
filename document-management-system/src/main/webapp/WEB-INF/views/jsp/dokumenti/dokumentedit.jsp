@@ -19,7 +19,7 @@
 			<h1>Izmijeni dokument</h1>
 		</c:otherwise>
 	</c:choose>
-	<br />
+	<br/>
 
 
 	<c:choose>
@@ -46,33 +46,21 @@
 			</div>
 		</spring:bind>
 
-	 	<spring:bind path="vlasnik">
-			<div class="form-group ${status.error ? 'has-error' : ''}">
-				<label class="col-sm-2 control-label">Vlasnik</label>
-				<div class="col-sm-10">
-					<form:input path="vlasnik" type="text" class="form-control"
-						id="vlasnik" placeholder="Vlasnik" />
-					<form:errors path="vlasnik" class="control-label" />
-						
-				</div>
+		<div class="form-group ${status.error ? 'has-error' : ''}">
+			<label class="col-sm-2 control-label">Vlasnik</label>
+			<div class="col-sm-10">
+				<div >${vlasnik}</div>
 			</div>
-		</spring:bind>
-
+		</div>
+	
 		<spring:bind path="vidljivost">
 			<div class="form-group ${status.error ? 'has-error' : ''}">
 				<label class="col-sm-2 control-label">Vidljivost</label>
 				<div class="col-sm-10">
 					<form:select path = "vidljivost">
-                	 	<form:option value = "" label = "Vidljivosti"/>
                     	<form:options items = "${vidljivosti}" itemValue="id"/>
                   	</form:select>
 				</div>
-				
-				<!-- <div class="col-sm-10">
-					<form:input path="vidljivost" class="form-control"
-						id="vidljivost" placeholder="Vidljivost" />
-					<form:errors path="vidljivost" class="control-label" />
-				</div> -->
 			</div>
 		</spring:bind>
 

@@ -66,11 +66,6 @@ public class DokumentController {
 		binder.setValidator(dokumentValidator);
 	}
 	
-//	@InitBinder("vlasnik")
-//	protected void initUserBinder(WebDataBinder binder) {
-//	    binder.setValidator(new KorisnikFormValidator());
-//	}
-	
 	private DokumentService dokumentService;
 	
 	@Autowired
@@ -223,9 +218,9 @@ public class DokumentController {
 			} 
 		}
 				 
-//		Korisnik vlasnik = korisnikService.findById(dokument.getVlasnik());
 		model.addAttribute("dokumentForm", dokument);
-//		model.addAttribute("vlasnik",vlasnik);
+		Korisnik vlasnik = korisnikService.findById(dokument.getVlasnik());
+		model.addAttribute("vlasnik",vlasnik.getKorisnickoIme());
 		
 		Vidljivost prva = vidljivostService.findById(dokument.getVidljivost());
 		List<Vidljivost> sveVidljivosti = vidljivostService.findAll();
@@ -249,7 +244,7 @@ public class DokumentController {
 		return "dokumenti/dokumentedit";
 	}
 	
-	
+
 	@RequestMapping(value = "/editnocontent", method = RequestMethod.POST)
 	public String izmijeniBezSadrzaja(@RequestParam("id") Integer id, @RequestParam("naziv") String naziv, @RequestParam("vlasnik") Integer vlasnik, 
 			@RequestParam("vidljivost") Integer vidljivost) {
@@ -275,6 +270,7 @@ public class DokumentController {
 		List<Vidljivost> listaVidljivosti=vidljivostService.findAll();
 		List<Korisnik> listaVlasnika = korisnikService.findAll();
 		
+		//TODO: Samo jedan vlasnik i ne moze se mijenati!!!!!
 		Dokument dokument= new Dokument();
 		model.addAttribute("dokumentForm", dokument);
 		model.addAttribute("vlasnici", listaVlasnika);

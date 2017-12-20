@@ -45,7 +45,7 @@ body {
 
 	<div class="row">
 		<label class="col-sm-2">Uloga</label>
-		<div class="col-sm-10">${korisnik.uloga}</div>
+		<div class="col-sm-10">${uloga}</div>
 	</div>
 </div>
 

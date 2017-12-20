@@ -44,7 +44,6 @@
 			<!-- 		<form:input path="vlasnik" type="text" class="form-control" id="vlasnik" placeholder="Vlasnik" />
 					<form:errors path="vlasnik" class="control-label" /> -->
 					<form:select path = "vlasnik">
-                	 	<form:option value = "" label = "Vlasnik"/>
                     	<form:options items = "${vlasnici}" itemValue="id"/>
                   	</form:select>
 				</div>
@@ -56,7 +55,6 @@
 				<label class="col-sm-2 control-label">Vidljivost</label>
 				<div class="col-sm-10">
 					<form:select path = "vidljivost">
-                	 	<form:option value = "" label = "Vidljivosti"/>
                     	<form:options items = "${vidljivosti}" itemValue="id"/>
                   	</form:select>
 				</div>

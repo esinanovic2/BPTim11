@@ -151,12 +151,12 @@ public class KorisnikController {
 		}
 		logger.debug("prikaziKorisnika() korisnik: {}", korisnik.getKorisnickoIme() + korisnik.getUloga());
 		
-		logger.debug("prikaziKorisnika() aaaaa: {}", ulogaService.findById(korisnik.getUloga()));
+		Uloga uloga = ulogaService.findById(korisnik.getUloga());
 
-//		Uloga uloga = ulogaService.findById(korisnik.getUloga());
-
+		logger.debug("prikaziKorisnika() aaaaa: {}", uloga);
+		
 		model.addAttribute("korisnik", korisnik);
-//		model.addAttribute("uloga", uloga);
+		model.addAttribute("uloga", uloga.getNaziv());
 
 		return "korisnici/prikazi";
 	}

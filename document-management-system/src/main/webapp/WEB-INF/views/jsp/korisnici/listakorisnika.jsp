@@ -43,9 +43,7 @@ body {
 
 			<c:forEach var="korisnik" items="${korisnici}" varStatus = "status">
 				<tr>
-					<td>
-						${korisnik.id}
-					</td>
+					<td>${korisnik.id}</td>
 					<td>${korisnik.ime}</td>
 					<td>${korisnik.prezime}</td>
 					<td>${uloge[status.index].naziv}</td>

@@ -1,6 +1,7 @@
 package ba.unsa.etf.web;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -29,6 +30,8 @@ public class VidljivostController {
 
 	private final Logger logger = LoggerFactory.getLogger(VidljivostController.class);
 	
+	String loggedRole = "0";
+	
 	@Autowired
 	VidljivostValidator vidljivostFormValidator;
 	
@@ -47,10 +50,13 @@ public class VidljivostController {
 	}
 	
 	@RequestMapping(value = "/vidljivosti", method = RequestMethod.GET)
-	public String prikaziSveVidljivosti(Model model) {
+	public String prikaziSveVidljivosti(Model model, HttpSession session) {
 
 		logger.debug("showPrikaziSveVidljivosti()");
 		model.addAttribute("vidljivosti", vidljivostService.findAll());
+
+		loggedRole = String.valueOf(session.getAttribute("roleid"));
+		model.addAttribute("loggedRole", loggedRole);
 		return "vidljivosti/listavidljivosti";
 	}
 	
@@ -76,23 +82,29 @@ public class VidljivostController {
 	}
 	
 	@RequestMapping(value = "/vidljivosti/dodaj", method = RequestMethod.GET)
-	public String prikaziFormuDodajVidljivost(Model model) {
+	public String prikaziFormuDodajVidljivost(Model model, HttpSession session) {
 
 		logger.debug("showDodajVidljivostForm()");
 		
 		Vidljivost vidljivost=new Vidljivost();
 		model.addAttribute("vidljivostForm", vidljivost);
+		
+		loggedRole = String.valueOf(session.getAttribute("roleid"));
+		model.addAttribute("loggedRole", loggedRole);
 
 		return "vidljivosti/vidljivostform";
 	}
 	
 	@RequestMapping(value = "/vidljivosti/{id}/promijeni", method = RequestMethod.GET)
-	public String prikaziFormuIzmijeniVidljivosti(@PathVariable("id") int id, Model model) {
+	public String prikaziFormuIzmijeniVidljivosti(@PathVariable("id") int id, Model model, HttpSession session) {
 
 		logger.debug("showPromijeniVidljivostForm() : {}", id);
 		
 		Vidljivost vidljivost = vidljivostService.findById(id);
 		model.addAttribute("vidljivostForm", vidljivost);
+		
+		loggedRole = String.valueOf(session.getAttribute("roleid"));
+		model.addAttribute("loggedRole", loggedRole);
 
 		return "vidljivosti/vidljivostform";
 	}
@@ -111,7 +123,7 @@ public class VidljivostController {
 	}
 	
 	@RequestMapping(value = "/vidljivosti/{id}", method = RequestMethod.GET)
-	public String prikaziKorisnika(@PathVariable("id") int id, Model model) {
+	public String prikaziKorisnika(@PathVariable("id") int id, Model model, HttpSession session) {
 
 		logger.debug("prikaziVidljivost() id: {}", id);
 
@@ -121,6 +133,8 @@ public class VidljivostController {
 			model.addAttribute("msg", "Vidljivost nije pronadjena");
 		}
 		model.addAttribute("vidljivost", vidljivost);
+		loggedRole = String.valueOf(session.getAttribute("roleid"));
+		model.addAttribute("loggedRole", loggedRole);
 
 		return "vidljivosti/prikazi";
 	}

@@ -12,12 +12,9 @@
 </head>
 
 <spring:url value="/" var="urlHome" />
-<spring:url value="/korisnici" var="urlKorisnici" />
+<spring:url value="/korisnici/" var="urlKorisnici" />
 <spring:url value="/navigation/login" var="urlLogin" />
 <spring:url value="/navigation/logout" var="urlLogout" />
-<spring:url value="/uloge" var="urlUloge" />
-<spring:url value="/vidljivosti" var="urlVidljivosti" />
-
 <spring:url value="/dokumenti" var="urlDokumenti" />
 
 
@@ -34,6 +31,10 @@
 						
 			<ul class="nav navbar-nav navbar-right">
 				<li class="active"><a href="${urlDokumenti}">Dokumenti</a></li>
+			</ul>
+			
+			<ul class="nav navbar-nav navbar-right">
+				<li class="active"><a href="${urlKorisnici}">Podaci</a></li>
 			</ul>
 		</div>
 	</div>

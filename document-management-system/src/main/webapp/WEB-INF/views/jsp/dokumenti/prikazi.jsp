@@ -49,7 +49,7 @@
 
 	<div class="row">
 		<label class="col-sm-2">Vlasnik</label>
-		<div class="col-sm-10">${dokument.vlasnik}</div>
+		<div class="col-sm-10">${vlasnik}</div>
 	</div>
 	
 

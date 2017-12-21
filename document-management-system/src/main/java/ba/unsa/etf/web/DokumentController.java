@@ -344,6 +344,9 @@ public class DokumentController {
 		}
 		model.addAttribute("dokument", dokument);
 
+		Korisnik vlasnik = korisnikService.findById(dokument.getVlasnik());
+		model.addAttribute("vlasnik",vlasnik.getKorisnickoIme());
+		
 		loggedRole = String.valueOf(session.getAttribute("roleid"));
 		model.addAttribute("loggedRole", loggedRole);
 

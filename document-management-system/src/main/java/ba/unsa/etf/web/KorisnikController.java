@@ -37,6 +37,8 @@ import ba.unsa.etf.validator.KorisnikFormValidator;
 public class KorisnikController {
 	private final Logger logger = LoggerFactory.getLogger(KorisnikController.class);
 
+	String loggedRole = "0";
+	
 	@Autowired
 	KorisnikFormValidator korisnikFormValidator;
 	
@@ -54,16 +56,21 @@ public class KorisnikController {
 	
 	private UlogaService ulogaService;
 	@Autowired
-	public void setUlogaService (UlogaService ulogaService)
-	{
+	public void setUlogaService (UlogaService ulogaService){
 		this.ulogaService=ulogaService;
 	}
 	
 	@RequestMapping(value = "/korisnici", method = RequestMethod.GET)
-	public String prikaziSveKorisnike(Model model,HttpSession session) {
-		logger.debug("prikaziSveKorisnike():", "Sessija "+ session.getAttribute("roleid") );
+	public String prikaziSveKorisnike(Model model, HttpSession session) {
+		logger.debug("prikaziSveKorisnike(): " +String.valueOf(session.getAttribute("roleid")));
 		
-		if(session.getAttribute("roleid").toString().equals("1")){
+		if(session.getAttribute("roleid").toString().equals("3")){
+			logger.debug("ELSE" + "korisnici/"+ String.valueOf(session.getAttribute("userid")) +"/promijeni");
+
+			String redirect = "redirect:/korisnici/"+ String.valueOf(session.getAttribute("userid")) +"/promijeni";
+			return redirect;
+		}
+		else if(!session.getAttribute("roleid").toString().equals("0")){
 			List<Korisnik> sviKorisnici = korisnikService.findAll();
 			List<Uloga> sveUloge = new ArrayList<>();
 			for(int i = 0; i< sviKorisnici.size(); i++) {
@@ -72,9 +79,14 @@ public class KorisnikController {
 		
 			logger.debug("showPrikaziSveKorisnike()");
 			model.addAttribute("korisnici", sviKorisnici);
+			
+			loggedRole = String.valueOf(session.getAttribute("roleid"));
+			model.addAttribute("loggedRole", loggedRole);
+		
 			model.addAttribute("uloge", sveUloge);
 			return "korisnici/listakorisnika";
 		}
+			
 		return null;	
 		
 	}
@@ -82,9 +94,12 @@ public class KorisnikController {
 	@RequestMapping(value = "/korisnici", method = RequestMethod.POST)
 	public String snimiIliIzmijeniKorisnika(@ModelAttribute("korisnikForm") @Validated Korisnik korisnik, 
 			@RequestParam("uloga") Integer uloga,
-			BindingResult result, Model model, final RedirectAttributes redirectAttributes) {
-
+			BindingResult result, Model model, final RedirectAttributes redirectAttributes, HttpSession session) {
+		if(Integer.valueOf(String.valueOf(session.getAttribute("userid"))) == 3){
+			logger.debug("ULOGAAA():" );
+		}
 		logger.debug("snimiIliIzmijeniKorisnika():", korisnik.getId() + "dddd "+ uloga );
+	
 		if (result.hasErrors()) {
 			return "korisnici/korisnikform";
 		} else {
@@ -98,38 +113,65 @@ public class KorisnikController {
 			korisnikService.saveOrUpdate(korisnik);
 			logger.debug("snimi ili izmijeni saveor update");
 
+			loggedRole = String.valueOf(session.getAttribute("roleid"));
+			model.addAttribute("loggedRole", loggedRole);
+			
 			return "redirect:/korisnici/" + korisnik.getId();
 		}
 
 	}
+	
 
 	@RequestMapping(value = "/korisnici/dodaj", method = RequestMethod.GET)
-	public String prikaziFormuDodajKorisnika(Model model) {
+	public String prikaziFormuDodajKorisnika(Model model, HttpSession session) {
 		logger.debug("showDodajKorisnikaForm()");
 		List<Korisnik> sviKorisnici = korisnikService.findAll();
 		List<Uloga> sveUloge = ulogaService.findAll();
 		
-
 		Korisnik korisnik = new Korisnik();
 		model.addAttribute("korisnikForm", korisnik);
 		model.addAttribute("uloge", sveUloge);
+		loggedRole = String.valueOf(session.getAttribute("roleid"));
+		model.addAttribute("loggedRole", loggedRole);
+		
 		
 		return "korisnici/korisnikform";
 
 	}
 
 	@RequestMapping(value = "/korisnici/{id}/promijeni", method = RequestMethod.GET)
-	public String prikaziFormuIzmijeniKorisnika(@PathVariable("id") int id, Model model) {
+	public String prikaziFormuIzmijeniKorisnika(@PathVariable("id") int id, Model model, HttpSession session) {
 
 		logger.debug("showPromijeniKorisnikaForm() : {}", id);
 
-		List<Uloga> sveUloge = ulogaService.findAll();
-
-		Korisnik korisnik = korisnikService.findById(id);
-		model.addAttribute("korisnikForm", korisnik);
-		model.addAttribute("uloge",sveUloge);
+		if(session.getAttribute("roleid").toString().equals("3")){
+	
+			Korisnik korisnik = korisnikService.findById(Integer.valueOf(String.valueOf(session.getAttribute("userid"))));
+			model.addAttribute("korisnikForm", korisnik);
+			
+			List<Uloga> sveUloge = ulogaService.findAll();
+			Uloga uloga = new Uloga();
+			for(int i= 0; i<sveUloge.size(); i++){
+				if(sveUloge.get(i).getId() == (korisnik.getUloga())){
+						uloga = sveUloge.get(i);	
+				}
+			}
+				
+			model.addAttribute("uloga",uloga.getId());
+			
+			loggedRole = String.valueOf(session.getAttribute("roleid"));
+			model.addAttribute("loggedRole", loggedRole);
+		}
+		else{  
+			List<Uloga> sveUloge = ulogaService.findAll();
+			Korisnik korisnik = korisnikService.findById(id);
+			model.addAttribute("korisnikForm", korisnik);
+			model.addAttribute("uloge",sveUloge);
+			loggedRole = String.valueOf(session.getAttribute("roleid"));
+			model.addAttribute("loggedRole", loggedRole);
 		
-		return "korisnici/korisnikform";
+		}	
+		return "korisnici/korisnikform";		
 	}
 
 
@@ -147,7 +189,7 @@ public class KorisnikController {
 	}
 
 	@RequestMapping(value = "/korisnici/{id}", method = RequestMethod.GET)
-	public String prikaziKorisnika(@PathVariable("id") int id, Model model) {
+	public String prikaziKorisnika(@PathVariable("id") int id, Model model, HttpSession session) {
 
 		logger.debug("prikaziKorisnika() id: {}", id);
 	
@@ -162,6 +204,8 @@ public class KorisnikController {
 
 		logger.debug("prikaziKorisnika() aaaaa: {}", uloga);
 		
+		loggedRole = String.valueOf(session.getAttribute("roleid"));
+		model.addAttribute("loggedRole", loggedRole);
 		model.addAttribute("korisnik", korisnik);
 		model.addAttribute("uloga", uloga.getNaziv());
 

@@ -36,7 +36,6 @@ public class MainPageController {
 	
 	private String loginAccess="false";
 	
-	//Kao u bazi 
 	private String loggedRole = "0";
 	
 	private KorisnikService korisnikService;
@@ -48,21 +47,27 @@ public class MainPageController {
 	
 	@RequestMapping("/")
 	public String main(Model model) {
-		return "redirect:/navigation/login";
+		return "redirect:/navigation";
 	}
 	
-//	@RequestMapping(value = "/navigation", method = RequestMethod.GET)
-//	public String wellcomePage(Model model) {
-//		
-//		model.addAttribute("loginAcces", loginAccess);
-//		return "redirect:navigation/login";
-//	}
+	@RequestMapping(value = "/navigation", method = RequestMethod.GET)
+	public String wellcomePage(Model model, HttpSession session) {
+		if(String.valueOf(session.getAttribute("userid")).equals("null")){
+			return "redirect:/login";
+		}
+		else{
+			model.addAttribute("loginAcces", loginAccess);
+			model.addAttribute("msg", "aaaaa");
+			return "redirect:navigation/loginsuccess";
+		}
+	}
 		
 	@RequestMapping(value ="/navigation/login", method = RequestMethod.GET)
-	public String loginPageGet(Model model) {
+	public String loginPageGet(Model model, HttpSession session) {
 		
 		loginAccess="false";
 		loggedRole = "0";
+		session.invalidate();
 		Login login = new Login();
 		
 		model.addAttribute("loginForm", login);
@@ -70,10 +75,12 @@ public class MainPageController {
 	}
 	
 	@RequestMapping(value = "navigation/logout", method = RequestMethod.GET)
-	public String logout(Model model) {
+	public String logout(Model model,HttpSession session) {
 		
 		loginAccess="false";
 		loggedRole = "0";
+		session.invalidate();
+		
 		model.addAttribute("loginAcces", loginAccess);
 		
 		return "redirect:/navigation/login";
@@ -99,9 +106,6 @@ public class MainPageController {
 				
 				session.setAttribute("userid", korisnik.getId());
 				session.setAttribute("username", korisnik.getKorisnickoIme());
-				session.setAttribute("password", korisnik.getSifra());
-				session.setAttribute("name", korisnik.getIme());
-				session.setAttribute("lastname", korisnik.getPrezime());
 				session.setAttribute("roleid", korisnik.getUloga());
 			}
 			else {

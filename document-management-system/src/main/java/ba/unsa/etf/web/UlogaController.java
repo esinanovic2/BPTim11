@@ -1,6 +1,7 @@
 package ba.unsa.etf.web;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -28,6 +29,8 @@ import ba.unsa.etf.validator.UlogaFormValidator;
 public class UlogaController {
 	private final Logger logger = LoggerFactory.getLogger(UlogaController.class);
 
+	String loggedRole = "0";
+	
 	@Autowired
 	UlogaFormValidator ulogaFormValidator;
 	
@@ -44,10 +47,13 @@ public class UlogaController {
 	}
 
 	@RequestMapping(value = "/uloge", method = RequestMethod.GET)
-	public String prikaziSveUloge(Model model) {
+	public String prikaziSveUloge(Model model, HttpSession session) {
 
 		logger.debug("showPrikaziSveUloge()");
 		model.addAttribute("uloge", ulogaService.findAll());
+
+		loggedRole = String.valueOf(session.getAttribute("roleid"));
+		model.addAttribute("loggedRole", loggedRole);
 		return "uloge/listauloga";
 	}
 
@@ -66,7 +72,7 @@ public class UlogaController {
 			}else{
 				redirectAttributes.addFlashAttribute("msg", "Uloga uspjesno izmjenjena!");
 			}
-			
+				
 			ulogaService.saveOrUpdate(uloga);
 			
 			return "redirect:/uloge/" + uloga.getId();
@@ -74,24 +80,31 @@ public class UlogaController {
 	}
 
 	@RequestMapping(value = "/uloge/dodaj", method = RequestMethod.GET)
-	public String prikaziFormuDodajUlogu(Model model) {
+	public String prikaziFormuDodajUlogu(Model model, HttpSession session) {
 
 		logger.debug("showDodajUloguForm()");
 
 		Uloga uloga = new Uloga();
 		model.addAttribute("ulogaForm", uloga);
 
+		loggedRole = String.valueOf(session.getAttribute("roleid"));
+		model.addAttribute("loggedRole", loggedRole);
+
 		return "uloge/ulogaform";
 
 	}
 
 	@RequestMapping(value = "/uloge/{id}/promijeni", method = RequestMethod.GET)
-	public String prikaziFormuIzmijeniUlogu(@PathVariable("id") int id, Model model) {
+	public String prikaziFormuIzmijeniUlogu(@PathVariable("id") int id, Model model, HttpSession session) {
 
 		logger.debug("showPromijeniUloguForm() : {}", id);
 
 		Uloga uloga = ulogaService.findById(id);
 		model.addAttribute("ulogaForm", uloga);
+		
+
+		loggedRole = String.valueOf(session.getAttribute("roleid"));
+		model.addAttribute("loggedRole", loggedRole);
 
 		return "uloge/ulogaform";
 	}
@@ -111,7 +124,7 @@ public class UlogaController {
 	}
 
 	@RequestMapping(value = "/uloge/{id}", method = RequestMethod.GET)
-	public String prikaziUlogu(@PathVariable("id") int id, Model model) {
+	public String prikaziUlogu(@PathVariable("id") int id, Model model, HttpSession session) {
 
 		logger.debug("prikaziUlogu() id: {}", id);
 
@@ -121,6 +134,8 @@ public class UlogaController {
 			model.addAttribute("msg", "Uloga nije pronadjena");
 		}
 		model.addAttribute("uloga", uloga);
+		loggedRole = String.valueOf(session.getAttribute("roleid"));
+		model.addAttribute("loggedRole", loggedRole);
 
 		return "uloge/prikazi";
 	}

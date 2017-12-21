@@ -22,7 +22,6 @@
   </c:otherwise>
 </c:choose>
 
-
 <div class="container">
 
 	<c:choose>
@@ -34,7 +33,6 @@
 		</c:otherwise>
 	</c:choose>
 	<br/>
-
 
 	<c:choose>
 		<c:when test="${showTextArea}">

@@ -13,7 +13,10 @@ body {
 	background-image: url('http://crunchify.com/bg.png');
 }
 </style>
-<body>
+
+<c:choose>
+  <c:when test="${loggedRole==0}">
+	<body>
 
 	<div class="container">
 		<c:if test="${not empty msg}">
@@ -68,4 +71,35 @@ body {
 	<jsp:include page="../fragments/footer.jsp" />
 
 </body>
+  </c:when>
+  <c:otherwise>
+  <body>
+
+	<div class="container">
+		<c:if test="${not empty msg}">
+			<div class="alert alert-${css} alert-dismissible" role="alert">
+				<button type="button" class="close" data-dismiss="alert" aria-label="Close">
+					<span aria-hidden="true">&times;</span>
+				</button>
+				<h1>
+					Dobrodosli u DMS: <strong class="text-success">${msg2}</strong> 
+				</h1>
+				<br/>
+				<h1>
+					Vase korisnicko ime: <strong class="text-success">${msg}</strong> 
+				</h1>
+			</div>
+		</c:if>
+	</div>
+	<jsp:include page="../fragments/footer.jsp" />
+
+</body>
+	
+	
+  </c:otherwise>
+</c:choose>
+
+
+
+
 </html>

@@ -46,37 +46,77 @@ public class MainPageController {
 	}
 	
 	@RequestMapping("/")
-	public String main(Model model) {
-		return "redirect:/navigation";
+	public String main(Model model, HttpSession session) {
+		if(String.valueOf(session.getAttribute("userid")).equals("null")){
+			logger.debug("PROBA NULL SESSION");
+			return "redirect:/navigation";
+		}
+		else{
+			model.addAttribute("loggedRole", String.valueOf(session.getAttribute("roleid")));
+			model.addAttribute("loginAcces", loginAccess);
+			model.addAttribute("msg", String.valueOf(session.getAttribute("username")));
+			model.addAttribute("msg2", String.valueOf(session.getAttribute("ime"))+ " " + String.valueOf(session.getAttribute("prezime")));
+			logger.debug("PROBA IMA SESSION");
+			return "/navigation/loginsuccess";
+		}
+//		return "redirect:/navigation";
 	}
 	
 	@RequestMapping(value = "/navigation", method = RequestMethod.GET)
 	public String wellcomePage(Model model, HttpSession session) {
+		logger.debug("wellcomePage");
 		if(String.valueOf(session.getAttribute("userid")).equals("null")){
-			return "redirect:/login";
+			logger.debug("PROBA NADODAJ /LOGIN");
+
+			return "redirect:/navigation/login";
 		}
 		else{
 			model.addAttribute("loginAcces", loginAccess);
-			model.addAttribute("msg", "aaaaa");
-			return "redirect:navigation/loginsuccess";
+			model.addAttribute("msg", String.valueOf(session.getAttribute("username")));
+			model.addAttribute("msg2", String.valueOf(session.getAttribute("ime"))+ " " + String.valueOf(session.getAttribute("prezime")));
+			
+			logger.debug("PROBA NADODAJ /LOGINSUCCESS");
+
+			return "redirect:/navigation/login";
 		}
 	}
 		
 	@RequestMapping(value ="/navigation/login", method = RequestMethod.GET)
 	public String loginPageGet(Model model, HttpSession session) {
+		logger.debug("loginPageGet");
+		if(loginAccess.equals("false")){
+			loggedRole = "0";
+			session.invalidate();
+			model.addAttribute("loggedRole", loggedRole);
+			model.addAttribute("loginAcces", loginAccess);
+			Login login = new Login();
+
+			model.addAttribute("loginForm", login);
 		
-		loginAccess="false";
-		loggedRole = "0";
-		session.invalidate();
-		Login login = new Login();
+		}
+		else{
+			model.addAttribute("loggedRole", String.valueOf(session.getAttribute("roleid")));			
+			model.addAttribute("loginAcces", loginAccess);
+			model.addAttribute("msg", String.valueOf(session.getAttribute("username")));
+			model.addAttribute("msg2", String.valueOf(session.getAttribute("ime"))+ " " + String.valueOf(session.getAttribute("prezime")));	
+
+		}
 		
-		model.addAttribute("loginForm", login);
+		
+//		loginAccess="false";
+//		loggedRole = "0";
+//		session.invalidate();
+//		model.addAttribute("loginAcces", loginAccess);
+//		Login login = new Login();
+//		
+//		model.addAttribute("loginForm", login);
 		return "navigation/login";
 	}
 	
 	@RequestMapping(value = "navigation/logout", method = RequestMethod.GET)
 	public String logout(Model model,HttpSession session) {
-		
+		logger.debug("logout");
+
 		loginAccess="false";
 		loggedRole = "0";
 		session.invalidate();
@@ -90,7 +130,8 @@ public class MainPageController {
 	@RequestMapping(value ="/navigation/login", method = RequestMethod.POST)
 	public String loginPagePost(@ModelAttribute("loginForm")@Validated Login login, BindingResult result, Model model,
 		 HttpSession session) {
-		
+		logger.debug("loginPagePost");
+
 		logger.debug("login() : {}", login.getKorisnickoIme() + login.getSifra());
 		
 		Korisnik korisnik=null;
@@ -105,6 +146,8 @@ public class MainPageController {
 				loggedRole = String.valueOf(korisnik.getUloga());
 				
 				session.setAttribute("userid", korisnik.getId());
+				session.setAttribute("ime", korisnik.getIme());
+				session.setAttribute("prezime", korisnik.getPrezime());
 				session.setAttribute("username", korisnik.getKorisnickoIme());
 				session.setAttribute("roleid", korisnik.getUloga());
 			}
@@ -112,6 +155,7 @@ public class MainPageController {
 				model.addAttribute("loginError","Pogresna sifra ili korisnicko ime");
 				return "navigation/login";
 			}
+			model.addAttribute("msg2", String.valueOf(session.getAttribute("ime"))+ " " + String.valueOf(session.getAttribute("prezime")));
 			model.addAttribute("msg", korisnik.getKorisnickoIme());
 			model.addAttribute("loginAcces", loginAccess);		
 			model.addAttribute("loggedRole", loggedRole);

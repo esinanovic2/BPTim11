@@ -33,8 +33,12 @@ body {
 				<button type="button" class="close" data-dismiss="alert" aria-label="Close">
 					<span aria-hidden="true">&times;</span>
 				</button>
+					<h1>
+					Dobrodosli u DMS: <strong class="text-success">${msg2}</strong> 
+				</h1>
+				<br/>
 				<h1>
-					Dobrodosli u DMS: <strong class="text-success">${msg}</strong> 
+					Vase korisnicko ime: <strong class="text-success">${msg}</strong> 
 				</h1>
 			</div>
 		</c:if>

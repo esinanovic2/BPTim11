@@ -48,7 +48,6 @@ public class MainPageController {
 	@RequestMapping("/")
 	public String main(Model model, HttpSession session) {
 		if(String.valueOf(session.getAttribute("userid")).equals("null")){
-			logger.debug("PROBA NULL SESSION");
 			return "redirect:/navigation";
 		}
 		else{
@@ -56,7 +55,6 @@ public class MainPageController {
 			model.addAttribute("loginAcces", loginAccess);
 			model.addAttribute("msg", String.valueOf(session.getAttribute("username")));
 			model.addAttribute("msg2", String.valueOf(session.getAttribute("ime"))+ " " + String.valueOf(session.getAttribute("prezime")));
-			logger.debug("PROBA IMA SESSION");
 			return "/navigation/loginsuccess";
 		}
 //		return "redirect:/navigation";
@@ -66,8 +64,6 @@ public class MainPageController {
 	public String wellcomePage(Model model, HttpSession session) {
 		logger.debug("wellcomePage");
 		if(String.valueOf(session.getAttribute("userid")).equals("null")){
-			logger.debug("PROBA NADODAJ /LOGIN");
-
 			return "redirect:/navigation/login";
 		}
 		else{
@@ -75,8 +71,6 @@ public class MainPageController {
 			model.addAttribute("msg", String.valueOf(session.getAttribute("username")));
 			model.addAttribute("msg2", String.valueOf(session.getAttribute("ime"))+ " " + String.valueOf(session.getAttribute("prezime")));
 			
-			logger.debug("PROBA NADODAJ /LOGINSUCCESS");
-
 			return "redirect:/navigation/login";
 		}
 	}
@@ -101,15 +95,6 @@ public class MainPageController {
 			model.addAttribute("msg2", String.valueOf(session.getAttribute("ime"))+ " " + String.valueOf(session.getAttribute("prezime")));	
 
 		}
-		
-		
-//		loginAccess="false";
-//		loggedRole = "0";
-//		session.invalidate();
-//		model.addAttribute("loginAcces", loginAccess);
-//		Login login = new Login();
-//		
-//		model.addAttribute("loginForm", login);
 		return "navigation/login";
 	}
 	

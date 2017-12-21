@@ -91,20 +91,46 @@ public class DokumentController {
 	
 	@RequestMapping(value = "/dokumenti", method = RequestMethod.GET)
 	public String prikaziSveDokumente(Model model, HttpSession session) {
-		List<Dokument> sviDokumenti = dokumentService.findAll();
+		loggedRole = String.valueOf(session.getAttribute("roleid"));
+		
+		List<Dokument> sviDokumenti = new ArrayList<>();
+		sviDokumenti = dokumentService.findAll();
+
+		if(loggedRole.equals("3") || loggedRole.equals("4")){
+			String loggedID = String.valueOf(session.getAttribute("userid"));
+			sviDokumenti = prikaziDokumenteVlasnikaIPrivilegije(loggedRole,loggedID,sviDokumenti);
+		}
+		
 		List<Korisnik> sviVlasnici = new ArrayList<>();
 		for(int i = 0; i< sviDokumenti.size(); i++) {
 			sviVlasnici.add(korisnikService.findById(sviDokumenti.get(i).getVlasnik()));
 		}
 		
-		loggedRole = String.valueOf(session.getAttribute("roleid"));
 		model.addAttribute("loggedRole", loggedRole);
-
 		model.addAttribute("dokumenti", sviDokumenti);
 		model.addAttribute("vlasnici", sviVlasnici);
 		return "dokumenti/listadokumenata";
 	}
 	
+	private List<Dokument> prikaziDokumenteVlasnikaIPrivilegije(String uloga, String ID, List<Dokument> sviDokumenti) {
+		List<Dokument> noviDokumenti = new ArrayList<>();
+		//ako je uloga 4 onda moze vidjeti i vlasnike 3
+		for(int i=0; i<sviDokumenti.size(); i++){
+			//Vlasnici dokumenta prema privilegiji
+			if(ID.equals(sviDokumenti.get(i).getVlasnik().toString())){
+				noviDokumenti.add(sviDokumenti.get(i));
+			}
+			if(uloga.equals("4")){//ako je uloga 4 onda moze vidjeti i vlasnike 3
+				//Vlasnike ciji je ID ULOGE 3
+				String ulogaVlasnika = String.valueOf(korisnikService.findById(sviDokumenti.get(i).getVlasnik()).getUloga());
+				if(ulogaVlasnika.equals("3")){
+					noviDokumenti.add(sviDokumenti.get(i));
+				}
+			}	
+		}
+		return noviDokumenti;
+	}
+
 	@RequestMapping(value = "/dokumenti", method = RequestMethod.POST)
 	public String snimiIliIzmijeniDokument(@ModelAttribute("dokumentForm") @Validated Dokument dokument,
 			BindingResult result, Model model, final RedirectAttributes redirectAttributes, @RequestParam("naziv") String naziv,

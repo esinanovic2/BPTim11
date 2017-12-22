@@ -249,18 +249,23 @@ public class KorisnikController {
 	}
 	
 	 @RequestMapping(value = "/korisnici/{id}/dokumenti/", method = RequestMethod.GET)
-	 protected String prikaziDokument(@PathVariable("id") int id,HttpServletRequest request, Model model, HttpSession httpSession, HttpServletResponse response) {
+	 protected ModelAndView prikaziDokument(@PathVariable("id") int id,HttpServletRequest request, Model model, HttpSession session, HttpServletResponse response) {
 	     try {	 
 	    	 logger.debug("prikaziDokument korisnika " + korisnikService.findById(id));
-	    	 
-	    	 // TODO Otvoriti listu dokumenata tog korisnika
-	      
-	    	 
-	        
-	         loggedRole = String.valueOf(httpSession.getAttribute("roleid"));
-	         model.addAttribute("loggedRole", loggedRole);
-	 		
-	         
+	    	 loggedRole = String.valueOf(session.getAttribute("roleid"));
+	    	 if("0".equals(loggedRole) || "3".equals(loggedRole)){
+	    		 //
+	    		 return new ModelAndView("forward:/dokumenti");
+	    	 }
+	    	 if("4".equals(loggedRole)){
+	    		 //TODO NE moze admine da vidi
+	    		 if(String.valueOf(korisnikService.findById(id).getUloga()).equals("1")){
+	    			 session.setAttribute("docUserID",  "null");
+	    			 return new ModelAndView("forward:/dokumenti");
+	    		 }
+	    	 session.setAttribute("docUserID",  String.valueOf(id));
+	         return new ModelAndView("forward:/dokumenti");
+	    	 }
 	     } catch (Exception ioe) {
 	     } finally {
 	     }

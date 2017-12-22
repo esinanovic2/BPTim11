@@ -6,6 +6,11 @@
 
 <!DOCTYPE html>
 <html lang="en">
+<style type="text/css">
+body {
+	background-image: url('http://crunchify.com/bg.png');
+}
+</style>
 <c:choose>
   <c:when test="${loggedRole==0}">
 	<jsp:include page="../fragments/main_header.jsp" />

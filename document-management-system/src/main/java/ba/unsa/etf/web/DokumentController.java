@@ -2,8 +2,6 @@ package ba.unsa.etf.web;
 
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
-import java.io.File;
-import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
@@ -48,7 +46,6 @@ import ba.unsa.etf.service.DokumentService;
 import ba.unsa.etf.service.KorisnikService;
 import ba.unsa.etf.service.VidljivostService;
 import ba.unsa.etf.validator.DokumentValidator;
-import ba.unsa.etf.validator.KorisnikFormValidator;
 
 @Controller
 public class DokumentController {
@@ -91,16 +88,36 @@ public class DokumentController {
 	
 	@RequestMapping(value = "/dokumenti", method = RequestMethod.GET)
 	public String prikaziSveDokumente(Model model, HttpSession session) {
+		logger.debug("prikaziSveDokumente");
 		loggedRole = String.valueOf(session.getAttribute("roleid"));
 		
 		List<Dokument> sviDokumenti = new ArrayList<>();
 		sviDokumenti = dokumentService.findAll();
+		String loggedID = String.valueOf(session.getAttribute("userid"));
 
-		if(loggedRole.equals("3") || loggedRole.equals("4")){
-			String loggedID = String.valueOf(session.getAttribute("userid"));
+		if(loggedRole.equals("3")){
 			sviDokumenti = prikaziDokumenteVlasnikaIPrivilegije(loggedRole,loggedID,sviDokumenti);
 		}
-		
+		else if(loggedRole.equals("4")){
+			//ako je sam on. ako je poslao id.
+			String userID = String.valueOf(session.getAttribute("docUserID"));
+						
+			logger.debug("prikaziSveDokumente STUDENTSKA ");
+			if("null".equals(userID)){
+				sviDokumenti = prikaziDokumenteVlasnikaIPrivilegije(loggedRole,loggedID,sviDokumenti);				
+			}
+			else if(String.valueOf(korisnikService.findById(Integer.valueOf(userID)).getUloga()).equals("1")){
+				//Admin nono
+				sviDokumenti = prikaziDokumenteVlasnikaIPrivilegije("3",userID,sviDokumenti);
+			}
+			else {
+				//Pokazi od tog korisnika
+				loggedRole = "43";
+				session.setAttribute("docUserID",  "null");
+				sviDokumenti = prikaziDokumenteVlasnikaIPrivilegije("3",userID,sviDokumenti);				
+			}
+		}
+
 		List<Korisnik> sviVlasnici = new ArrayList<>();
 		for(int i = 0; i< sviDokumenti.size(); i++) {
 			sviVlasnici.add(korisnikService.findById(sviDokumenti.get(i).getVlasnik()));
@@ -121,13 +138,13 @@ public class DokumentController {
 			if(ID.equals(sviDokumenti.get(i).getVlasnik().toString())){
 				noviDokumenti.add(sviDokumenti.get(i));
 			}
-			if(uloga.equals("4")){//ako je uloga 4 onda moze vidjeti i vlasnike 3
-				//Vlasnike ciji je ID ULOGE 3
-				String ulogaVlasnika = String.valueOf(korisnikService.findById(sviDokumenti.get(i).getVlasnik()).getUloga());
-				if(ulogaVlasnika.equals("3")){
-					noviDokumenti.add(sviDokumenti.get(i));
-				}
-			}	
+//			if(uloga.equals("4")){//ako je uloga 4 onda moze vidjeti i vlasnike 3
+//				//Vlasnike ciji je ID ULOGE 3
+//				String ulogaVlasnika = String.valueOf(korisnikService.findById(sviDokumenti.get(i).getVlasnik()).getUloga());
+//				if(ulogaVlasnika.equals("3")){
+//					noviDokumenti.add(sviDokumenti.get(i));
+//				}
+//			}	
 		}
 		return noviDokumenti;
 	}

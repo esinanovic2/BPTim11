@@ -17,5 +17,7 @@ public interface DokumentDao {
 	void update(Dokument dokument);
 
 	void delete(Integer id);
+
+	List<Dokument> findDocumentsByUserId(Integer id);
 	
 }

@@ -87,8 +87,11 @@ public class KorisnikController {
 			
 			if(loggedRole.equals("4")){
 				logger.debug("Studentska(): " +String.valueOf(session.getAttribute("roleid")));
-
-				sviKorisnici = prikaziStudenteISebe(sviKorisnici);
+			
+//				sviKorisnici = prikaziStudenteISebe(sviKorisnici);
+				sviKorisnici = korisnikService.findUsersWithRole(Integer.valueOf(4));
+				List<Korisnik> studenti = korisnikService.findUsersWithRole(Integer.valueOf(3));
+				sviKorisnici.addAll(studenti);
 			}
 		
 			List<Uloga> sveUloge = new ArrayList<>();
@@ -113,16 +116,21 @@ public class KorisnikController {
 	private List<Korisnik> prikaziStudenteISebe(List<Korisnik> sviKorisnici) {
 		//TODO find korisnike sa ulogom query
 		logger.debug("prikaziStudenteISebe(): ");
-
-		List<Korisnik> noviKorisnici = new ArrayList<>();
-		logger.debug("FOR(): " + sviKorisnici.size());
-		for(int i=0; i<sviKorisnici.size(); i++){
-			if("3".equals(sviKorisnici.get(i).getUloga().toString()) || "4".equals(sviKorisnici.get(i).getUloga().toString())){
-				logger.debug("FOR(): ");
-
-				noviKorisnici.add(sviKorisnici.get(i));
-			}
-		}
+		//STUDENTI
+		List<Korisnik> noviKorisnici = korisnikService.findUsersWithRole(Integer.valueOf(4));
+		List<Korisnik> studenti = korisnikService.findUsersWithRole(Integer.valueOf(3));
+		noviKorisnici.addAll(studenti);
+//		noviKorisnici.subList(fromIndex, toIndex)
+		
+//		List<Korisnik> noviKorisnici = new ArrayList<>();
+//		logger.debug("FOR(): " + sviKorisnici.size());
+//		for(int i=0; i<sviKorisnici.size(); i++){
+//			if("3".equals(sviKorisnici.get(i).getUloga().toString()) || "4".equals(sviKorisnici.get(i).getUloga().toString())){
+//				logger.debug("FOR(): ");
+//
+//				noviKorisnici.add(sviKorisnici.get(i));
+//			}
+//		}
 
 		return noviKorisnici;
 	}
@@ -257,14 +265,14 @@ public class KorisnikController {
 	    		 //
 	    		 return new ModelAndView("forward:/dokumenti");
 	    	 }
-	    	 if("4".equals(loggedRole)){
+	    	 else{
 	    		 //TODO NE moze admine da vidi
 	    		 if(String.valueOf(korisnikService.findById(id).getUloga()).equals("1")){
 	    			 session.setAttribute("docUserID",  "null");
 	    			 return new ModelAndView("forward:/dokumenti");
-	    		 }
-	    	 session.setAttribute("docUserID",  String.valueOf(id));
-	         return new ModelAndView("forward:/dokumenti");
+	    	}
+	    	session.setAttribute("docUserID",  String.valueOf(id));
+	        return new ModelAndView("forward:/dokumenti");
 	    	 }
 	     } catch (Exception ioe) {
 	     } finally {

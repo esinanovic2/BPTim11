@@ -69,6 +69,19 @@ public class KorisnikDaoImplementation implements KorisnikDao {
 	}
 	
 	@Override
+	public List<Korisnik> findUsersWithRole(Integer roleId) {
+		Map<String, Object> params = new HashMap<String, Object>();
+		params.put("uloga", roleId);
+		
+		String sql = "SELECT * FROM korisnici WHERE uloga= :uloga";
+
+		List<Korisnik> result = namedParameterJdbcTemplate.query(sql, params, new KorisnikMapper());
+		
+		
+		return result;
+	}
+	
+	@Override
 	public void delete(Integer id) {
 		String sql = "DELETE FROM korisnici WHERE id= :id";
 		namedParameterJdbcTemplate.update(sql, new MapSqlParameterSource("id", id));

@@ -96,26 +96,50 @@ public class DokumentController {
 		String loggedID = String.valueOf(session.getAttribute("userid"));
 
 		if(loggedRole.equals("3")){
-			sviDokumenti = prikaziDokumenteVlasnikaIPrivilegije(loggedRole,loggedID,sviDokumenti);
+			sviDokumenti = dokumentService.findDocumentsByUserId(Integer.valueOf(loggedID));	
 		}
 		else if(loggedRole.equals("4")){
+			
 			//ako je sam on. ako je poslao id.
 			String userID = String.valueOf(session.getAttribute("docUserID"));
-						
+			
 			logger.debug("prikaziSveDokumente STUDENTSKA ");
 			if("null".equals(userID)){
-				sviDokumenti = prikaziDokumenteVlasnikaIPrivilegije(loggedRole,loggedID,sviDokumenti);				
+				//Prikazuje od  tog
+	
+				sviDokumenti = dokumentService.findDocumentsByUserId(Integer.valueOf(loggedID));		
+				logger.debug("null = " + userID +" dokumenti size: "+ sviDokumenti.size());
 			}
 			else if(String.valueOf(korisnikService.findById(Integer.valueOf(userID)).getUloga()).equals("1")){
-				//Admin nono
-				sviDokumenti = prikaziDokumenteVlasnikaIPrivilegije("3",userID,sviDokumenti);
+				//Admin nono //Prikazuje od studentske
+				sviDokumenti = dokumentService.findDocumentsByUserId(Integer.valueOf(loggedID));
+				logger.debug("Admin, a trenutno " + loggedID +" dokumenti size: "+ sviDokumenti.size());
+
 			}
 			else {
-				//Pokazi od tog korisnika
+				//Pokazuje od tog korisnika sa id-em
 				loggedRole = "43";
-				session.setAttribute("docUserID",  "null");
-				sviDokumenti = prikaziDokumenteVlasnikaIPrivilegije("3",userID,sviDokumenti);				
+				sviDokumenti = dokumentService.findDocumentsByUserId(Integer.valueOf(userID));
+				logger.debug("43 user: " + userID +" dokumenti size: "+ sviDokumenti.size());
+
+				session.setAttribute("docUserID",  "null");			
 			}
+			
+		}
+		else if(loggedRole.equals("1") ){
+			
+			//ako je sam on. ako je poslao id.
+			String userID = String.valueOf(session.getAttribute("docUserID"));
+			
+			logger.debug("prikaziSveDokumente ADMIN ");
+			if(!"null".equals(userID)){
+//				//Prikazuje od  tog
+				sviDokumenti = dokumentService.findDocumentsByUserId(Integer.valueOf(userID));
+				logger.debug("ADMIN user: " + userID +" dokumenti size: "+ sviDokumenti.size());
+
+				session.setAttribute("docUserID",  "null");			
+			}
+			
 		}
 
 		List<Korisnik> sviVlasnici = new ArrayList<>();
@@ -129,10 +153,17 @@ public class DokumentController {
 		return "dokumenti/listadokumenata";
 	}
 	
+//	private List<Dokument> sviDokumentiManageStudentska(String userID, String loggedID) {
+//		List<Dokument> sviDokumenti = new ArrayList<>();
+//		
+//	}
+
 	private List<Dokument> prikaziDokumenteVlasnikaIPrivilegije(String uloga, String ID, List<Dokument> sviDokumenti) {
 		List<Dokument> noviDokumenti = new ArrayList<>();
 		//ako je uloga 4 onda moze vidjeti i vlasnike 3
 		//TODO find dokumente sa idem korisnika tim i tim QUE
+		noviDokumenti = dokumentService.findDocumentsByUserId(Integer.valueOf(ID));
+		
 		for(int i=0; i<sviDokumenti.size(); i++){
 			//Vlasnici dokumenta prema privilegiji
 			if(ID.equals(sviDokumenti.get(i).getVlasnik().toString())){

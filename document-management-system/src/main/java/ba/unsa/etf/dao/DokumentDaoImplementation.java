@@ -68,6 +68,18 @@ public class DokumentDaoImplementation implements DokumentDao {
 	}
 	
 	@Override
+	public List<Dokument> findDocumentsByUserId(Integer id) {
+		Map<String, Object> params = new HashMap<String, Object>();
+		params.put("vlasnik", id);
+		
+		String sql = "SELECT * FROM dokumenti WHERE vlasnik=:vlasnik";
+		
+		List<Dokument> result = namedParameterJdbcTemplate.query(sql, params, new DokumentMapper());
+		
+		return result;
+	}
+	
+	@Override
 	public void delete(Integer id) {
 		String sql = "DELETE FROM dokumenti WHERE id= :id";
 		namedParameterJdbcTemplate.update(sql, new MapSqlParameterSource("id", id));

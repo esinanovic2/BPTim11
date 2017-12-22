@@ -7,7 +7,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-import org.apache.commons.io.IOUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,13 +26,10 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
-import ba.unsa.etf.model.Dokument;
 import ba.unsa.etf.model.Korisnik;
 import ba.unsa.etf.model.Uloga;
-import ba.unsa.etf.service.DokumentService;
 import ba.unsa.etf.service.KorisnikService;
 import ba.unsa.etf.service.UlogaService;
-import ba.unsa.etf.service.VidljivostService;
 import ba.unsa.etf.validator.KorisnikFormValidator;
 
 @Controller
@@ -63,12 +59,6 @@ public class KorisnikController {
 		this.ulogaService=ulogaService;
 	}
 	
-	private DokumentService dokumentService;
-	
-	@Autowired
-	public void setDokumentService(DokumentService dokumentService) {
-		this.dokumentService = dokumentService;
-	}
 	
 	@RequestMapping(value = "/korisnici", method = RequestMethod.GET)
 	public String prikaziSveKorisnike(Model model, HttpSession session) {
@@ -88,7 +78,6 @@ public class KorisnikController {
 			if(loggedRole.equals("4")){
 				logger.debug("Studentska(): " +String.valueOf(session.getAttribute("roleid")));
 			
-//				sviKorisnici = prikaziStudenteISebe(sviKorisnici);
 				sviKorisnici = korisnikService.findUsersWithRole(Integer.valueOf(4));
 				List<Korisnik> studenti = korisnikService.findUsersWithRole(Integer.valueOf(3));
 				sviKorisnici.addAll(studenti);
@@ -111,28 +100,6 @@ public class KorisnikController {
 			
 		return null;	
 		
-	}
-
-	private List<Korisnik> prikaziStudenteISebe(List<Korisnik> sviKorisnici) {
-		//TODO find korisnike sa ulogom query
-		logger.debug("prikaziStudenteISebe(): ");
-		//STUDENTI
-		List<Korisnik> noviKorisnici = korisnikService.findUsersWithRole(Integer.valueOf(4));
-		List<Korisnik> studenti = korisnikService.findUsersWithRole(Integer.valueOf(3));
-		noviKorisnici.addAll(studenti);
-//		noviKorisnici.subList(fromIndex, toIndex)
-		
-//		List<Korisnik> noviKorisnici = new ArrayList<>();
-//		logger.debug("FOR(): " + sviKorisnici.size());
-//		for(int i=0; i<sviKorisnici.size(); i++){
-//			if("3".equals(sviKorisnici.get(i).getUloga().toString()) || "4".equals(sviKorisnici.get(i).getUloga().toString())){
-//				logger.debug("FOR(): ");
-//
-//				noviKorisnici.add(sviKorisnici.get(i));
-//			}
-//		}
-
-		return noviKorisnici;
 	}
 
 	@RequestMapping(value = "/korisnici", method = RequestMethod.POST)
@@ -169,7 +136,6 @@ public class KorisnikController {
 	@RequestMapping(value = "/korisnici/dodaj", method = RequestMethod.GET)
 	public String prikaziFormuDodajKorisnika(Model model, HttpSession session) {
 		logger.debug("showDodajKorisnikaForm()");
-		List<Korisnik> sviKorisnici = korisnikService.findAll();
 		List<Uloga> sveUloge = ulogaService.findAll();
 		
 		Korisnik korisnik = new Korisnik();
@@ -267,9 +233,11 @@ public class KorisnikController {
 	    	 }
 	    	 else{
 	    		 //TODO NE moze admine da vidi
-	    		 if(String.valueOf(korisnikService.findById(id).getUloga()).equals("1")){
-	    			 session.setAttribute("docUserID",  "null");
-	    			 return new ModelAndView("forward:/dokumenti");
+	    		 if(!loggedRole.equals("1")){
+	    			 if(String.valueOf(korisnikService.findById(id).getUloga()).equals("1")){
+	    				 session.setAttribute("docUserID",  "null");
+	    				 return new ModelAndView("forward:/dokumenti");
+	    			 }
 	    	}
 	    	session.setAttribute("docUserID",  String.valueOf(id));
 	        return new ModelAndView("forward:/dokumenti");

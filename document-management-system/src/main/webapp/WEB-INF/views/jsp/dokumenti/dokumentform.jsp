@@ -55,19 +55,26 @@ body {
 				</div>
 			</div>
 		</spring:bind>
-
-		<spring:bind path="vlasnik">
-			<div class="form-group ${status.error ? 'has-error' : ''}">
-				<label class="col-sm-2 control-label">Vlasnik</label>
-				<div class="col-sm-10">
-			<!-- 		<form:input path="vlasnik" type="text" class="form-control" id="vlasnik" placeholder="Vlasnik" />
-					<form:errors path="vlasnik" class="control-label" /> -->
-					<form:select path = "vlasnik">
-                    	<form:options items = "${vlasnici}" itemValue="id"/>
-                  	</form:select>
+<!-- AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA -->
+		<c:choose>
+		  <c:when test="${staticVlasnik==1}">
+			<spring:bind path="vlasnik">
+				<form:input type="hidden" path="vlasnik" class="form-control" id="vlasnik" value="${vlasnik}" />
+			</spring:bind>
+		 </c:when>
+		 <c:otherwise>
+			<spring:bind path="vlasnik">
+				<div class="form-group ${status.error ? 'has-error' : ''}">
+					<label class="col-sm-2 control-label">Vlasnik</label>
+					<div class="col-sm-10">
+						<form:select path = "vlasnik">
+                    		<form:options items = "${vlasnici}" itemValue="id"/>
+                	  	</form:select>
+					</div>
 				</div>
-			</div>
-		</spring:bind>
+			</spring:bind>
+			</c:otherwise>
+		</c:choose>
 
 		<spring:bind path="vidljivost">
 			<div class="form-group ${status.error ? 'has-error' : ''}">

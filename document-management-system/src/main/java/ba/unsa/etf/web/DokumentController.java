@@ -5,9 +5,7 @@ import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -55,6 +53,8 @@ public class DokumentController {
 	private XWPFDocument xdoc=null;
 	
 	String loggedRole = "0";
+
+	String userID = "null";
 	
 	@Autowired
 	DokumentValidator dokumentValidator;	
@@ -101,7 +101,7 @@ public class DokumentController {
 		else if(loggedRole.equals("4")){
 			
 			//ako je sam on. ako je poslao id.
-			String userID = String.valueOf(session.getAttribute("docUserID"));
+			userID = String.valueOf(session.getAttribute("docUserID"));
 			
 			logger.debug("prikaziSveDokumente STUDENTSKA ");
 			if("null".equals(userID)){
@@ -129,17 +129,19 @@ public class DokumentController {
 		else if(loggedRole.equals("1") ){
 			
 			//ako je sam on. ako je poslao id.
-			String userID = String.valueOf(session.getAttribute("docUserID"));
+			userID = String.valueOf(session.getAttribute("docUserID"));
+			//Ako je taj userID ADMIN prikazi samo od tog admina dokumente
+			sviDokumenti = dokumentService.findDocumentsByUserId(Integer.valueOf(loggedID));		
 			
-			logger.debug("prikaziSveDokumente ADMIN ");
+			logger.debug("prikaziSveDokumente ADMIN "+ userID);
 			if(!"null".equals(userID)){
 //				//Prikazuje od  tog
+				loggedRole = "13";
 				sviDokumenti = dokumentService.findDocumentsByUserId(Integer.valueOf(userID));
-				logger.debug("ADMIN user: " + userID +" dokumenti size: "+ sviDokumenti.size());
-
+				logger.debug("ADMIN 13 user: " + userID +" dokumenti size: "+ sviDokumenti.size());
 				session.setAttribute("docUserID",  "null");			
 			}
-			
+					
 		}
 
 		List<Korisnik> sviVlasnici = new ArrayList<>();
@@ -153,32 +155,6 @@ public class DokumentController {
 		return "dokumenti/listadokumenata";
 	}
 	
-//	private List<Dokument> sviDokumentiManageStudentska(String userID, String loggedID) {
-//		List<Dokument> sviDokumenti = new ArrayList<>();
-//		
-//	}
-
-	private List<Dokument> prikaziDokumenteVlasnikaIPrivilegije(String uloga, String ID, List<Dokument> sviDokumenti) {
-		List<Dokument> noviDokumenti = new ArrayList<>();
-		//ako je uloga 4 onda moze vidjeti i vlasnike 3
-		//TODO find dokumente sa idem korisnika tim i tim QUE
-		noviDokumenti = dokumentService.findDocumentsByUserId(Integer.valueOf(ID));
-		
-		for(int i=0; i<sviDokumenti.size(); i++){
-			//Vlasnici dokumenta prema privilegiji
-			if(ID.equals(sviDokumenti.get(i).getVlasnik().toString())){
-				noviDokumenti.add(sviDokumenti.get(i));
-			}
-//			if(uloga.equals("4")){//ako je uloga 4 onda moze vidjeti i vlasnike 3
-//				//Vlasnike ciji je ID ULOGE 3
-//				String ulogaVlasnika = String.valueOf(korisnikService.findById(sviDokumenti.get(i).getVlasnik()).getUloga());
-//				if(ulogaVlasnika.equals("3")){
-//					noviDokumenti.add(sviDokumenti.get(i));
-//				}
-//			}	
-		}
-		return noviDokumenti;
-	}
 
 	@RequestMapping(value = "/dokumenti", method = RequestMethod.POST)
 	public String snimiIliIzmijeniDokument(@ModelAttribute("dokumentForm") @Validated Dokument dokument,
@@ -275,13 +251,11 @@ public class DokumentController {
 
 		logger.debug("showPromijeniDokumentForm() : {}", id);
 		
-	
 		boolean showFileContentForm=false;
 		Dokument dokument = dokumentService.findById(id);
 		String extenzija= dokument.getExtenzija();
 		String documentContent="";
 		
-		Map<String,String> documentMap=new HashMap<>();
 		xdoc=null;
 		if("docx".equals(extenzija)) {
 			InputStream dokumentFile= dokument.getFajl();
@@ -351,18 +325,31 @@ public class DokumentController {
 	
 	@RequestMapping(value = "/dokumenti/dodaj", method = RequestMethod.GET)
 	public String prikaziFormuDodajDokument(Model model, HttpSession session) {
-
 		logger.debug("showDodajDokumentForm()");
+		loggedRole = String.valueOf(session.getAttribute("roleid"));
+		logger.debug("USER SAD "+ loggedRole + " userID "+ userID);
+		
 		List<Vidljivost> listaVidljivosti=vidljivostService.findAll();
 		List<Korisnik> listaVlasnika = korisnikService.findAll();
-		
-		//TODO: Samo jedan vlasnik i ne moze se mijenati!!!!!
 		Dokument dokument= new Dokument();
 		model.addAttribute("dokumentForm", dokument);
-		model.addAttribute("vlasnici", listaVlasnika);
+		model.addAttribute("staticVlasnik", "0");
+		if(loggedRole.equals("1")){	
+			if(userID.equals("null")){
+				model.addAttribute("vlasnici", listaVlasnika);	
+			}
+			else{
+				model.addAttribute("staticVlasnik", "1");
+				model.addAttribute("vlasnik", userID);	
+			}
+		}
+		else{
+			model.addAttribute("staticVlasnik", "1");
+			Integer id = Integer.valueOf(String.valueOf(session.getAttribute("userid")));
+			model.addAttribute("vlasnik", id);
+		}
 		model.addAttribute("vidljivosti",listaVidljivosti);
 		
-		loggedRole = String.valueOf(session.getAttribute("roleid"));
 		model.addAttribute("loggedRole", loggedRole);
 		
 		return "dokumenti/dokumentform";

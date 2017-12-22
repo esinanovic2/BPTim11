@@ -54,6 +54,8 @@ public class DokumentController {
 
 	String userID = "null";
 	
+	Integer vidljivost = 1;
+	
 	@Autowired
 	DokumentValidator dokumentValidator;	
 	
@@ -281,7 +283,7 @@ public class DokumentController {
 //				vidljivosti.add(sveVidljivosti.get(i));
 //		}
 			
-		model.addAttribute("vidljivost", 1);
+		model.addAttribute("vidljivost", vidljivost);
 		
 		if("txt".equals(extenzija)) {
 			documentContent=dokument.getContent();
@@ -339,7 +341,7 @@ public class DokumentController {
 			model.addAttribute("vlasnik", id);
 		}
 //		model.addAttribute("vidljivosti",listaVidljivosti);
-		model.addAttribute("vidljivost",1);
+		model.addAttribute("vidljivost",vidljivost);
 		model.addAttribute("loggedRole", loggedRole);
 		
 		return "dokumenti/dokumentform";

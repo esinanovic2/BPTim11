@@ -27,6 +27,11 @@ public class KorisnikServiceImplementation implements KorisnikService {
 	public List<Korisnik> findAll() {
 		return korisnikDao.findAll();
 	}
+	
+	@Override
+	public List<Korisnik> findUsersWithRole(Integer roleId) {
+		return korisnikDao.findUsersWithRole(roleId);
+	}
 
 	@Override
 	public void saveOrUpdate(Korisnik korisnik) {

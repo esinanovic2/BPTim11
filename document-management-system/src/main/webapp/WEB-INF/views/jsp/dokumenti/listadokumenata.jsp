@@ -36,16 +36,17 @@ body {
 				<h1>Niste prijavljeni!</h1>
 			</c:when>
 	  		<c:when test="${loggedRole==43}">		
-						<c:if test="${not empty msg}">
-							<div class="alert alert-${css} alert-dismissible" role="alert">
-								<button type="button" class="close" data-dismiss="alert"
-									aria-label="Close">
-									<span aria-hidden="true">&times;</span>
-								</button>
-								<strong>${msg}</strong>
-							</div>
-						</c:if>
-				
+	  		
+	  		<c:if test="${not empty msg}">
+				<div class="alert alert-${css} alert-dismissible" role="alert">
+					<button type="button" class="close" data-dismiss="alert"
+						aria-label="Close">
+						<span aria-hidden="true">&times;</span>
+					</button>
+					<strong>${msg}</strong>
+				</div>
+			</c:if>
+									
 						<h1>Svi dokumenti korisnika</h1>
 														
 						<table class="table table-striped">
@@ -72,7 +73,49 @@ body {
 						</table>
 	
 	  		</c:when>
+	  		<c:when test="${loggedRole==13}">		
+	  				<spring:url value="/dokumenti/dodaj" var="urlDodajDokument" />
+				
+						<c:if test="${not empty msg}">
+							<div class="alert alert-${css} alert-dismissible" role="alert">
+								<button type="button" class="close" data-dismiss="alert"
+									aria-label="Close">
+									<span aria-hidden="true">&times;</span>
+								</button>
+								<strong>${msg}</strong>
+							</div>
+						</c:if>
+				
+						<h1>Svi dokumenti korisnika</h1>
+						<button class="btn btn-primary btn-lg pull-right" 	onclick="location.href='${urlDodajDokument}'">Dodaj dokument korisniku</button>
+						
+						<table class="table table-striped">
+							<thead>
+								<tr>
+									<th>#ID</th>
+									<th>Naziv</th>
+									<th>Vlasnik</th>
+									<th></th>
+								</tr>
+							</thead>
+							<c:forEach var="dokument" items="${dokumenti}" varStatus = "status">
+								<tr>
+									<td>${dokument.id}</td>
+									<td>${dokument.naziv}</td>
+									<td>${vlasnici[status.index].ime}</td>
+									<td  class="pull-right">
+										<spring:url value="/dokumenti/${dokument.id}/prikazi/" var="dokumentPrikazi" /> 
+										<spring:url	value="/dokumenti/${dokument.id}/obrisi" var="obrisiUrl" /> 
+										<spring:url	value="/dokumenti/${dokument.id}/promijeni" var="promijeniUrl" />
+										<button class="btn btn-info"	onclick="location.href='${dokumentPrikazi}'">Prikazi</button>
+										<button class="btn btn-primary" onclick="location.href='${promijeniUrl}'">Izmijeni</button>
+										<button class="btn btn-danger"onclick="this.disabled=true;post('${obrisiUrl}')">Obrisi</button>
+									</td>
+								</tr>
+							</c:forEach>
+						</table>
 	
+	  		</c:when>
 	  		<c:otherwise>
 				<spring:url value="/dokumenti/dodaj" var="urlDodajDokument" />
 				
@@ -87,7 +130,7 @@ body {
 							</div>
 						</c:if>
 				
-						<h1>Svi dokumenti</h1>
+						<h1>Moji dokumenti</h1>
 						
 						<button class="btn btn-primary btn-lg pull-right" 	onclick="location.href='${urlDodajDokument}'">Dodaj dokument</button>
 								

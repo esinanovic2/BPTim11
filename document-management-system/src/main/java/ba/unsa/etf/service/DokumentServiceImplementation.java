@@ -27,6 +27,11 @@ public class DokumentServiceImplementation implements DokumentService {
 	public List<Dokument> findAll() {
 		return dokumentDao.findAll();
 	}
+	
+	@Override
+	public List<Dokument> findDocumentsByUserId(Integer id) {
+		return dokumentDao.	findDocumentsByUserId(id);
+	}
 
 	@Override
 	public void saveOrUpdate(Dokument dokument) {

@@ -15,4 +15,6 @@ public interface KorisnikService {
 	void saveOrUpdate(Korisnik korisnik);
 
 	void delete(Integer id);
+
+	List<Korisnik> findUsersWithRole(Integer roleId);
 }

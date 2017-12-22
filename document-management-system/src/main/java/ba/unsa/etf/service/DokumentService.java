@@ -12,6 +12,8 @@ public interface DokumentService {
 	
 	void saveOrUpdate(Dokument dokument);
 	
-	void delete(Integer id); 
+	void delete(Integer id);
+
+	List<Dokument> findDocumentsByUserId(Integer id); 
 
 }

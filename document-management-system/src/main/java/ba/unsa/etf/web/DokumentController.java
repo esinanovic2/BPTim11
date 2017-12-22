@@ -1,14 +1,9 @@
 package ba.unsa.etf.web;
 
-import java.io.BufferedOutputStream;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
-import java.io.File;
-import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
-import java.io.OutputStream;
-import java.nio.file.Files;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -62,9 +57,9 @@ public class DokumentController {
 	String loggedRole = "0";
 
 	String userID = "null";
-	
+
 	Integer vidljivost = 1;
-	
+
 	@Autowired
 	DokumentValidator dokumentValidator;
 
@@ -121,34 +116,36 @@ public class DokumentController {
 				session.setAttribute("docUserID", "null");
 				sviDokumenti = prikaziDokumenteVlasnikaIPrivilegije("3", userID, sviDokumenti);
 			}
-			
-		}
-		else if(loggedRole.equals("1") ){
-			
-			//ako je sam on. ako je poslao id.
+
+		} else if (loggedRole.equals("1")) {
+
+			// ako je sam on. ako je poslao id.
 			userID = String.valueOf(session.getAttribute("docUserID"));
-			//Ako je taj userID ADMIN prikazi samo od tog admina dokumente
-			sviDokumenti = dokumentService.findDocumentsByUserId(Integer.valueOf(loggedID));		
-			
-			logger.debug("prikaziSveDokumente ADMIN "+ userID);
-			if(!"null".equals(userID)){
-//				//Prikazuje od  tog
+			// Ako je taj userID ADMIN prikazi samo od tog admina dokumente
+			sviDokumenti = dokumentService.findDocumentsByUserId(Integer.valueOf(loggedID));
+
+			logger.debug("prikaziSveDokumente ADMIN " + userID);
+			if (!"null".equals(userID)) {
+				// //Prikazuje od tog
 				loggedRole = "13";
 				sviDokumenti = dokumentService.findDocumentsByUserId(Integer.valueOf(userID));
-				logger.debug("ADMIN 13 user: " + userID +" dokumenti size: "+ sviDokumenti.size());
-				session.setAttribute("docUserID",  "null");			
+				logger.debug("ADMIN 13 user: " + userID + " dokumenti size: " + sviDokumenti.size());
+				session.setAttribute("docUserID", "null");
 			}
-					
+
 		}
 
+		List<Integer> idEvi=new ArrayList<>();
 		List<Korisnik> sviVlasnici = new ArrayList<>();
 		for (int i = 0; i < sviDokumenti.size(); i++) {
+			idEvi.add(i+1);
 			sviVlasnici.add(korisnikService.findById(sviDokumenti.get(i).getVlasnik()));
 		}
 
 		model.addAttribute("loggedRole", loggedRole);
 		model.addAttribute("dokumenti", sviDokumenti);
 		model.addAttribute("vlasnici", sviVlasnici);
+		model.addAttribute("idevi", idEvi);
 		return "dokumenti/listadokumenata";
 	}
 
@@ -309,23 +306,23 @@ public class DokumentController {
 		}
 
 		model.addAttribute("vidljivosti", vidljivosti);
-		model.addAttribute("vlasnik",vlasnik.getKorisnickoIme());
-		
-//		Vidljivost prva = vidljivostService.findById(dokument.getVidljivost());
-//		List<Vidljivost> sveVidljivosti = vidljivostService.findAll();
-//		List<Vidljivost> vidljivosti = new ArrayList<>();
-//		vidljivosti.add(prva);
-//		
-//		for(int i=0; i<sveVidljivosti.size(); i++){
-//			if(!(prva.getNaziv()).equals(sveVidljivosti.get(i).getNaziv()))
-//				vidljivosti.add(sveVidljivosti.get(i));
-//		}
-			
+		model.addAttribute("vlasnik", vlasnik.getKorisnickoIme());
+
+		// Vidljivost prva = vidljivostService.findById(dokument.getVidljivost());
+		// List<Vidljivost> sveVidljivosti = vidljivostService.findAll();
+		// List<Vidljivost> vidljivosti = new ArrayList<>();
+		// vidljivosti.add(prva);
+		//
+		// for(int i=0; i<sveVidljivosti.size(); i++){
+		// if(!(prva.getNaziv()).equals(sveVidljivosti.get(i).getNaziv()))
+		// vidljivosti.add(sveVidljivosti.get(i));
+		// }
+
 		model.addAttribute("vidljivost", vidljivost);
-		
-		if("txt".equals(extenzija)) {
-			documentContent=dokument.getContent();
-			showFileContentForm=true;
+
+		if ("txt".equals(extenzija)) {
+			documentContent = dokument.getContent();
+			showFileContentForm = true;
 		}
 
 		model.addAttribute("dokumetContent", documentContent.trim());
@@ -333,7 +330,7 @@ public class DokumentController {
 		loggedRole = String.valueOf(session.getAttribute("roleid"));
 		model.addAttribute("loggedRole", loggedRole);
 		return "dokumenti/dokumentedit";
-		
+
 	}
 
 	@RequestMapping(value = "/editnocontent", method = RequestMethod.POST)
@@ -356,29 +353,27 @@ public class DokumentController {
 	public String prikaziFormuDodajDokument(Model model, HttpSession session) {
 		logger.debug("showDodajDokumentForm()");
 		loggedRole = String.valueOf(session.getAttribute("roleid"));
-		logger.debug("USER SAD "+ loggedRole + " userID "+ userID);
-		
-//		List<Vidljivost> listaVidljivosti=vidljivostService.findAll();
+		logger.debug("USER SAD " + loggedRole + " userID " + userID);
+
+		// List<Vidljivost> listaVidljivosti=vidljivostService.findAll();
 		List<Korisnik> listaVlasnika = korisnikService.findAll();
-		Dokument dokument= new Dokument();
+		Dokument dokument = new Dokument();
 		model.addAttribute("dokumentForm", dokument);
 		model.addAttribute("staticVlasnik", "0");
-		if(loggedRole.equals("1")){	
-			if(userID.equals("null")){
-				model.addAttribute("vlasnici", listaVlasnika);	
-			}
-			else{
+		if (loggedRole.equals("1")) {
+			if (userID.equals("null")) {
+				model.addAttribute("vlasnici", listaVlasnika);
+			} else {
 				model.addAttribute("staticVlasnik", "1");
-				model.addAttribute("vlasnik", userID);	
+				model.addAttribute("vlasnik", userID);
 			}
-		}
-		else{
+		} else {
 			model.addAttribute("staticVlasnik", "1");
 			Integer id = Integer.valueOf(String.valueOf(session.getAttribute("userid")));
 			model.addAttribute("vlasnik", id);
 		}
-//		model.addAttribute("vidljivosti",listaVidljivosti);
-		model.addAttribute("vidljivost",vidljivost);
+		// model.addAttribute("vidljivosti",listaVidljivosti);
+		model.addAttribute("vidljivost", vidljivost);
 		model.addAttribute("loggedRole", loggedRole);
 
 		return "dokumenti/dokumentform";
@@ -406,7 +401,7 @@ public class DokumentController {
 			String extenzija = dokument.getExtenzija();
 			InputStream dokumentFile = dokument.getFajl();
 
-			model.addAttribute("showcontent","true");
+			model.addAttribute("showcontent", "true");
 			xdoc = null;
 			if ("txt".equals(dokument.getExtenzija())) {
 				model.addAttribute("naziv", dokument.getNaziv());
@@ -437,7 +432,9 @@ public class DokumentController {
 			byte[] dokumentBytes = IOUtils.toByteArray(dokument.getFajl());
 			loggedRole = String.valueOf(httpSession.getAttribute("roleid"));
 			model.addAttribute("loggedRole", loggedRole);
-			response.setHeader("Content-Disposition","render; filename=\"" + dokument.getNaziv() + "" + "." + dokument.getExtenzija() + "\"");
+			response.setHeader("Content-Disposition",
+					"inline; filename=\"" + dokument.getNaziv() + "" + "." + dokument.getExtenzija() + "\"");
+			// "Content-Disposition" attachment za skidanje umjesto inline
 			response.setContentType(dokument.getContentType());
 			response.setDateHeader("Expires", -1);
 			response.setContentLength(dokumentBytes.length);
@@ -461,7 +458,7 @@ public class DokumentController {
 			model.addAttribute("msg", "Dokument nije pronadjen");
 		}
 		model.addAttribute("naziv", dokument.getNaziv());
-		model.addAttribute("showcontent","false");
+		model.addAttribute("showcontent", "false");
 		loggedRole = String.valueOf(session.getAttribute("roleid"));
 		model.addAttribute("loggedRole", loggedRole);
 

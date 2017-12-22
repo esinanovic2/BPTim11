@@ -52,7 +52,7 @@ body {
 						<table class="table table-striped">
 							<thead>
 								<tr>
-									<th>#ID</th>
+									<th>#</th>
 									<th>Naziv</th>
 									<th>Vlasnik</th>
 									<th></th>
@@ -60,7 +60,7 @@ body {
 							</thead>
 							<c:forEach var="dokument" items="${dokumenti}" varStatus = "status">
 								<tr>
-									<td>${dokument.id}</td>
+									<td>${status.index+1}</td>
 									<td>${dokument.naziv}</td>
 									<td>${vlasnici[status.index].ime}</td>
 									<td  class="pull-right">
@@ -92,7 +92,7 @@ body {
 						<table class="table table-striped">
 							<thead>
 								<tr>
-									<th>#ID</th>
+									<th>#</th>
 									<th>Naziv</th>
 									<th>Vlasnik</th>
 									<th></th>
@@ -100,7 +100,7 @@ body {
 							</thead>
 							<c:forEach var="dokument" items="${dokumenti}" varStatus = "status">
 								<tr>
-									<td>${dokument.id}</td>
+									<td>${status.index+1}</td>
 									<td>${dokument.naziv}</td>
 									<td>${vlasnici[status.index].ime}</td>
 									<td  class="pull-right">
@@ -137,7 +137,7 @@ body {
 						<table class="table table-striped">
 							<thead>
 								<tr>
-									<th>#ID</th>
+									<th>#</th>
 									<th>Naziv</th>
 									<th>Vlasnik</th>
 									<th></th>
@@ -145,7 +145,7 @@ body {
 							</thead>
 							<c:forEach var="dokument" items="${dokumenti}" varStatus = "status">
 								<tr>
-									<td>${dokument.id}</td>
+									<td>${status.index+1}</td>
 									<td>${dokument.naziv}</td>
 									<td>${vlasnici[status.index].ime}</td>
 									<td  class="pull-right">

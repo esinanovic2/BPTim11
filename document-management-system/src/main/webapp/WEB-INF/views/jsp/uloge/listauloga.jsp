@@ -61,7 +61,7 @@ body {
 			<table class="table table-striped">
 				<thead>
 					<tr>
-						<th>#ID</th>
+						<th>#</th>
 						<th>Naziv</th>
 					</tr>
 				</thead>
@@ -69,7 +69,7 @@ body {
 				<c:forEach var="uloga" items="${uloge}">
 					<tr>
 						<td>
-							${uloga.id}
+							${status.index+1}
 						</td>
 						<td>${uloga.naziv}</td>
 						<td  class="pull-right">

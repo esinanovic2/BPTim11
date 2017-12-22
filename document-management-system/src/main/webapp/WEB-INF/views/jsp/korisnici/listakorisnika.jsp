@@ -38,7 +38,7 @@ body {
 			<table class="table table-striped">
 				<thead>
 					<tr>
-						<th>#ID</th>
+						<th>#</th>
 						<th>Ime</th>
 						<th>Prezime</th>
 						<th>Uloga</th>
@@ -47,7 +47,7 @@ body {
 				</thead>
 				<c:forEach var="korisnik" items="${korisnici}" varStatus = "status">
 					<tr>
-						<td>${korisnik.id}</td>
+						<td>${status.index+1}</td>
 						<td>${korisnik.ime}</td>
 						<td>${korisnik.prezime}</td>
 						<td>${uloge[status.index].naziv}</td>
@@ -96,7 +96,7 @@ body {
 			<table class="table table-striped">
 				<thead>
 					<tr>
-						<th>#ID</th>
+						<th>#</th>
 						<th>Ime</th>
 						<th>Prezime</th>
 						<th>Uloga</th>
@@ -106,7 +106,7 @@ body {
 	
 				<c:forEach var="korisnik" items="${korisnici}" varStatus = "status">
 					<tr>
-						<td>${korisnik.id}</td>
+						<td>${status.index+1}</td>
 						<td>${korisnik.ime}</td>
 						<td>${korisnik.prezime}</td>
 						<td>${uloge[status.index].naziv}</td>

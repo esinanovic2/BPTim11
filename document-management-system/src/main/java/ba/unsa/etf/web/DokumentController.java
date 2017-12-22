@@ -39,10 +39,8 @@ import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import ba.unsa.etf.model.Dokument;
 import ba.unsa.etf.model.Korisnik;
-import ba.unsa.etf.model.Vidljivost;
 import ba.unsa.etf.service.DokumentService;
 import ba.unsa.etf.service.KorisnikService;
-import ba.unsa.etf.service.VidljivostService;
 import ba.unsa.etf.validator.DokumentValidator;
 
 @Controller
@@ -69,14 +67,6 @@ public class DokumentController {
 	@Autowired
 	public void setDokumentService(DokumentService dokumentService) {
 		this.dokumentService = dokumentService;
-	}
-	
-	private VidljivostService vidljivostService;
-	
-	@Autowired
-	public void setVidljivostService (VidljivostService vidljivostService)
-	{
-		this.vidljivostService=vidljivostService;
 	}
 	
 	private KorisnikService korisnikService;
@@ -281,17 +271,17 @@ public class DokumentController {
 		Korisnik vlasnik = korisnikService.findById(dokument.getVlasnik());
 		model.addAttribute("vlasnik",vlasnik.getKorisnickoIme());
 		
-		Vidljivost prva = vidljivostService.findById(dokument.getVidljivost());
-		List<Vidljivost> sveVidljivosti = vidljivostService.findAll();
-		List<Vidljivost> vidljivosti = new ArrayList<>();
-		vidljivosti.add(prva);
-		
-		for(int i=0; i<sveVidljivosti.size(); i++){
-			if(!(prva.getNaziv()).equals(sveVidljivosti.get(i).getNaziv()))
-				vidljivosti.add(sveVidljivosti.get(i));
-		}
+//		Vidljivost prva = vidljivostService.findById(dokument.getVidljivost());
+//		List<Vidljivost> sveVidljivosti = vidljivostService.findAll();
+//		List<Vidljivost> vidljivosti = new ArrayList<>();
+//		vidljivosti.add(prva);
+//		
+//		for(int i=0; i<sveVidljivosti.size(); i++){
+//			if(!(prva.getNaziv()).equals(sveVidljivosti.get(i).getNaziv()))
+//				vidljivosti.add(sveVidljivosti.get(i));
+//		}
 			
-		model.addAttribute("vidljivosti", vidljivosti);
+		model.addAttribute("vidljivost", 1);
 		
 		if("txt".equals(extenzija)) {
 			documentContent=dokument.getContent();
@@ -329,7 +319,7 @@ public class DokumentController {
 		loggedRole = String.valueOf(session.getAttribute("roleid"));
 		logger.debug("USER SAD "+ loggedRole + " userID "+ userID);
 		
-		List<Vidljivost> listaVidljivosti=vidljivostService.findAll();
+//		List<Vidljivost> listaVidljivosti=vidljivostService.findAll();
 		List<Korisnik> listaVlasnika = korisnikService.findAll();
 		Dokument dokument= new Dokument();
 		model.addAttribute("dokumentForm", dokument);
@@ -348,8 +338,8 @@ public class DokumentController {
 			Integer id = Integer.valueOf(String.valueOf(session.getAttribute("userid")));
 			model.addAttribute("vlasnik", id);
 		}
-		model.addAttribute("vidljivosti",listaVidljivosti);
-		
+//		model.addAttribute("vidljivosti",listaVidljivosti);
+		model.addAttribute("vidljivost",1);
 		model.addAttribute("loggedRole", loggedRole);
 		
 		return "dokumenti/dokumentform";

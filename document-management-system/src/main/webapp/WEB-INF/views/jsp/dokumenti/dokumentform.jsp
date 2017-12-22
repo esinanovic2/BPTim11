@@ -77,14 +77,16 @@ body {
 		</c:choose>
 
 		<spring:bind path="vidljivost">
-			<div class="form-group ${status.error ? 'has-error' : ''}">
+			<form:input type="hidden" path="vidljivost" class="form-control" id="vidljivost" value="${vidljivost}" />
+		
+			<!-- <div class="form-group ${status.error ? 'has-error' : ''}">
 				<label class="col-sm-2 control-label">Vidljivost</label>
 				<div class="col-sm-10">
 					<form:select path = "vidljivost">
                     	<form:options items = "${vidljivosti}" itemValue="id"/>
                   	</form:select>
 				</div>
-			</div>
+			</div> -->
 		</spring:bind>
 		
 	

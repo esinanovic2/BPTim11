@@ -78,7 +78,7 @@ body {
 					</div>
 				</div>
 			</spring:bind>
-	
+			
 			<spring:bind path="sifra">
 				<div class="form-group ${status.error ? 'has-error' : ''}">
 					<label class="col-sm-2 control-label">Sifra</label>

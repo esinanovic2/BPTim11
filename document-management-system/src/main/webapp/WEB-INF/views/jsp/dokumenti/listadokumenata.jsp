@@ -36,16 +36,17 @@ body {
 				<h1>Niste prijavljeni!</h1>
 			</c:when>
 	  		<c:when test="${loggedRole==43}">		
-						<c:if test="${not empty msg}">
-							<div class="alert alert-${css} alert-dismissible" role="alert">
-								<button type="button" class="close" data-dismiss="alert"
-									aria-label="Close">
-									<span aria-hidden="true">&times;</span>
-								</button>
-								<strong>${msg}</strong>
-							</div>
-						</c:if>
-				
+	  		
+	  		<c:if test="${not empty msg}">
+				<div class="alert alert-${css} alert-dismissible" role="alert">
+					<button type="button" class="close" data-dismiss="alert"
+						aria-label="Close">
+						<span aria-hidden="true">&times;</span>
+					</button>
+					<strong>${msg}</strong>
+				</div>
+			</c:if>
+									
 						<h1>Svi dokumenti korisnika</h1>
 														
 						<table class="table table-striped">

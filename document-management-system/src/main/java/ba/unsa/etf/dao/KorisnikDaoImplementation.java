@@ -45,6 +45,21 @@ public class KorisnikDaoImplementation implements KorisnikDao {
 	}
 	
 	@Override
+	public Korisnik findByUsername(String username) {
+		Map<String, Object> params = new HashMap<String, Object>();
+		params.put("korisnickoime", username);
+
+		String sql = "SELECT * FROM korisnici WHERE korisnickoime=:korisnickoime";
+
+		Korisnik result = null;
+		try {
+			result = namedParameterJdbcTemplate.queryForObject(sql, params, new KorisnikMapper());
+		} catch (EmptyResultDataAccessException e) {}
+
+		return result;
+	}
+	
+	@Override
 	public Korisnik findByUsernameAndPassword(String username, String password) {
 		Map<String, Object> params = new HashMap<String, Object>();
 		params.put("korisnickoime", username);
@@ -129,4 +144,5 @@ public class KorisnikDaoImplementation implements KorisnikDao {
 
 		return paramSource;
 	}
+
 }

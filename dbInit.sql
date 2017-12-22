@@ -110,7 +110,7 @@ GRANT SELECT, INSERT, TRIGGER, UPDATE, DELETE ON TABLE `bpTim11db`.* TO 'bpUser'
 GRANT SELECT ON TABLE `bpTim11db`.* TO 'bpUser';
 
 
-INSERT INTO bptim11db.uloge VALUES(naziv,'administrator'), (naziv,'management'), (naziv,'student'), (naziv,'studentska');
+INSERT INTO bptim11db.uloge VALUES(naziv,'administrator'), (naziv,'student'), (naziv,'studentska');
 INSERT INTO bptim11db.vidljivosti VALUES(naziv,'svi'),(naziv,'management'),(naziv,'studentska'),(naziv,'studenti');
 
 INSERT INTO `bptim11db`.`korisnici` (`ime`, `prezime`, `korisnickoime`, `sifra`, `uloga`) VALUES ('Ajla', 'Alic', 'aalic', '1234', '1');

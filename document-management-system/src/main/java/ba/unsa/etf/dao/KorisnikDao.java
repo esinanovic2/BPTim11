@@ -9,6 +9,8 @@ public interface KorisnikDao {
 	Korisnik findById(Integer id);
 	
 	Korisnik findByUsernameAndPassword(String username, String password);
+	
+	Korisnik findByUsername(String username);
 
 	List<Korisnik> findAll();
 

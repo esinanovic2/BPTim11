@@ -114,6 +114,7 @@ public class KorisnikController {
 		if (result.hasErrors()) {
 			return "korisnici/korisnikform";
 		} else {
+			
 			redirectAttributes.addFlashAttribute("css", "success");
 			if(korisnik.isNew()){
 				redirectAttributes.addFlashAttribute("msg", "Korisnik uspjesno dodan!");

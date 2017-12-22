@@ -115,6 +115,7 @@ public class DokumentController {
 	private List<Dokument> prikaziDokumenteVlasnikaIPrivilegije(String uloga, String ID, List<Dokument> sviDokumenti) {
 		List<Dokument> noviDokumenti = new ArrayList<>();
 		//ako je uloga 4 onda moze vidjeti i vlasnike 3
+		//TODO find dokumente sa idem korisnika tim i tim QUE
 		for(int i=0; i<sviDokumenti.size(); i++){
 			//Vlasnici dokumenta prema privilegiji
 			if(ID.equals(sviDokumenti.get(i).getVlasnik().toString())){

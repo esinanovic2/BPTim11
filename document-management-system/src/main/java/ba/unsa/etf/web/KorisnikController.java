@@ -4,8 +4,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import org.apache.commons.io.IOUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,6 +30,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import ba.unsa.etf.model.Dokument;
 import ba.unsa.etf.model.Korisnik;
 import ba.unsa.etf.model.Uloga;
+import ba.unsa.etf.service.DokumentService;
 import ba.unsa.etf.service.KorisnikService;
 import ba.unsa.etf.service.UlogaService;
 import ba.unsa.etf.service.VidljivostService;
@@ -60,18 +63,34 @@ public class KorisnikController {
 		this.ulogaService=ulogaService;
 	}
 	
+	private DokumentService dokumentService;
+	
+	@Autowired
+	public void setDokumentService(DokumentService dokumentService) {
+		this.dokumentService = dokumentService;
+	}
+	
 	@RequestMapping(value = "/korisnici", method = RequestMethod.GET)
 	public String prikaziSveKorisnike(Model model, HttpSession session) {
 		logger.debug("prikaziSveKorisnike(): " +String.valueOf(session.getAttribute("roleid")));
+		loggedRole = String.valueOf(session.getAttribute("roleid"));
 		
-		if(session.getAttribute("roleid").toString().equals("3")){
+		if(loggedRole.equals("3")){
 			logger.debug("ELSE" + "korisnici/"+ String.valueOf(session.getAttribute("userid")) +"/promijeni");
 
 			String redirect = "redirect:/korisnici/"+ String.valueOf(session.getAttribute("userid")) +"/promijeni";
 			return redirect;
 		}
-		else if(!session.getAttribute("roleid").toString().equals("0")){
+		else if(!loggedRole.equals("0")){
+			
 			List<Korisnik> sviKorisnici = korisnikService.findAll();
+			
+			if(loggedRole.equals("4")){
+				logger.debug("Studentska(): " +String.valueOf(session.getAttribute("roleid")));
+
+				sviKorisnici = prikaziStudenteISebe(sviKorisnici);
+			}
+		
 			List<Uloga> sveUloge = new ArrayList<>();
 			for(int i = 0; i< sviKorisnici.size(); i++) {
 				sveUloge.add(ulogaService.findById(sviKorisnici.get(i).getUloga()));
@@ -80,7 +99,7 @@ public class KorisnikController {
 			logger.debug("showPrikaziSveKorisnike()");
 			model.addAttribute("korisnici", sviKorisnici);
 			
-			loggedRole = String.valueOf(session.getAttribute("roleid"));
+			
 			model.addAttribute("loggedRole", loggedRole);
 		
 			model.addAttribute("uloge", sveUloge);
@@ -89,6 +108,23 @@ public class KorisnikController {
 			
 		return null;	
 		
+	}
+
+	private List<Korisnik> prikaziStudenteISebe(List<Korisnik> sviKorisnici) {
+		//TODO find korisnike sa ulogom query
+		logger.debug("prikaziStudenteISebe(): ");
+
+		List<Korisnik> noviKorisnici = new ArrayList<>();
+		logger.debug("FOR(): " + sviKorisnici.size());
+		for(int i=0; i<sviKorisnici.size(); i++){
+			if("3".equals(sviKorisnici.get(i).getUloga().toString()) || "4".equals(sviKorisnici.get(i).getUloga().toString())){
+				logger.debug("FOR(): ");
+
+				noviKorisnici.add(sviKorisnici.get(i));
+			}
+		}
+
+		return noviKorisnici;
 	}
 
 	@RequestMapping(value = "/korisnici", method = RequestMethod.POST)
@@ -211,6 +247,26 @@ public class KorisnikController {
 
 		return "korisnici/prikazi";
 	}
+	
+	 @RequestMapping(value = "/korisnici/{id}/dokumenti/", method = RequestMethod.GET)
+	 protected String prikaziDokument(@PathVariable("id") int id,HttpServletRequest request, Model model, HttpSession httpSession, HttpServletResponse response) {
+	     try {	 
+	    	 logger.debug("prikaziDokument korisnika " + korisnikService.findById(id));
+	    	 
+	    	 // TODO Otvoriti listu dokumenata tog korisnika
+	      
+	    	 
+	        
+	         loggedRole = String.valueOf(httpSession.getAttribute("roleid"));
+	         model.addAttribute("loggedRole", loggedRole);
+	 		
+	         
+	     } catch (Exception ioe) {
+	     } finally {
+	     }
+	     return null;
+	 }
+	
 	@ExceptionHandler(EmptyResultDataAccessException.class)
 	public ModelAndView handleEmptyData(HttpServletRequest req, Exception ex) {
 

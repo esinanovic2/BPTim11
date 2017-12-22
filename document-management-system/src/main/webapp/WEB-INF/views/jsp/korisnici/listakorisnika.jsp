@@ -52,10 +52,12 @@ body {
 						<td>${korisnik.prezime}</td>
 						<td>${uloge[status.index].naziv}</td>
 						<td class="pull-right">
-				
+							
+							<spring:url value="/korisnici/${korisnik.id}/dokumenti/" var="korisnikDokumentiPrikazi" /> 
 							<spring:url value="/korisnici/${korisnik.id}/obrisi" var="obrisiUrl" /> 
 							<spring:url value="/korisnici/${korisnik.id}/promijeni" var="promijeniUrl" />
 	
+							<button class="btn btn-info" onclick="location.href='${korisnikDokumentiPrikazi}'">Prikazi dokumente</button>
 							<button class="btn btn-primary" onclick="location.href='${promijeniUrl}'">Izmijeni</button>
 							<button class="btn btn-danger" onclick="this.disabled=true;post('${obrisiUrl}')">Obrisi</button></td>
 					</tr>
@@ -110,9 +112,11 @@ body {
 						<td>${uloge[status.index].naziv}</td>
 						<td class="pull-right">
 				
+							<spring:url value="/korisnici/${korisnik.id}/dokumenti/" var="korisnikDokumentiPrikazi" /> 
 							<spring:url value="/korisnici/${korisnik.id}/obrisi" var="obrisiUrl" /> 
 							<spring:url value="/korisnici/${korisnik.id}/promijeni" var="promijeniUrl" />
 	
+							<button class="btn btn-info" onclick="location.href='${korisnikDokumentiPrikazi}'">Prikazi dokumente</button>
 							<button class="btn btn-primary" onclick="location.href='${promijeniUrl}'">Izmijeni</button>
 							<button class="btn btn-danger" onclick="this.disabled=true;post('${obrisiUrl}')">Obrisi</button></td>
 					</tr>

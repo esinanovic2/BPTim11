@@ -6,7 +6,6 @@
 
 <!DOCTYPE html>
 <html lang="en">
-
 <c:choose>
   <c:when test="${loggedRole==0}">
 	<jsp:include page="../fragments/main_header.jsp" />
@@ -21,7 +20,6 @@
 	<jsp:include page="../fragments/header.jsp" />
   </c:otherwise>
 </c:choose>
-
 <div class="container">
 
 	<c:choose>

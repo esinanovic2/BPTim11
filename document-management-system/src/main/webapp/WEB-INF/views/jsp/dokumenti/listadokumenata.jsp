@@ -50,17 +50,15 @@
 					<th></th>
 				</tr>
 			</thead>
-
 			<c:forEach var="dokument" items="${dokumenti}" varStatus = "status">
 				<tr>
 					<td>${dokument.id}</td>
 					<td>${dokument.naziv}</td>
 					<td>${vlasnici[status.index].ime}</td>
-					<td  class="pull-right"><spring:url value="/dokumenti/${dokument.id}/prikazi/"
-							var="dokumentPrikazi" /> <spring:url
-							value="/dokumenti/${dokument.id}/obrisi" var="obrisiUrl" /> <spring:url
-							value="/dokumenti/${dokument.id}/promijeni" var="promijeniUrl" />
-
+					<td  class="pull-right">
+							<spring:url value="/dokumenti/${dokument.id}/prikazi/" var="dokumentPrikazi" /> 
+							<spring:url	value="/dokumenti/${dokument.id}/obrisi" var="obrisiUrl" /> 
+							<spring:url	value="/dokumenti/${dokument.id}/promijeni" var="promijeniUrl" />
 						<button class="btn btn-info"
 							onclick="location.href='${dokumentPrikazi}'">Prikazi</button>
 							<button class="btn btn-primary"
@@ -69,7 +67,6 @@
 							onclick="this.disabled=true;post('${obrisiUrl}')">Obrisi</button></td>
 				</tr>
 			</c:forEach>
-
 		</table>
 
 	</div>

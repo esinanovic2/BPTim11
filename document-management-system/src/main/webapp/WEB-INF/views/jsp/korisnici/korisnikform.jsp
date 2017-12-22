@@ -121,10 +121,6 @@ body {
 	<jsp:include page="../fragments/footer.jsp" />
 </body>
 	
-	
-	
-	
-	
   </c:when>
   <c:otherwise>
 	<jsp:include page="../fragments/header.jsp" />

@@ -29,7 +29,6 @@ body {
 
 
 <div class="container">
-
 	<c:if test="${not empty msg}">
 		<div class="alert alert-${css} alert-dismissible" role="alert">
 			<button type="button" class="close" data-dismiss="alert" aria-label="Close">
@@ -39,24 +38,17 @@ body {
 		</div>
 	</c:if>
 
-	<h1>Detalji o dokumentu</h1>
+	<h1>${naziv}</h1>
 	<br />
 
-	<div class="row">
-		<label class="col-sm-2">ID</label>
-		<div class="col-sm-10">${dokument.id}</div>
-	</div>
 
-	<div class="row">
-		<label class="col-sm-2">Naziv</label>
-		<div class="col-sm-10">${dokument.naziv}</div>
-	</div>
-
-	<div class="row">
-		<label class="col-sm-2">Vlasnik</label>
-		<div class="col-sm-10">${vlasnik}</div>
-	</div>
-	
+	<c:if test="${showcontent==true}">
+		<div class="row">
+			<div class="col-sm-10">
+				<pre>${content}</pre>
+			</div>
+		</div>
+	</c:if>
 
 </div>
 

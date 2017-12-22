@@ -1,9 +1,14 @@
 package ba.unsa.etf.web;
 
+import java.io.BufferedOutputStream;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
+import java.io.File;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.OutputStream;
+import java.nio.file.Files;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -49,134 +54,132 @@ import ba.unsa.etf.validator.DokumentValidator;
 
 @Controller
 public class DokumentController {
-	
+
 	private final Logger logger = LoggerFactory.getLogger(DokumentController.class);
-	
-	private XWPFDocument xdoc=null;
-	
+
+	private XWPFDocument xdoc = null;
+
 	String loggedRole = "0";
-	
+
 	@Autowired
-	DokumentValidator dokumentValidator;	
-	
+	DokumentValidator dokumentValidator;
+
 	@InitBinder
 	protected void initBinder(WebDataBinder binder) {
 		binder.setValidator(dokumentValidator);
 	}
-	
+
 	private DokumentService dokumentService;
-	
+
 	@Autowired
 	public void setDokumentService(DokumentService dokumentService) {
 		this.dokumentService = dokumentService;
 	}
-	
+
 	private VidljivostService vidljivostService;
-	
+
 	@Autowired
-	public void setVidljivostService (VidljivostService vidljivostService)
-	{
-		this.vidljivostService=vidljivostService;
+	public void setVidljivostService(VidljivostService vidljivostService) {
+		this.vidljivostService = vidljivostService;
 	}
-	
+
 	private KorisnikService korisnikService;
+
 	@Autowired
-	public void setKorisnikService (KorisnikService korisnikService)
-	{
-		this.korisnikService=korisnikService;
+	public void setKorisnikService(KorisnikService korisnikService) {
+		this.korisnikService = korisnikService;
 	}
-	
+
 	@RequestMapping(value = "/dokumenti", method = RequestMethod.GET)
 	public String prikaziSveDokumente(Model model, HttpSession session) {
 		logger.debug("prikaziSveDokumente");
 		loggedRole = String.valueOf(session.getAttribute("roleid"));
-		
+
 		List<Dokument> sviDokumenti = new ArrayList<>();
 		sviDokumenti = dokumentService.findAll();
 		String loggedID = String.valueOf(session.getAttribute("userid"));
 
-		if(loggedRole.equals("3")){
-			sviDokumenti = prikaziDokumenteVlasnikaIPrivilegije(loggedRole,loggedID,sviDokumenti);
-		}
-		else if(loggedRole.equals("4")){
-			//ako je sam on. ako je poslao id.
+		if (loggedRole.equals("3")) {
+			sviDokumenti = prikaziDokumenteVlasnikaIPrivilegije(loggedRole, loggedID, sviDokumenti);
+		} else if (loggedRole.equals("4")) {
+			// ako je sam on. ako je poslao id.
 			String userID = String.valueOf(session.getAttribute("docUserID"));
-						
+
 			logger.debug("prikaziSveDokumente STUDENTSKA ");
-			if("null".equals(userID)){
-				sviDokumenti = prikaziDokumenteVlasnikaIPrivilegije(loggedRole,loggedID,sviDokumenti);				
-			}
-			else if(String.valueOf(korisnikService.findById(Integer.valueOf(userID)).getUloga()).equals("1")){
-				//Admin nono
-				sviDokumenti = prikaziDokumenteVlasnikaIPrivilegije("3",userID,sviDokumenti);
-			}
-			else {
-				//Pokazi od tog korisnika
+			if ("null".equals(userID)) {
+				sviDokumenti = prikaziDokumenteVlasnikaIPrivilegije(loggedRole, loggedID, sviDokumenti);
+			} else if (String.valueOf(korisnikService.findById(Integer.valueOf(userID)).getUloga()).equals("1")) {
+				// Admin nono
+				sviDokumenti = prikaziDokumenteVlasnikaIPrivilegije("3", userID, sviDokumenti);
+			} else {
+				// Pokazi od tog korisnika
 				loggedRole = "43";
-				session.setAttribute("docUserID",  "null");
-				sviDokumenti = prikaziDokumenteVlasnikaIPrivilegije("3",userID,sviDokumenti);				
+				session.setAttribute("docUserID", "null");
+				sviDokumenti = prikaziDokumenteVlasnikaIPrivilegije("3", userID, sviDokumenti);
 			}
 		}
 
 		List<Korisnik> sviVlasnici = new ArrayList<>();
-		for(int i = 0; i< sviDokumenti.size(); i++) {
+		for (int i = 0; i < sviDokumenti.size(); i++) {
 			sviVlasnici.add(korisnikService.findById(sviDokumenti.get(i).getVlasnik()));
 		}
-		
+
 		model.addAttribute("loggedRole", loggedRole);
 		model.addAttribute("dokumenti", sviDokumenti);
 		model.addAttribute("vlasnici", sviVlasnici);
 		return "dokumenti/listadokumenata";
 	}
-	
+
 	private List<Dokument> prikaziDokumenteVlasnikaIPrivilegije(String uloga, String ID, List<Dokument> sviDokumenti) {
 		List<Dokument> noviDokumenti = new ArrayList<>();
-		//ako je uloga 4 onda moze vidjeti i vlasnike 3
-		//TODO find dokumente sa idem korisnika tim i tim QUE
-		for(int i=0; i<sviDokumenti.size(); i++){
-			//Vlasnici dokumenta prema privilegiji
-			if(ID.equals(sviDokumenti.get(i).getVlasnik().toString())){
+		// ako je uloga 4 onda moze vidjeti i vlasnike 3
+		// TODO find dokumente sa idem korisnika tim i tim QUE
+		for (int i = 0; i < sviDokumenti.size(); i++) {
+			// Vlasnici dokumenta prema privilegiji
+			if (ID.equals(sviDokumenti.get(i).getVlasnik().toString())) {
 				noviDokumenti.add(sviDokumenti.get(i));
 			}
-//			if(uloga.equals("4")){//ako je uloga 4 onda moze vidjeti i vlasnike 3
-//				//Vlasnike ciji je ID ULOGE 3
-//				String ulogaVlasnika = String.valueOf(korisnikService.findById(sviDokumenti.get(i).getVlasnik()).getUloga());
-//				if(ulogaVlasnika.equals("3")){
-//					noviDokumenti.add(sviDokumenti.get(i));
-//				}
-//			}	
+			// if(uloga.equals("4")){//ako je uloga 4 onda moze vidjeti i vlasnike 3
+			// //Vlasnike ciji je ID ULOGE 3
+			// String ulogaVlasnika =
+			// String.valueOf(korisnikService.findById(sviDokumenti.get(i).getVlasnik()).getUloga());
+			// if(ulogaVlasnika.equals("3")){
+			// noviDokumenti.add(sviDokumenti.get(i));
+			// }
+			// }
 		}
 		return noviDokumenti;
 	}
 
 	@RequestMapping(value = "/dokumenti", method = RequestMethod.POST)
 	public String snimiIliIzmijeniDokument(@ModelAttribute("dokumentForm") @Validated Dokument dokument,
-			BindingResult result, Model model, final RedirectAttributes redirectAttributes, @RequestParam("naziv") String naziv,
-			@RequestParam("vlasnik") Integer vlasnik, @RequestParam("vidljivost") Integer vidljivost, 
-			@RequestParam(value="fajl",required=false) MultipartFile fileUpload, HttpSession session) {
+			BindingResult result, Model model, final RedirectAttributes redirectAttributes,
+			@RequestParam("naziv") String naziv, @RequestParam("vlasnik") Integer vlasnik,
+			@RequestParam("vidljivost") Integer vidljivost,
+			@RequestParam(value = "fajl", required = false) MultipartFile fileUpload, HttpSession session) {
 
-			logger.debug("snimiIliIzmijeniDokument():", naziv + vlasnik + vidljivost + fileUpload.getOriginalFilename());
-		
-			String contentType=fileUpload.getContentType();
-			
-			logger.debug("Content type before substring : {}",contentType);
-			
-			String extenzija=fileUpload.getOriginalFilename();
-			logger.debug("Extenzija before substring : {}",extenzija);
-			extenzija=extenzija.substring(extenzija.lastIndexOf(".")+1, extenzija.length());			
-			logger.debug("Extenzija after substring : {}",extenzija);
-			
-			loggedRole = String.valueOf(session.getAttribute("roleid"));
-			model.addAttribute("loggedRole", loggedRole);
+		logger.debug("snimiIliIzmijeniDokument():", naziv + vlasnik + vidljivost + fileUpload.getOriginalFilename());
+
+		String contentType = fileUpload.getContentType();
+
+		logger.debug("Content type before substring : {}", contentType);
+
+		String extenzija = fileUpload.getOriginalFilename();
+		logger.debug("Extenzija before substring : {}", extenzija);
+		extenzija = extenzija.substring(extenzija.lastIndexOf(".") + 1, extenzija.length());
+		logger.debug("Extenzija after substring : {}", extenzija);
+
+		loggedRole = String.valueOf(session.getAttribute("roleid"));
+		model.addAttribute("loggedRole", loggedRole);
 
 		if (result.hasErrors()) {
 			logger.debug("snimi ili izmijeni if has errors");
 			return "dokumenti/dokumentform";
-		} else {	
+		} else {
 			redirectAttributes.addFlashAttribute("css", "success");
-			if(dokument.isNew()){
+			if (dokument.isNew()) {
 				redirectAttributes.addFlashAttribute("msg", "Dokument uspjesno dodan!");
-			}else{
+			} else {
 				redirectAttributes.addFlashAttribute("msg", "Dokument uspjesno izmjenjen!");
 			}
 			dokument.setContentType(contentType);
@@ -186,40 +189,41 @@ public class DokumentController {
 			return "redirect:/dokumenti/" + dokument.getId();
 		}
 	}
-	
+
 	@RequestMapping(value = "/edit", method = RequestMethod.POST)
-	public String izmijeniDokument(@RequestParam("id") Integer id, @RequestParam("naziv") String naziv, 
-			@RequestParam("vidljivost") Integer vidljivost, @RequestParam("fajlcontent") String fajlcontent, Model model, HttpSession session) {
+	public String izmijeniDokument(@RequestParam("id") Integer id, @RequestParam("naziv") String naziv,
+			@RequestParam("vidljivost") Integer vidljivost, @RequestParam("fajlcontent") String fajlcontent,
+			Model model, HttpSession session) {
 
 		logger.debug("snimiIliIzmijeniDokument() : {}", id + naziv + vidljivost + xdoc);
-	
-		Dokument dokument=dokumentService.findById(id);
+
+		Dokument dokument = dokumentService.findById(id);
 		dokument.setId(id);
 		dokument.setNaziv(naziv);
 		dokument.setVidljivost(vidljivost);
-		if("docx".equals(dokument.getExtenzija())) {
-			InputStream inputStream=replaceText(fajlcontent);
-			dokument.setFajlDrugi(inputStream);		
-		}else if("txt".equals(dokument.getExtenzija()))
+		if ("docx".equals(dokument.getExtenzija())) {
+			InputStream inputStream = replaceText(fajlcontent);
+			dokument.setFajlDrugi(inputStream);
+		} else if ("txt".equals(dokument.getExtenzija()))
 			dokument.contentToInputStream(fajlcontent);
-		
+
 		loggedRole = String.valueOf(session.getAttribute("roleid"));
 		model.addAttribute("loggedRole", loggedRole);
 
 		dokumentService.saveOrUpdate(dokument);
-			
+
 		return "redirect:/dokumenti/";
 	}
-	
+
 	private InputStream replaceText(String fajlcontent) {
 		List<XWPFParagraph> paragraphs = xdoc.getParagraphs();
 
-	    for (XWPFParagraph paragraph : paragraphs){
-	        for (int i = 0; i <= paragraph.getRuns().size(); i++){
-	              paragraph.removeRun(i);
-	           }
-	    }
-		
+		for (XWPFParagraph paragraph : paragraphs) {
+			for (int i = 0; i <= paragraph.getRuns().size(); i++) {
+				paragraph.removeRun(i);
+			}
+		}
+
 		// create Paragraph
 		XWPFParagraph paragraph = paragraphs.get(0);
 		paragraph.removeRun(0);
@@ -227,7 +231,7 @@ public class DokumentController {
 		run.setText(fajlcontent);
 
 		ByteArrayOutputStream b = new ByteArrayOutputStream();
-		
+
 		try {
 			xdoc.write(b);
 		} catch (IOException e) {
@@ -237,31 +241,29 @@ public class DokumentController {
 		InputStream inputStream = new ByteArrayInputStream(b.toByteArray());
 		return inputStream;
 	}
-	
-	
+
 	@RequestMapping(value = "/dokumenti/{id}/promijeni", method = RequestMethod.GET)
 	public String prikaziFormuIzmijeniDokument(@PathVariable("id") int id, Model model, HttpSession session) {
 
 		logger.debug("showPromijeniDokumentForm() : {}", id);
-		
-	
-		boolean showFileContentForm=false;
+
+		boolean showFileContentForm = false;
 		Dokument dokument = dokumentService.findById(id);
-		String extenzija= dokument.getExtenzija();
-		String documentContent="";
-		
-		Map<String,String> documentMap=new HashMap<>();
-		xdoc=null;
-		if("docx".equals(extenzija)) {
-			InputStream dokumentFile= dokument.getFajl();
-			
+		String extenzija = dokument.getExtenzija();
+		String documentContent = "";
+
+		Map<String, String> documentMap = new HashMap<>();
+		xdoc = null;
+		if ("docx".equals(extenzija)) {
+			InputStream dokumentFile = dokument.getFajl();
+
 			try {
 				xdoc = new XWPFDocument(OPCPackage.open(dokumentFile));
-				XWPFWordExtractor extractor = new XWPFWordExtractor(xdoc); 
-				
+				XWPFWordExtractor extractor = new XWPFWordExtractor(xdoc);
+
 				System.out.println(extractor.getText());
-				documentContent=extractor.getText();
-				showFileContentForm=true;
+				documentContent = extractor.getText();
+				showFileContentForm = true;
 				extractor.close();
 			} catch (InvalidFormatException e) {
 				// TODO Auto-generated catch block
@@ -269,113 +271,138 @@ public class DokumentController {
 			} catch (IOException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
-			} 
+			}
 		}
-				 
+
 		model.addAttribute("dokumentForm", dokument);
 		Korisnik vlasnik = korisnikService.findById(dokument.getVlasnik());
-		model.addAttribute("vlasnik",vlasnik.getKorisnickoIme());
-		
+		model.addAttribute("vlasnik", vlasnik.getKorisnickoIme());
+
 		Vidljivost prva = vidljivostService.findById(dokument.getVidljivost());
 		List<Vidljivost> sveVidljivosti = vidljivostService.findAll();
 		List<Vidljivost> vidljivosti = new ArrayList<>();
 		vidljivosti.add(prva);
-		
-		for(int i=0; i<sveVidljivosti.size(); i++){
-			if(!(prva.getNaziv()).equals(sveVidljivosti.get(i).getNaziv()))
+
+		for (int i = 0; i < sveVidljivosti.size(); i++) {
+			if (!(prva.getNaziv()).equals(sveVidljivosti.get(i).getNaziv()))
 				vidljivosti.add(sveVidljivosti.get(i));
 		}
-			
+
 		model.addAttribute("vidljivosti", vidljivosti);
-		
-		if("txt".equals(extenzija)) {
-			documentContent=dokument.getContent();
-			showFileContentForm=true;
+
+		if ("txt".equals(extenzija)) {
+			documentContent = dokument.getContent();
+			showFileContentForm = true;
 		}
-		
-		model.addAttribute("dokumetContent",documentContent);
-		model.addAttribute("showTextArea",showFileContentForm);			
+
+		model.addAttribute("dokumetContent", documentContent.trim());
+		model.addAttribute("showTextArea", showFileContentForm);
 		loggedRole = String.valueOf(session.getAttribute("roleid"));
 		model.addAttribute("loggedRole", loggedRole);
 		return "dokumenti/dokumentedit";
 	}
-	
 
 	@RequestMapping(value = "/editnocontent", method = RequestMethod.POST)
-	public String izmijeniBezSadrzaja(@RequestParam("id") Integer id, @RequestParam("naziv") String naziv, 
+	public String izmijeniBezSadrzaja(@RequestParam("id") Integer id, @RequestParam("naziv") String naziv,
 			@RequestParam("vidljivost") Integer vidljivost) {
 
 		logger.debug("snimiIliIzmijeniDokument() : {}", id + naziv + vidljivost);
-		
-		Dokument dokument=dokumentService.findById(id);
+
+		Dokument dokument = dokumentService.findById(id);
 		dokument.setId(id);
 		dokument.setNaziv(naziv);
 		dokument.setVidljivost(vidljivost);
-		
+
 		dokumentService.saveOrUpdate(dokument);
-			
+
 		return "redirect:/dokumenti/";
 	}
-	
-	
+
 	@RequestMapping(value = "/dokumenti/dodaj", method = RequestMethod.GET)
 	public String prikaziFormuDodajDokument(Model model, HttpSession session) {
 
 		logger.debug("showDodajDokumentForm()");
-		List<Vidljivost> listaVidljivosti=vidljivostService.findAll();
+		List<Vidljivost> listaVidljivosti = vidljivostService.findAll();
 		List<Korisnik> listaVlasnika = korisnikService.findAll();
-		
-		//TODO: Samo jedan vlasnik i ne moze se mijenati!!!!!
-		Dokument dokument= new Dokument();
+
+		// TODO: Samo jedan vlasnik i ne moze se mijenati!!!!!
+		Dokument dokument = new Dokument();
 		model.addAttribute("dokumentForm", dokument);
 		model.addAttribute("vlasnici", listaVlasnika);
-		model.addAttribute("vidljivosti",listaVidljivosti);
-		
+		model.addAttribute("vidljivosti", listaVidljivosti);
+
 		loggedRole = String.valueOf(session.getAttribute("roleid"));
 		model.addAttribute("loggedRole", loggedRole);
-		
+
 		return "dokumenti/dokumentform";
 	}
-		
+
 	@RequestMapping(value = "/dokumenti/{id}/obrisi", method = RequestMethod.POST)
-	public String obrisiDokument(@PathVariable("id") int id, final RedirectAttributes redirectAttributes, HttpSession session) {
+	public String obrisiDokument(@PathVariable("id") int id, final RedirectAttributes redirectAttributes,
+			HttpSession session) {
 
 		logger.debug("deleteDokument() : {}", id);
 
 		dokumentService.delete(id);
-		
+
 		redirectAttributes.addFlashAttribute("css", "success");
 		redirectAttributes.addFlashAttribute("msg", "Dokument je obrisan!");
-		
+
 		return "redirect:/dokumenti";
 	}
-	
-	 @RequestMapping(value = "/dokumenti/{id}/prikazi/", method = RequestMethod.GET)
-	 protected String prikaziDokument(@PathVariable("id") int id,HttpServletRequest request, Model model, HttpSession httpSession, HttpServletResponse response) {
-	     try {
-	    	 Dokument dokument = dokumentService.findById(id);
-	    	 
-	    	 String extenzija=dokument.getExtenzija();
-	    	 
-	    	 logger.debug("prikaz dokumenta ekstenzija: " + extenzija, extenzija);
-	    	 
-	         byte[] dokumentBytes = IOUtils.toByteArray(dokument.getFajl());  
-	        
-	         loggedRole = String.valueOf(httpSession.getAttribute("roleid"));
-	         model.addAttribute("loggedRole", loggedRole);
-	 		
-	         response.setHeader("Content-Disposition", "inline; filename=\""+dokument.getNaziv()+""+"."+dokument.getExtenzija()+"\"");
-	         response.setContentType(dokument.getContentType());
-	         response.setDateHeader("Expires", -1);
-	         response.setContentLength(dokumentBytes.length);
-	         response.getOutputStream().write(dokumentBytes);
-	         
-	     } catch (Exception ioe) {
-	     } finally {
-	     }
-	     return null;
-	 }
-	
+
+	@RequestMapping(value = "/dokumenti/{id}/prikazi/", method = RequestMethod.GET)
+	protected String prikaziDokument(@PathVariable("id") int id, HttpServletRequest request, Model model,
+			HttpSession httpSession, HttpServletResponse response) {
+		try {
+			Dokument dokument = dokumentService.findById(id);
+			String extenzija = dokument.getExtenzija();
+			InputStream dokumentFile = dokument.getFajl();
+
+			model.addAttribute("showcontent","true");
+			xdoc = null;
+			if ("txt".equals(dokument.getExtenzija())) {
+				model.addAttribute("naziv", dokument.getNaziv());
+				String content = dokument.getContent();
+				model.addAttribute("content", content);
+				return "dokumenti/prikazi";
+			} else if ("docx".equals(dokument.getExtenzija())) {
+				try {
+					model.addAttribute("naziv", dokument.getNaziv());
+					xdoc = new XWPFDocument(OPCPackage.open(dokumentFile));
+					XWPFWordExtractor extractor = new XWPFWordExtractor(xdoc);
+					String content = extractor.getText();
+					model.addAttribute("content", content.trim());
+					extractor.close();
+					return "dokumenti/prikazi";
+				} catch (InvalidFormatException e) {
+					logger.debug("prikaz dokumenta exception: " + e.getLocalizedMessage(), e.getLocalizedMessage());
+					e.printStackTrace();
+				} catch (IOException e) {
+					logger.debug("prikaz dokumenta exception: " + e.getLocalizedMessage(), e.getLocalizedMessage());
+					e.printStackTrace();
+				} catch (Exception e) {
+					logger.debug("prikaz dokumenta exception: " + e.getLocalizedMessage(), e.getLocalizedMessage());
+					e.printStackTrace();
+				}
+			}
+
+			byte[] dokumentBytes = IOUtils.toByteArray(dokument.getFajl());
+			loggedRole = String.valueOf(httpSession.getAttribute("roleid"));
+			model.addAttribute("loggedRole", loggedRole);
+			response.setHeader("Content-Disposition","render; filename=\"" + dokument.getNaziv() + "" + "." + dokument.getExtenzija() + "\"");
+			response.setContentType(dokument.getContentType());
+			response.setDateHeader("Expires", -1);
+			response.setContentLength(dokumentBytes.length);
+			response.getOutputStream().write(dokumentBytes);
+
+		} catch (Exception ioe) {
+			ioe.printStackTrace();
+		} finally {
+		}
+		return null;
+	}
+
 	@RequestMapping(value = "/dokumenti/{id}", method = RequestMethod.GET)
 	public String prikaziDokument(@PathVariable("id") int id, Model model, HttpSession session) {
 
@@ -386,17 +413,14 @@ public class DokumentController {
 			model.addAttribute("css", "danger");
 			model.addAttribute("msg", "Dokument nije pronadjen");
 		}
-		model.addAttribute("dokument", dokument);
-
-		Korisnik vlasnik = korisnikService.findById(dokument.getVlasnik());
-		model.addAttribute("vlasnik",vlasnik.getKorisnickoIme());
-		
+		model.addAttribute("naziv", dokument.getNaziv());
+		model.addAttribute("showcontent","false");
 		loggedRole = String.valueOf(session.getAttribute("roleid"));
 		model.addAttribute("loggedRole", loggedRole);
 
 		return "dokumenti/prikazi";
 	}
-	
+
 	@ExceptionHandler(EmptyResultDataAccessException.class)
 	public ModelAndView handleEmptyData(HttpServletRequest req, Exception ex) {
 
@@ -409,6 +433,5 @@ public class DokumentController {
 
 		return model;
 	}
-
 
 }

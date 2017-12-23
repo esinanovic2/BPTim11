@@ -46,6 +46,11 @@ public class KorisnikServiceImplementation implements KorisnikService {
 	public void delete(Integer id) {
 		korisnikDao.delete(id);
 	}
+	
+	@Override
+	public Korisnik findByUsername(String username) {
+		return korisnikDao.findByUsername(username);
+	}
 
 	@Override
 	public Korisnik findByUsernameAndPassword(String username, String password) {

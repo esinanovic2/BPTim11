@@ -8,6 +8,8 @@ public interface KorisnikService {
 
 	Korisnik findById(Integer id);
 	
+	Korisnik findByUsername(String username);
+	
 	Korisnik findByUsernameAndPassword(String username, String password);
 
 	List<Korisnik> findAll();

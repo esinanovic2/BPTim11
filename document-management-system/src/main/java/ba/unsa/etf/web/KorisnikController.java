@@ -103,15 +103,28 @@ public class KorisnikController {
 	}
 
 	@RequestMapping(value = "/korisnici", method = RequestMethod.POST)
-	public String snimiIliIzmijeniKorisnika(@ModelAttribute("korisnikForm") @Validated Korisnik korisnik, 
-			@RequestParam("uloga") Integer uloga,
-			BindingResult result, Model model, final RedirectAttributes redirectAttributes, HttpSession session) {
+	public String snimiIliIzmijeniKorisnika(@ModelAttribute("korisnikForm") @Validated Korisnik korisnik, BindingResult result, 
+			@RequestParam("uloga") Integer uloga,  Model model, final RedirectAttributes redirectAttributes, HttpSession session) {
+		
 		if(Integer.valueOf(String.valueOf(session.getAttribute("userid"))) == 3){
 			logger.debug("ULOGAAA():" );
 		}
-		logger.debug("snimiIliIzmijeniKorisnika():", korisnik.getId() + "dddd "+ uloga );
+		logger.debug("snimiIliIzmijeniKorisnika():" + korisnik.getId() + "dddd "+ uloga);
+		
+		if(korisnik.isNew() && korisnikService.findByUsername(korisnik.getKorisnickoIme()) != null) {
+			result.rejectValue("korisnickoIme", "AlreadyExists.korisnikForm.exists", "Korisnik sa tim korisnickim imenom vec postoji!");
+		}
+		
+		if(!korisnik.getSifra().equals(korisnik.getPotvrdisifru())) {
+			result.rejectValue("potvrdisifru", "NotEmpty.korisnikForm.notsame", "Sifra i ponovi sifru moraju biti iste!");
+		}
 	
 		if (result.hasErrors()) {
+			List<Uloga> sveUloge = ulogaService.findAll();
+			model.addAttribute("korisnikForm", korisnik);
+			model.addAttribute("uloge", sveUloge);
+			loggedRole = String.valueOf(session.getAttribute("roleid"));
+			model.addAttribute("loggedRole", loggedRole);
 			return "korisnici/korisnikform";
 		} else {
 			
@@ -147,7 +160,6 @@ public class KorisnikController {
 		
 		
 		return "korisnici/korisnikform";
-
 	}
 
 	@RequestMapping(value = "/korisnici/{id}/promijeni", method = RequestMethod.GET)

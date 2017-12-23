@@ -133,7 +133,6 @@ public class DokumentController {
 				logger.debug("ADMIN 13 user: " + userID + " dokumenti size: " + sviDokumenti.size());
 				session.setAttribute("docUserID", "null");
 			}
-
 		}
 
 		List<Integer> idEvi=new ArrayList<>();
@@ -205,7 +204,6 @@ public class DokumentController {
 				Integer id = Integer.valueOf(String.valueOf(session.getAttribute("userid")));
 				model.addAttribute("vlasnik", id);
 			}
-			// model.addAttribute("vidljivosti",listaVidljivosti);
 			model.addAttribute("vidljivost", vidljivost);
 			
 			
@@ -264,7 +262,6 @@ public class DokumentController {
 		paragraph.removeRun(0);
 		XWPFRun run = paragraph.createRun();
 		run.setText(fajlcontent);
-
 		ByteArrayOutputStream b = new ByteArrayOutputStream();
 
 		try {

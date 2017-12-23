@@ -29,11 +29,6 @@ public class DokumentValidator implements Validator{
 		if(dokument.getFajl()==null){
 			errors.rejectValue("fajl", "NotEmpty.dokumentForm.fajl");
 		}
-		
-//		ValidationUtils.rejectIfEmptyOrWhitespace(errors, "fajl", "NotEmpty.dokumentForm.fajl");
-		
-//		ValidationUtils.rejectIfEmptyOrWhitespace(errors, "vlasnik", "NotEmpty.dokumentForm.vlasnik");
-//		ValidationUtils.rejectIfEmptyOrWhitespace(errors, "vidljivost", "NotEmpty.vlasnik.vidljivost");
 	}
 
 }

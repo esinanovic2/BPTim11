@@ -78,15 +78,6 @@ body {
 
 		<spring:bind path="vidljivost">
 			<form:input type="hidden" path="vidljivost" class="form-control" id="vidljivost" value="${vidljivost}" />
-		
-			<!-- <div class="form-group ${status.error ? 'has-error' : ''}">
-				<label class="col-sm-2 control-label">Vidljivost</label>
-				<div class="col-sm-10">
-					<form:select path = "vidljivost">
-                    	<form:options items = "${vidljivosti}" itemValue="id"/>
-                  	</form:select>
-				</div>
-			</div> -->
 		</spring:bind>
 
 
@@ -102,19 +93,6 @@ body {
 				</div>
 			</div>
 		</spring:bind>
-
-		<%-- 				<spring:bind path="fajl"> --%>
-<%-- 			<div class="form-group ${status.error ? 'has-error' : ''}"> --%>
-<!-- 				<div class="col-sm-10"> -->
-<!-- 					<label class="col-sm-2 control-label">Fajl</label> -->
-<!-- 					<div class="col-sm-10"> -->
-<!-- 						<input type="file" class="form-control" name="fajl" /> -->
-<!-- 					</div> -->
-<%-- 					<form:errors path="fajl" class="control-label" /> --%>
-<!-- 				</div> -->
-<!-- 			</div> -->
-<%-- 		</spring:bind> --%>
-
 
 		<div class="form-group">
 			<div class="col-sm-offset-2 col-sm-10">

@@ -64,9 +64,11 @@ body {
 									<td>${dokument.naziv}</td>
 									<td>${vlasnici[status.index].ime}</td>
 									<td  class="pull-right">
-											<spring:url value="/dokumenti/${dokument.id}/prikazi/" var="dokumentPrikazi" /> 
-											<spring:url	value="/dokumenti/${dokument.id}/obrisi" var="obrisiUrl" /> 
-											<spring:url	value="/dokumenti/${dokument.id}/promijeni" var="promijeniUrl" />
+										<spring:url value="/dokumenti/${dokument.id}/prikazi/" var="dokumentPrikazi" /> 
+										<spring:url	value="/dokumenti/${dokument.id}/obrisi" var="obrisiUrl" /> 
+										<spring:url	value="/dokumenti/${dokument.id}/promijeni" var="promijeniUrl" />
+										<spring:url value="/dokumenti/${dokument.id}/skini" var="dokumentSkini" />
+										<button class="btn btn-info" onclick="location.href='${dokumentSkini}'">Preuzmi</button>
 										<button class="btn btn-info" onclick="location.href='${dokumentPrikazi}'">Prikazi</button>
 								</tr>
 							</c:forEach>
@@ -107,6 +109,8 @@ body {
 										<spring:url value="/dokumenti/${dokument.id}/prikazi/" var="dokumentPrikazi" /> 
 										<spring:url	value="/dokumenti/${dokument.id}/obrisi" var="obrisiUrl" /> 
 										<spring:url	value="/dokumenti/${dokument.id}/promijeni" var="promijeniUrl" />
+										<spring:url value="/dokumenti/${dokument.id}/skini" var="dokumentSkini" />
+										<button class="btn btn-info" onclick="location.href='${dokumentSkini}'">Preuzmi</button>
 										<button class="btn btn-info"	onclick="location.href='${dokumentPrikazi}'">Prikazi</button>
 										<button class="btn btn-primary" onclick="location.href='${promijeniUrl}'">Izmijeni</button>
 										<button class="btn btn-danger"onclick="this.disabled=true;post('${obrisiUrl}')">Obrisi</button>
@@ -149,15 +153,14 @@ body {
 									<td>${dokument.naziv}</td>
 									<td>${vlasnici[status.index].ime}</td>
 									<td  class="pull-right">
-											<spring:url value="/dokumenti/${dokument.id}/prikazi/" var="dokumentPrikazi" /> 
-											<spring:url	value="/dokumenti/${dokument.id}/obrisi" var="obrisiUrl" /> 
-											<spring:url	value="/dokumenti/${dokument.id}/promijeni" var="promijeniUrl" />
-										<button class="btn btn-info"
-											onclick="location.href='${dokumentPrikazi}'">Prikazi</button>
-											<button class="btn btn-primary"
-											onclick="location.href='${promijeniUrl}'">Izmijeni</button>
-										<button class="btn btn-danger"
-											onclick="this.disabled=true;post('${obrisiUrl}')">Obrisi</button></td>
+										<spring:url value="/dokumenti/${dokument.id}/prikazi/" var="dokumentPrikazi" /> 
+										<spring:url	value="/dokumenti/${dokument.id}/obrisi" var="obrisiUrl" /> 
+										<spring:url	value="/dokumenti/${dokument.id}/promijeni" var="promijeniUrl" />
+										<spring:url value="/dokumenti/${dokument.id}/skini" var="dokumentSkini" />
+										<button class="btn btn-info" onclick="location.href='${dokumentSkini}'">Preuzmi</button>
+										<button class="btn btn-info" onclick="location.href='${dokumentPrikazi}'">Prikazi</button>
+										<button class="btn btn-primary" onclick="location.href='${promijeniUrl}'">Izmijeni</button>
+										<button class="btn btn-danger"onclick="this.disabled=true;post('${obrisiUrl}')">Obrisi</button></td>
 								</tr>
 							</c:forEach>
 						</table>

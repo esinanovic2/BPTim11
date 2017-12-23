@@ -536,6 +536,40 @@ public class DokumentController {
 		}
 		return null;
 	}
+	
+	
+	
+	
+	@RequestMapping(value = "/dokumenti/{id}/skini", method = RequestMethod.GET)
+	protected String skiniDokument(@PathVariable("id") int id, HttpServletRequest request, Model model, HttpSession httpSession, HttpServletResponse response) {
+		try {
+			Dokument dokument = dokumentService.findById(id);
+			
+			byte[] dokumentBytes = IOUtils.toByteArray(dokument.getFajl());
+			loggedRole = String.valueOf(httpSession.getAttribute("roleid"));
+			model.addAttribute("loggedRole", loggedRole);
+			response.setHeader("Content-Disposition","attachment; filename=\"" + dokument.getNaziv() + "" + "." + dokument.getExtenzija() + "\"");
+			response.setContentType(dokument.getContentType());
+			response.setDateHeader("Expires", -1);
+			response.setContentLength(dokumentBytes.length);
+			response.getOutputStream().write(dokumentBytes);
+
+		} catch (Exception ioe) {
+			ioe.printStackTrace();
+		} finally {
+		}
+		return null;
+	}
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
 
 	@RequestMapping(value = "/dokumenti/{id}", method = RequestMethod.GET)
 	public String prikaziDokument(@PathVariable("id") int id, Model model, HttpSession session) {

@@ -27,6 +27,7 @@ import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
+import org.springframework.validation.Errors;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -173,26 +174,41 @@ public class DokumentController {
 	@RequestMapping(value = "/dokumenti", method = RequestMethod.POST)
 	public String snimiIliIzmijeniDokument(@ModelAttribute("dokumentForm") @Validated Dokument dokument,
 			BindingResult result, Model model, final RedirectAttributes redirectAttributes,
-			@RequestParam("naziv") String naziv, @RequestParam("vlasnik") Integer vlasnik,
-			@RequestParam("vidljivost") Integer vidljivost,
-			@RequestParam(value = "fajl", required = false) MultipartFile fileUpload, HttpSession session) {
+			@RequestParam("naziv") String naziv, @RequestParam(value = "fajl", required = false) MultipartFile fileUpload, HttpSession session) {
 
-		logger.debug("snimiIliIzmijeniDokument():", naziv + vlasnik + vidljivost + fileUpload.getOriginalFilename());
+		logger.debug("snimiIliIzmijeniDokument():" + naziv + "filename: " + fileUpload.isEmpty(), naziv + "filename: " + fileUpload.getOriginalFilename());
 
 		String contentType = fileUpload.getContentType();
-
-		logger.debug("Content type before substring : {}", contentType);
-
 		String extenzija = fileUpload.getOriginalFilename();
-		logger.debug("Extenzija before substring : {}", extenzija);
 		extenzija = extenzija.substring(extenzija.lastIndexOf(".") + 1, extenzija.length());
-		logger.debug("Extenzija after substring : {}", extenzija);
-
+		
+		if(fileUpload.isEmpty())
+			result.rejectValue("fajl", "NotEmpty.dokumentForm.fajl", "Fajl je obavezan!");
+		
 		loggedRole = String.valueOf(session.getAttribute("roleid"));
 		model.addAttribute("loggedRole", loggedRole);
 
 		if (result.hasErrors()) {
-			logger.debug("snimi ili izmijeni if has errors");
+			logger.debug("snimi ili izmijeni if has errors: " + dokument.getFajl());
+			
+			List<Korisnik> listaVlasnika = korisnikService.findAll();
+			model.addAttribute("staticVlasnik", "0");
+			if (loggedRole.equals("1")) {
+				if (userID.equals("null")) {
+					model.addAttribute("vlasnici", listaVlasnika);
+				} else {
+					model.addAttribute("staticVlasnik", "1");
+					model.addAttribute("vlasnik", userID);
+				}
+			} else {
+				model.addAttribute("staticVlasnik", "1");
+				Integer id = Integer.valueOf(String.valueOf(session.getAttribute("userid")));
+				model.addAttribute("vlasnik", id);
+			}
+			// model.addAttribute("vidljivosti",listaVidljivosti);
+			model.addAttribute("vidljivost", vidljivost);
+			
+			
 			return "dokumenti/dokumentform";
 		} else {
 			redirectAttributes.addFlashAttribute("css", "success");

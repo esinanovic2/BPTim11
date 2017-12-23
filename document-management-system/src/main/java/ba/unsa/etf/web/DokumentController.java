@@ -224,28 +224,93 @@ public class DokumentController {
 	}
 
 	@RequestMapping(value = "/edit", method = RequestMethod.POST)
-	public String izmijeniDokument(@RequestParam("id") Integer id, @RequestParam("naziv") String naziv,
+	public String izmijeniDokument(@ModelAttribute("dokumentForm") Dokument dokument,
+			BindingResult result, Model model, @RequestParam("id") Integer id, @RequestParam("naziv") String naziv,
 			@RequestParam("vidljivost") Integer vidljivost, @RequestParam("fajlcontent") String fajlcontent,
-			Model model, HttpSession session) {
+			 HttpSession session) {
 
-		logger.debug("snimiIliIzmijeniDokument() : {}", id + naziv + vidljivost + xdoc);
+		logger.debug("snimiIliIzmijeniDokument() : {}" + id + naziv + vidljivost + xdoc);
+		
+		if(naziv==null || naziv.isEmpty() || "".equals(naziv)) {
+			logger.debug("Naziv prazan : " + naziv);
+			result.rejectValue("naziv", "NotEmpty.dokumentForm.naziv", "Ne moze biti prazan");
+		}
+		
+		if(fajlcontent==null || fajlcontent.isEmpty() || "".equals(fajlcontent)) {
+			logger.debug("Fajl prazan : " + naziv);
+			result.rejectValue("naziv", "NotEmpty.dokumentForm.content", "Sadrzaj ne moze biti prazan");
+		}
+			
+		if(result.hasErrors()) {
+			logger.debug("Has errors() : " + "id: " + id + " naziv: " + naziv + " vidljivost: " +  vidljivost + " xdoc: " +  xdoc);
+						
+			boolean showFileContentForm = false;
+			dokument = dokumentService.findById(id);
+			String extenzija = dokument.getExtenzija();
+			String documentContent = "";
 
-		Dokument dokument = dokumentService.findById(id);
-		dokument.setId(id);
-		dokument.setNaziv(naziv);
-		dokument.setVidljivost(vidljivost);
-		if ("docx".equals(dokument.getExtenzija())) {
-			InputStream inputStream = replaceText(fajlcontent);
-			dokument.setFajlDrugi(inputStream);
-		} else if ("txt".equals(dokument.getExtenzija()))
-			dokument.contentToInputStream(fajlcontent);
+			xdoc = null;
+			if ("docx".equals(extenzija)) {
+				InputStream dokumentFile = dokument.getFajl();
+				try {
+					xdoc = new XWPFDocument(OPCPackage.open(dokumentFile));
+					XWPFWordExtractor extractor = new XWPFWordExtractor(xdoc);
 
-		loggedRole = String.valueOf(session.getAttribute("roleid"));
-		model.addAttribute("loggedRole", loggedRole);
+					System.out.println(extractor.getText());
+					documentContent = extractor.getText();
+					showFileContentForm = true;
+					extractor.close();
+				} catch (InvalidFormatException e) {
+					e.printStackTrace();
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
+			}
+			//model.addAttribute("dokumentForm", dokument);
+			Korisnik vlasnik = korisnikService.findById(dokument.getVlasnik());
+			model.addAttribute("vlasnik", vlasnik.getKorisnickoIme());
 
-		dokumentService.saveOrUpdate(dokument);
+			Vidljivost prva = vidljivostService.findById(dokument.getVidljivost());
+			List<Vidljivost> sveVidljivosti = vidljivostService.findAll();
+			List<Vidljivost> vidljivosti = new ArrayList<>();
+			vidljivosti.add(prva);
 
-		return "redirect:/dokumenti/";
+			for (int i = 0; i < sveVidljivosti.size(); i++) {
+				if (!(prva.getNaziv()).equals(sveVidljivosti.get(i).getNaziv()))
+					vidljivosti.add(sveVidljivosti.get(i));
+			}
+			model.addAttribute("vlasnik", vlasnik.getKorisnickoIme());
+			model.addAttribute("vidljivost", vidljivost);
+
+			if ("txt".equals(extenzija)) {
+				documentContent = dokument.getContent();
+				showFileContentForm = true;
+			}
+
+			model.addAttribute("dokumetContent", documentContent.trim());
+			model.addAttribute("showTextArea", showFileContentForm);
+			loggedRole = String.valueOf(session.getAttribute("roleid"));
+			model.addAttribute("loggedRole", loggedRole);
+			
+			return "dokumenti/dokumentedit";
+		}else {
+			dokument = dokumentService.findById(id);
+			dokument.setId(id);
+			dokument.setNaziv(naziv);
+			dokument.setVidljivost(vidljivost);
+			if ("docx".equals(dokument.getExtenzija())) {
+				InputStream inputStream = replaceText(fajlcontent);
+				dokument.setFajlDrugi(inputStream);
+			} else if ("txt".equals(dokument.getExtenzija()))
+				dokument.contentToInputStream(fajlcontent);
+
+			loggedRole = String.valueOf(session.getAttribute("roleid"));
+			model.addAttribute("loggedRole", loggedRole);
+
+			dokumentService.saveOrUpdate(dokument);
+
+			return "redirect:/dokumenti/";
+		}
 	}
 
 	private InputStream replaceText(String fajlcontent) {
@@ -283,7 +348,6 @@ public class DokumentController {
 		String extenzija = dokument.getExtenzija();
 		String documentContent = "";
 
-		Map<String, String> documentMap = new HashMap<>();
 		xdoc = null;
 		if ("docx".equals(extenzija)) {
 			InputStream dokumentFile = dokument.getFajl();
@@ -320,17 +384,6 @@ public class DokumentController {
 
 		model.addAttribute("vidljivosti", vidljivosti);
 		model.addAttribute("vlasnik", vlasnik.getKorisnickoIme());
-
-		// Vidljivost prva = vidljivostService.findById(dokument.getVidljivost());
-		// List<Vidljivost> sveVidljivosti = vidljivostService.findAll();
-		// List<Vidljivost> vidljivosti = new ArrayList<>();
-		// vidljivosti.add(prva);
-		//
-		// for(int i=0; i<sveVidljivosti.size(); i++){
-		// if(!(prva.getNaziv()).equals(sveVidljivosti.get(i).getNaziv()))
-		// vidljivosti.add(sveVidljivosti.get(i));
-		// }
-
 		model.addAttribute("vidljivost", vidljivost);
 
 		if ("txt".equals(extenzija)) {
@@ -347,19 +400,43 @@ public class DokumentController {
 	}
 
 	@RequestMapping(value = "/editnocontent", method = RequestMethod.POST)
-	public String izmijeniBezSadrzaja(@RequestParam("id") Integer id, @RequestParam("naziv") String naziv,
+	public String izmijeniBezSadrzaja(@ModelAttribute("dokumentForm") Dokument dokument,Model model,
+			BindingResult result,@RequestParam("id") Integer id, @RequestParam("naziv") String naziv,
 			@RequestParam("vidljivost") Integer vidljivost) {
 
 		logger.debug("snimiIliIzmijeniDokument() : {}", id + naziv + vidljivost);
+		
+		if(naziv==null || naziv.isEmpty() || "".equals(naziv)) {
+			logger.debug("Naziv prazan : " + naziv);
+			result.rejectValue("naziv", "NotEmpty.dokumentForm.naziv", "Ne moze biti prazan");
+		}
 
-		Dokument dokument = dokumentService.findById(id);
-		dokument.setId(id);
-		dokument.setNaziv(naziv);
-		dokument.setVidljivost(vidljivost);
+		if (result.hasErrors()) {
+			
+			dokument = dokumentService.findById(id);
 
-		dokumentService.saveOrUpdate(dokument);
+			Korisnik vlasnik = korisnikService.findById(dokument.getVlasnik());
+			model.addAttribute("vlasnik", vlasnik.getKorisnickoIme());
 
-		return "redirect:/dokumenti/";
+			Vidljivost prva = vidljivostService.findById(dokument.getVidljivost());
+			List<Vidljivost> sveVidljivosti = vidljivostService.findAll();
+			List<Vidljivost> vidljivosti = new ArrayList<>();
+			vidljivosti.add(prva);
+
+			for (int i = 0; i < sveVidljivosti.size(); i++) {
+				if (!(prva.getNaziv()).equals(sveVidljivosti.get(i).getNaziv()))
+					vidljivosti.add(sveVidljivosti.get(i));
+			}
+
+			return "dokumenti/dokumentedit";
+		} else {
+			dokument = dokumentService.findById(id);
+			dokument.setId(id);
+			dokument.setNaziv(naziv);
+			dokument.setVidljivost(vidljivost);
+			dokumentService.saveOrUpdate(dokument);
+			return "redirect:/dokumenti/";
+		}
 	}
 
 	@RequestMapping(value = "/dokumenti/dodaj", method = RequestMethod.GET)

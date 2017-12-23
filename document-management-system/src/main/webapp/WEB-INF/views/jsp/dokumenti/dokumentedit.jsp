@@ -27,6 +27,15 @@ body {
 </c:choose>
 <div class="container">
 
+	<c:if test="${not empty msg}">
+		<div class="alert alert-${css} alert-dismissible" role="alert">
+			<button type="button" class="close" data-dismiss="alert" aria-label="Close">
+				<span aria-hidden="true">&times;</span>
+			</button>
+			<strong>${msg}</strong>
+		</div>
+	</c:if>
+
 	<c:choose>
 		<c:when test="${dokumentForm['new']}">
 			<h1>Dodaj dokument</h1>
@@ -36,7 +45,7 @@ body {
 		</c:otherwise>
 	</c:choose>
 	<br/>
-
+		
 	<c:choose>
 		<c:when test="${showTextArea}">
 			<spring:url value="/edit" var="dokumentActionUrl" />
@@ -70,14 +79,6 @@ body {
 	
 		<spring:bind path="vidljivost">
 			<form:input type="hidden" path="vidljivost" class="form-control" id="vidljivost" value="${vidljivost}" />
-			<!-- <div class="form-group ${status.error ? 'has-error' : ''}">
-				<label class="col-sm-2 control-label">Vidljivost</label>
-				<div class="col-sm-10">
-					<form:select path = "vidljivost">
-                    	<form:options items = "${vidljivosti}" itemValue="id"/>
-                  	</form:select>
-				</div>
-			</div> -->
 		</spring:bind>
 
 

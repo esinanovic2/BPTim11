@@ -1,5 +1,6 @@
 package ba.unsa.etf.web;
 
+import java.awt.image.BufferedImage;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
@@ -9,6 +10,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import javax.imageio.ImageIO;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
@@ -24,6 +26,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.EmptyResultDataAccessException;
+import org.springframework.security.crypto.codec.Base64;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -517,7 +520,21 @@ public class DokumentController {
 					logger.debug("prikaz dokumenta exception: " + e.getLocalizedMessage(), e.getLocalizedMessage());
 					e.printStackTrace();
 				}
+			} else if("jpg".equalsIgnoreCase(dokument.getExtenzija())||"jpeg".equalsIgnoreCase(dokument.getExtenzija()) || "png".equalsIgnoreCase(dokument.getExtenzija())) {
+//				BufferedImage image = ImageIO.read(dokument.getFajl());
+//				Integer visina = image.getHeight();
+//				Integer sirina = image.getWidth();
+//				logger.debug("prikaz dokumenta visina i sirina: " + visina + sirina);
+////				model.addAttribute("visina",String.valueOf(visina));
+////				model.addAttribute("sirina",String.valueOf(sirina));
+				byte[] dokumentBytes = IOUtils.toByteArray(dokument.getFajl());
+				byte[] encodeBase64 = Base64.encode(dokumentBytes);
+                String base64Encoded = new String(encodeBase64, "UTF-8");
+                model.addAttribute("naziv", dokument.getNaziv());
+                model.addAttribute("image", base64Encoded);
+                return "dokumenti/prikazisliku";
 			}
+			
 
 			byte[] dokumentBytes = IOUtils.toByteArray(dokument.getFajl());
 			loggedRole = String.valueOf(httpSession.getAttribute("roleid"));

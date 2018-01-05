@@ -23,6 +23,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
@@ -32,11 +33,13 @@ import ba.unsa.etf.service.KorisnikService;
 import ba.unsa.etf.service.UlogaService;
 import ba.unsa.etf.validator.KorisnikFormValidator;
 
+@RestController
 @Controller
 public class KorisnikController {
 	private final Logger logger = LoggerFactory.getLogger(KorisnikController.class);
 
 	String loggedRole = "0";
+
 	
 	@Autowired
 	KorisnikFormValidator korisnikFormValidator;
@@ -58,7 +61,13 @@ public class KorisnikController {
 	public void setUlogaService (UlogaService ulogaService){
 		this.ulogaService=ulogaService;
 	}
-	
+
+	@RequestMapping("/korisniciandroid")
+	public List<Korisnik> sviKorisnici(){
+		List<Korisnik> korisnici = new ArrayList<>();
+		korisnici = korisnikService.findAll();
+		return korisnici;
+	}
 	
 	@RequestMapping(value = "/korisnici", method = RequestMethod.GET)
 	public String prikaziSveKorisnike(Model model, HttpSession session) {

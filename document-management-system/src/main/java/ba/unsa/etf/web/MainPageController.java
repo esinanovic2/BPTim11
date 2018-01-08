@@ -128,6 +128,9 @@ public class MainPageController {
 				logger.debug("login IF() : {}", login.getKorisnickoIme() + " " + login.getSifra() + " " + session.getId().toString());
 				loginAccess="true";
 				loggedRole = String.valueOf(korisnik.getUloga());
+				if(loggedRole == null){
+						loggedRole = "0";
+				}
 				
 				session.setAttribute("userid", korisnik.getId());
 				session.setAttribute("ime", korisnik.getIme());

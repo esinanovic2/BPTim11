@@ -11,6 +11,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.EmptyResultDataAccessException;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -33,7 +35,6 @@ import ba.unsa.etf.service.KorisnikService;
 import ba.unsa.etf.service.UlogaService;
 import ba.unsa.etf.validator.KorisnikFormValidator;
 
-@RestController
 @Controller
 public class KorisnikController {
 	private final Logger logger = LoggerFactory.getLogger(KorisnikController.class);
@@ -62,12 +63,12 @@ public class KorisnikController {
 		this.ulogaService=ulogaService;
 	}
 
-	@RequestMapping("/korisniciandroid")
-	public List<Korisnik> sviKorisnici(){
+	/*@RequestMapping("/korisniciandroid")
+	public ResponseEntity<List<Korisnik>> sviKorisnici(){
 		List<Korisnik> korisnici = new ArrayList<>();
 		korisnici = korisnikService.findAll();
-		return korisnici;
-	}
+		return new ResponseEntity<List<Korisnik>>(korisnici,HttpStatus.OK);
+	}*/
 	
 	@RequestMapping(value = "/korisnici", method = RequestMethod.GET)
 	public String prikaziSveKorisnike(Model model, HttpSession session) {

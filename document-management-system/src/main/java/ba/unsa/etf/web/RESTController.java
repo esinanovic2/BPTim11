@@ -54,13 +54,6 @@ public class RESTController {
 		return new ResponseEntity<List<Korisnik>>(korisnici,HttpStatus.OK);
 	}
 	
-	@RequestMapping("/dokumentiandroid")
-	public ResponseEntity<List<Dokument>> sviDokumenti(){
-		List<Dokument> dokumenti = new ArrayList<>();
-		dokumenti = dokumentService.findAll();
-		return new ResponseEntity<List<Dokument>>(dokumenti,HttpStatus.OK);
-	}
-	
 	@RequestMapping("/ulogeandroid")
 	public ResponseEntity<List<Uloga>> sveUloge(){
 		List<Uloga> uloge = new ArrayList<>();
@@ -68,6 +61,15 @@ public class RESTController {
 		return new ResponseEntity<List<Uloga>>(uloge,HttpStatus.OK);
 	}
 	
+	@RequestMapping(value="/dokumentiandroid", method = RequestMethod.POST)
+	public ResponseEntity<List<Dokument>> sviDokumentiUsera(@RequestBody Integer id){
+		List<Dokument> dokumenti = new ArrayList<>();
+		dokumenti = dokumentService.findDocumentsByUserId(id);
+		logger.debug("Response string() : " + dokumenti.get(0));
+
+		ResponseEntity<List<Dokument>> responseEnt = new ResponseEntity<List<Dokument>>(dokumenti,HttpStatus.OK);
+		return responseEnt;
+	}
 	
 	@RequestMapping(value = "/loginandroid", method = RequestMethod.POST)
 	public ResponseEntity<Korisnik> login(@RequestBody Login model){
@@ -75,7 +77,7 @@ public class RESTController {
 		
 		Korisnik korisnik = korisnikService.findByUsernameAndPassword(model.getKorisnickoIme(), model.getSifra());
 		if(korisnik == null){
-			korisnik = new Korisnik();
+			korisnik = null;
 		}
 		logger.debug("Response string() : " + korisnik, korisnik);
 		

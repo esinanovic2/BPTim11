@@ -85,4 +85,18 @@ public class RESTController {
 		return responseEnt;
 	}
 	
+	@RequestMapping(value = "/dodajuloguandroid", method = RequestMethod.POST)
+	public ResponseEntity<Void> dodajUlogu(@RequestBody Uloga uloga){
+		ulogaService.saveOrUpdate(uloga);
+		
+		return new ResponseEntity<Void>(HttpStatus.OK);
+	}
+	
+	@RequestMapping("/brsiuloguandroid")
+	public ResponseEntity<Void> brisiUlogu(@RequestBody int id){
+		ulogaService.delete(id);
+		return new ResponseEntity<Void>(HttpStatus.OK);
+	}
+	
+	
 }

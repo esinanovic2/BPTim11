@@ -61,7 +61,7 @@ public class UlogaController {
 	public String snimiIliIzmijeniUlogu(@ModelAttribute("ulogaForm") @Validated Uloga uloga,
 			BindingResult result, Model model, final RedirectAttributes redirectAttributes) {
 
-		logger.debug("snimiIliIzmijeniUlogu() : {}", uloga);
+		logger.debug("snimiIliIzmijeniUlogu() : uloga ID: " + uloga.getId(), uloga.getId());
 
 		if (result.hasErrors()) {
 			return "uloge/ulogaform";

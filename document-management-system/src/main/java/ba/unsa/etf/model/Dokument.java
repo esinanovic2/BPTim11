@@ -10,9 +10,12 @@ import java.nio.charset.StandardCharsets;
 import org.apache.commons.io.IOUtils;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+
 public class Dokument {
 	private Integer id;
 	private String naziv;
+	@JsonSerialize(using=StreamSerializer.class, as=ByteArrayInputStream.class)
 	private InputStream fajl;
 	private Integer vlasnik;
 	private Integer vidljivost;
@@ -33,8 +36,8 @@ public class Dokument {
 	public void setNaziv(String naziv) {
 		this.naziv = naziv;
 	}
-	public InputStream getFajl() {
-		return fajl;
+	public ByteArrayInputStream getFajl() {
+		return (ByteArrayInputStream) fajl;
 	}
 	public void setFajl(MultipartFile fajl) {
 		try {
@@ -48,7 +51,7 @@ public class Dokument {
 	public void setFajlDrugi(InputStream fajl) {
 			this.fajl = fajl;
 	}
-	
+		
 	public Integer getVlasnik() {
 		return vlasnik;
 	}
@@ -70,7 +73,6 @@ public class Dokument {
 		try {
 			IOUtils.copy(fajl, writer, "UTF-8");
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		String sadrzaj = writer.toString();
@@ -79,7 +81,6 @@ public class Dokument {
 	}
 	
 	public void contentToInputStream(String s) {
-		
 		try {
 			InputStream stream = new ByteArrayInputStream(s.getBytes(StandardCharsets.UTF_8.name()));
 			fajl=stream;
@@ -100,5 +101,7 @@ public class Dokument {
 	public void setExtenzija(String extenzija) {
 		this.extenzija = extenzija;
 	}
+	
+	
 
 }

@@ -61,11 +61,11 @@ public class RESTController {
 		return new ResponseEntity<List<Uloga>>(uloge,HttpStatus.OK);
 	}
 	
-	@RequestMapping(value="/dokumentiandroid", method = RequestMethod.POST)
-	public ResponseEntity<List<Dokument>> sviDokumentiUsera(@RequestBody Integer id){
+	@RequestMapping("/dokumentiandroid")
+	public ResponseEntity<List<Dokument>> sviDokumentiUsera(){
 		List<Dokument> dokumenti = new ArrayList<>();
-		dokumenti = dokumentService.findDocumentsByUserId(id);
-		logger.debug("Response string() : " + dokumenti.get(0));
+		dokumenti = dokumentService.findAll();
+		logger.debug("Response string() : " + dokumenti.toString());
 
 		ResponseEntity<List<Dokument>> responseEnt = new ResponseEntity<List<Dokument>>(dokumenti,HttpStatus.OK);
 		return responseEnt;

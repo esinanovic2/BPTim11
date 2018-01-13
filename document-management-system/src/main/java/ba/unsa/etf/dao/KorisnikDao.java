@@ -19,6 +19,6 @@ public interface KorisnikDao {
 	void update(Korisnik korisnik);
 
 	void delete(Integer id);
-
+	
 	List<Korisnik> findUsersWithRole(Integer roleId);
 }

@@ -18,6 +18,7 @@ import org.springframework.jdbc.support.KeyHolder;
 import org.springframework.stereotype.Repository;
 
 import ba.unsa.etf.model.Uloga;
+import ba.unsa.etf.service.KorisnikService;
 
 @Repository
 public class UlogaDaoImplementation implements UlogaDao{
@@ -26,6 +27,13 @@ public class UlogaDaoImplementation implements UlogaDao{
 	@Autowired
 	public void setNamedParameterJdbcTemplate(NamedParameterJdbcTemplate namedParameterJdbcTemplate) throws DataAccessException {
 		this.namedParameterJdbcTemplate = namedParameterJdbcTemplate;
+	}
+	
+	private KorisnikService korisnikService;
+
+	@Autowired
+	public void setKorisnikService(KorisnikService korisnikService) {
+		this.korisnikService = korisnikService;
 	}
 
 	@Override
@@ -68,8 +76,12 @@ public class UlogaDaoImplementation implements UlogaDao{
 	
 	@Override
 	public void delete(Integer id) {
+
+		korisnikService.delete(id);
+		
 		String sql = "DELETE FROM uloge WHERE id= :id";
 		namedParameterJdbcTemplate.update(sql, new MapSqlParameterSource("id", id));
+		
 	}
 
 	@Override

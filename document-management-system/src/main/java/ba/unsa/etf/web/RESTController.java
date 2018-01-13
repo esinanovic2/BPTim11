@@ -98,5 +98,11 @@ public class RESTController {
 		return new ResponseEntity<Void>(HttpStatus.OK);
 	}
 	
+	@RequestMapping("/brsikorisnikaandroid")
+	public ResponseEntity<Void> brisiKorisnika(@RequestBody int id){
+		korisnikService.delete(id);
+		return new ResponseEntity<Void>(HttpStatus.OK);
+	}
+	
 	
 }

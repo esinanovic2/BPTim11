@@ -99,6 +99,8 @@ public class KorisnikDaoImplementation implements KorisnikDao {
 	@Override
 	public void delete(Integer id) {
 		String sql = "DELETE FROM korisnici WHERE id= :id";
+		String sql2 = "DELETE FROM dokumenti WHERE vlasnik=:vlasnik";
+		namedParameterJdbcTemplate.update(sql2, new MapSqlParameterSource("vlasnik", id));
 		namedParameterJdbcTemplate.update(sql, new MapSqlParameterSource("id", id));
 	}
 

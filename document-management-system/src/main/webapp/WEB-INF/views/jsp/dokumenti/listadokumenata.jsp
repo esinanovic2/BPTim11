@@ -18,10 +18,10 @@ body {
   <c:when test="${loggedRole==43}">
 	<jsp:include page="../fragments/headerStudentska.jsp" />
   </c:when>
-  <c:when test="${loggedRole==4}">
+  <c:when test="${loggedRole==3}">
 	<jsp:include page="../fragments/headerStudentska.jsp" />
   </c:when>
-  <c:when test="${loggedRole==3}">
+  <c:when test="${loggedRole==2}">
 	<jsp:include page="../fragments/headerStudent.jsp" />
   </c:when>
   <c:otherwise>

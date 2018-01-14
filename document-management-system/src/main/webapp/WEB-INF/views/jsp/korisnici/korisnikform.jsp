@@ -20,7 +20,7 @@ body {
 			</div>
 		</body>
 	</c:when>
-	<c:when test="${loggedRole==4}">
+	<c:when test="${loggedRole==3}">
 		<jsp:include page="../fragments/headerStudentska.jsp" />
 		<body>
 			<div class="container">
@@ -28,7 +28,7 @@ body {
 			</div>
 		</body>
 	</c:when>
-	<c:when test="${loggedRole==3}">
+	<c:when test="${loggedRole==2}">
 		<jsp:include page="../fragments/headerStudent.jsp" />
 		<body>
 			<div class="container">

@@ -54,6 +54,16 @@ public class RESTController {
 		return new ResponseEntity<List<Korisnik>>(korisnici,HttpStatus.OK);
 	}
 	
+	@RequestMapping(value = "/nadjivlasnikasaidemandroid",method = RequestMethod.POST)
+	public ResponseEntity<Korisnik> getKorisnikWithId(@RequestBody Integer id){
+		Korisnik vlasnik = new Korisnik();
+		vlasnik = korisnikService.findById(id);
+		logger.debug("Response string() : " + vlasnik.toString());
+
+		ResponseEntity<Korisnik> responseEnt = new ResponseEntity<Korisnik>(vlasnik,HttpStatus.OK);
+		return responseEnt;
+	}
+	
 	@RequestMapping("/ulogeandroid")
 	public ResponseEntity<List<Uloga>> sveUloge(){
 		List<Uloga> uloge = new ArrayList<>();
@@ -85,6 +95,22 @@ public class RESTController {
 		return responseEnt;
 	}
 	
+	
+	@RequestMapping(value = "/dodajdokumentandroid", method = RequestMethod.POST)
+	public ResponseEntity<Void> dodajDokument(@RequestBody Dokument dokument){
+		dokumentService.saveOrUpdate(dokument);
+		
+		return new ResponseEntity<Void>(HttpStatus.OK);
+	}
+	
+	@RequestMapping(value = "/dodajkorisnikaandroid", method = RequestMethod.POST)
+	public ResponseEntity<Void> dodajKorisnika(@RequestBody Korisnik korisnik){
+		logger.debug("Pozvan dodaj korisnika id : " + korisnik.getId(), korisnik);
+		korisnikService.saveOrUpdate(korisnik);
+		
+		return new ResponseEntity<Void>(HttpStatus.OK);
+	}
+	
 	@RequestMapping(value = "/dodajuloguandroid", method = RequestMethod.POST)
 	public ResponseEntity<Void> dodajUlogu(@RequestBody Uloga uloga){
 		ulogaService.saveOrUpdate(uloga);
@@ -92,17 +118,21 @@ public class RESTController {
 		return new ResponseEntity<Void>(HttpStatus.OK);
 	}
 	
-	@RequestMapping("/brsiuloguandroid")
+	@RequestMapping("/brisiuloguandroid")
 	public ResponseEntity<Void> brisiUlogu(@RequestBody int id){
 		ulogaService.delete(id);
 		return new ResponseEntity<Void>(HttpStatus.OK);
 	}
 	
-	@RequestMapping("/brsikorisnikaandroid")
+	@RequestMapping("/brisikorisnikaandroid")
 	public ResponseEntity<Void> brisiKorisnika(@RequestBody int id){
 		korisnikService.delete(id);
 		return new ResponseEntity<Void>(HttpStatus.OK);
 	}
 	
-	
+	@RequestMapping("/brisidokumentandroid")
+	public ResponseEntity<Void> brisiDokument(@RequestBody int id){
+		dokumentService.delete(id);
+		return new ResponseEntity<Void>(HttpStatus.OK);
+	}
 }

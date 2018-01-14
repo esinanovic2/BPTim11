@@ -41,7 +41,7 @@ public class UlogaDaoImplementation implements UlogaDao{
 		Map<String, Object> params = new HashMap<String, Object>();
 		params.put("id", id);
 
-		String sql = "SELECT * FROM uloge WHERE id=:id";
+		String sql = "SELECT id, naziv FROM uloge WHERE id=:id";
 
 		Uloga result = null;
 		try {
@@ -56,7 +56,7 @@ public class UlogaDaoImplementation implements UlogaDao{
 		Map<String, Object> params = new HashMap<String, Object>();
 		params.put("naziv", naziv);
 	
-		String sql = "SELECT * FROM uloge WHERE naziv=:naziv";
+		String sql = "SELECT id, naziv FROM uloge WHERE naziv=:naziv";
 
 		Uloga result = null;
 		try {
@@ -68,7 +68,7 @@ public class UlogaDaoImplementation implements UlogaDao{
 	
 	@Override
 	public List<Uloga> findAll() {
-		String sql = "SELECT * FROM uloge";
+		String sql = "SELECT id, naziv FROM uloge";
 		List<Uloga> result = namedParameterJdbcTemplate.query(sql, new UlogaMapper());
 
 		return result;
@@ -77,7 +77,7 @@ public class UlogaDaoImplementation implements UlogaDao{
 	@Override
 	public void delete(Integer id) {
 
-		korisnikService.delete(id);
+		//korisnikService.delete(id);
 		
 		String sql = "DELETE FROM uloge WHERE id= :id";
 		namedParameterJdbcTemplate.update(sql, new MapSqlParameterSource("id", id));

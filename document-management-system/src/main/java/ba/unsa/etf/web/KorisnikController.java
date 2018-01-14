@@ -75,7 +75,7 @@ public class KorisnikController {
 		logger.debug("prikaziSveKorisnike(): " +String.valueOf(session.getAttribute("roleid")));
 		loggedRole = String.valueOf(session.getAttribute("roleid"));
 		
-		if(loggedRole.equals("3")){
+		if(loggedRole.equals("2")){
 			logger.debug("ELSE" + "korisnici/"+ String.valueOf(session.getAttribute("userid")) +"/promijeni");
 
 			String redirect = "redirect:/korisnici/"+ String.valueOf(session.getAttribute("userid")) +"/promijeni";
@@ -85,11 +85,11 @@ public class KorisnikController {
 			
 			List<Korisnik> sviKorisnici = korisnikService.findAll();
 			
-			if(loggedRole.equals("4")){
+			if(loggedRole.equals("3")){
 				logger.debug("Studentska(): " +String.valueOf(session.getAttribute("roleid")));
 			
-				sviKorisnici = korisnikService.findUsersWithRole(Integer.valueOf(4));
-				List<Korisnik> studenti = korisnikService.findUsersWithRole(Integer.valueOf(3));
+				sviKorisnici = korisnikService.findUsersWithRole(Integer.valueOf(3));
+				List<Korisnik> studenti = korisnikService.findUsersWithRole(Integer.valueOf(2));
 				sviKorisnici.addAll(studenti);
 			}
 		

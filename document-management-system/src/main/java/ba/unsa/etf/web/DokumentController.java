@@ -102,9 +102,9 @@ public class DokumentController {
 		sviDokumenti = dokumentService.findAll();
 		String loggedID = String.valueOf(session.getAttribute("userid"));
 
-		if (loggedRole.equals("3")) {
+		if (loggedRole.equals("2")) {
 			sviDokumenti = prikaziDokumenteVlasnikaIPrivilegije(loggedRole, loggedID, sviDokumenti);
-		} else if (loggedRole.equals("4")) {
+		} else if (loggedRole.equals("3")) {
 			// ako je sam on. ako je poslao id.
 			String userID = String.valueOf(session.getAttribute("docUserID"));
 

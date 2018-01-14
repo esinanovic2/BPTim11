@@ -34,7 +34,7 @@ public class KorisnikDaoImplementation implements KorisnikDao {
 		Map<String, Object> params = new HashMap<String, Object>();
 		params.put("id", id);
 
-		String sql = "SELECT * FROM korisnici WHERE id=:id";
+		String sql = "SELECT id,ime,prezime,korisnickoime,sifra,uloga FROM korisnici WHERE id=:id";
 
 		Korisnik result = null;
 		try {
@@ -49,7 +49,7 @@ public class KorisnikDaoImplementation implements KorisnikDao {
 		Map<String, Object> params = new HashMap<String, Object>();
 		params.put("korisnickoime", username);
 
-		String sql = "SELECT * FROM korisnici WHERE korisnickoime=:korisnickoime";
+		String sql = "SELECT id,ime,prezime,korisnickoime,sifra,uloga FROM korisnici WHERE korisnickoime=:korisnickoime";
 
 		Korisnik result = null;
 		try {
@@ -65,7 +65,7 @@ public class KorisnikDaoImplementation implements KorisnikDao {
 		params.put("korisnickoime", username);
 		params.put("sifra", password);
 
-		String sql = "SELECT * FROM korisnici WHERE korisnickoime=:korisnickoime AND sifra=:sifra";
+		String sql = "SELECT id,ime,prezime,korisnickoime,sifra,uloga FROM korisnici WHERE korisnickoime=:korisnickoime AND sifra=:sifra";
 
 		Korisnik result = null;
 		try {
@@ -77,7 +77,7 @@ public class KorisnikDaoImplementation implements KorisnikDao {
 	
 	@Override
 	public List<Korisnik> findAll() {
-		String sql = "SELECT * FROM korisnici";		
+		String sql = "SELECT id,ime,prezime,korisnickoime,sifra,uloga FROM korisnici";		
 		List<Korisnik> result = namedParameterJdbcTemplate.query(sql, new KorisnikMapper());
 
 		return result;
@@ -88,7 +88,7 @@ public class KorisnikDaoImplementation implements KorisnikDao {
 		Map<String, Object> params = new HashMap<String, Object>();
 		params.put("uloga", roleId);
 		
-		String sql = "SELECT * FROM korisnici WHERE uloga= :uloga";
+		String sql = "SELECT id,ime,prezime,korisnickoime,sifra,uloga FROM korisnici WHERE uloga= :uloga";
 
 		List<Korisnik> result = namedParameterJdbcTemplate.query(sql, params, new KorisnikMapper());
 		

@@ -34,7 +34,7 @@ public class DokumentDaoImplementation implements DokumentDao {
 		Map<String, Object> params = new HashMap<String, Object>();
 		params.put("id", id);
 
-		String sql = "SELECT * FROM dokumenti WHERE id=:id";
+		String sql = "SELECT id,naziv,contenttype,extenzija,fajl,vlasnik,vidljivost FROM dokumenti WHERE id=:id";
 
 		Dokument result = null;
 		try {
@@ -49,7 +49,7 @@ public class DokumentDaoImplementation implements DokumentDao {
 		Map<String, Object> params = new HashMap<String, Object>();
 		params.put("naziv", naziv);
 		
-		String sql = "SELECT * FROM dokumenti WHERE naziv=:naziv";
+		String sql = "SELECT id,naziv,contenttype,extenzija,fajl,vlasnik,vidljivost FROM dokumenti WHERE naziv=:naziv";
 
 		Dokument result = null;
 		try {
@@ -61,7 +61,7 @@ public class DokumentDaoImplementation implements DokumentDao {
 
 	@Override
 	public List<Dokument> findAll() {
-		String sql = "SELECT * FROM dokumenti";
+		String sql = "SELECT id,naziv,contenttype,extenzija,fajl,vlasnik,vidljivost FROM dokumenti";
 		List<Dokument> result = namedParameterJdbcTemplate.query(sql, new DokumentMapper());
 		
 		return result;
@@ -72,7 +72,7 @@ public class DokumentDaoImplementation implements DokumentDao {
 		Map<String, Object> params = new HashMap<String, Object>();
 		params.put("vlasnik", id);
 		
-		String sql = "SELECT * FROM dokumenti WHERE vlasnik=:vlasnik";
+		String sql = "SELECT id,naziv,contenttype,extenzija,fajl,vlasnik,vidljivost FROM dokumenti WHERE vlasnik=:vlasnik";
 		
 		List<Dokument> result = namedParameterJdbcTemplate.query(sql, params, new DokumentMapper());
 		

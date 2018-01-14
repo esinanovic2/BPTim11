@@ -34,7 +34,7 @@ public class VidljivostDaoImplementation implements VidljivostDao {
 		Map<String, Object> params = new HashMap<String, Object>();
 		params.put("id", id);
 
-		String sql = "SELECT * FROM vidljivosti WHERE id=:id";
+		String sql = "SELECT id, naziv FROM vidljivosti WHERE id=:id";
 
 		Vidljivost result = null;
 		try {
@@ -46,7 +46,7 @@ public class VidljivostDaoImplementation implements VidljivostDao {
 
 	@Override
 	public List<Vidljivost> findAll() {
-		String sql = "SELECT * FROM vidljivosti";
+		String sql = "SELECT id, naziv FROM vidljivosti";
 		List<Vidljivost> result = namedParameterJdbcTemplate.query(sql, new VidljivostkMapper());
 
 		return result;

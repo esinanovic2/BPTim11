@@ -2,7 +2,7 @@
 <div class="container">
 	<hr>
 	<footer>
-		<p>&copy; BP Tim 11 2017</p>
+		<p>&copy; BP Tim 18 2017/2018</p>
 	</footer>
 </div>
 

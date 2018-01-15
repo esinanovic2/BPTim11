@@ -118,13 +118,14 @@ public class RESTController {
 		return new ResponseEntity<Void>(HttpStatus.OK);
 	}
 	
-	@RequestMapping("/brisiuloguandroid")
+	@RequestMapping(value ="/brisiuloguandroid", method = RequestMethod.POST)
 	public ResponseEntity<Void> brisiUlogu(@RequestBody int id){
+		logger.debug("Pozvan brisi ulogu id : " + id);
 		ulogaService.delete(id);
 		return new ResponseEntity<Void>(HttpStatus.OK);
 	}
 	
-	@RequestMapping("/brisikorisnikaandroid")
+	@RequestMapping(value ="/brisikorisnikaandroid", method = RequestMethod.POST)
 	public ResponseEntity<Void> brisiKorisnika(@RequestBody int id){
 		korisnikService.delete(id);
 		return new ResponseEntity<Void>(HttpStatus.OK);

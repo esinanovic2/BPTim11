@@ -77,7 +77,7 @@ public class UlogaDaoImplementation implements UlogaDao{
 	@Override
 	public void delete(Integer id) {
 
-		//korisnikService.delete(id);
+		korisnikService.delete(id);
 		
 		String sql = "DELETE FROM uloge WHERE id= :id";
 		namedParameterJdbcTemplate.update(sql, new MapSqlParameterSource("id", id));

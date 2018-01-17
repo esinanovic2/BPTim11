@@ -66,7 +66,7 @@ body {
 					</tr>
 				</thead>
 	
-				<c:forEach var="uloga" items="${uloge}">
+				<c:forEach var="uloga" items="${uloge}" varStatus = "status">
 					<tr>
 						<td>
 							${status.index+1}

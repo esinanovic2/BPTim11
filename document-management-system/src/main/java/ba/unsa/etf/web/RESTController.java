@@ -1,8 +1,10 @@
 package ba.unsa.etf.web;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.apache.commons.io.IOUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,7 +14,10 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.multipart.MultipartFile;
 
 import ba.unsa.etf.model.Dokument;
 import ba.unsa.etf.model.Korisnik;
@@ -58,7 +63,7 @@ public class RESTController {
 	public ResponseEntity<Korisnik> getKorisnikWithId(@RequestBody Integer id){
 		Korisnik vlasnik = new Korisnik();
 		vlasnik = korisnikService.findById(id);
-		logger.debug("Response string() : " + vlasnik.toString());
+		logger.debug("Response get korisnik with id : " + vlasnik.toString());
 
 		ResponseEntity<Korisnik> responseEnt = new ResponseEntity<Korisnik>(vlasnik,HttpStatus.OK);
 		return responseEnt;
@@ -75,7 +80,7 @@ public class RESTController {
 	public ResponseEntity<List<Dokument>> sviDokumentiUsera(@RequestBody Integer id){
 		List<Dokument> dokumenti = new ArrayList<>();
 		dokumenti = dokumentService.findDocumentsByUserId(id);
-		logger.debug("Response string() : " + dokumenti.toString());
+		logger.debug("Response svi dokumenti usera : " + dokumenti.toString());
 
 		ResponseEntity<List<Dokument>> responseEnt = new ResponseEntity<List<Dokument>>(dokumenti,HttpStatus.OK);
 		return responseEnt;
@@ -89,7 +94,7 @@ public class RESTController {
 		if(korisnik == null){
 			korisnik = null;
 		}
-		logger.debug("Response string() : " + korisnik, korisnik);
+		logger.debug("Response login android : " + korisnik, korisnik);
 		
 		ResponseEntity<Korisnik> responseEnt = new ResponseEntity<Korisnik>(korisnik,HttpStatus.OK);
 		return responseEnt;
@@ -97,11 +102,24 @@ public class RESTController {
 	
 	
 	@RequestMapping(value = "/dodajdokumentandroid", method = RequestMethod.POST)
-	public ResponseEntity<Void> dodajDokument(@RequestBody Dokument dokument){
-		dokumentService.saveOrUpdate(dokument);
+	public ResponseEntity<ResponseBody> dodajDokument(@RequestParam(value = "id", required = false) Integer id,@RequestParam(value = "naziv", required = false) String naziv, @RequestParam(value = "vlasnik", required = false) Integer vlasnik, @RequestParam(value = "vidljivost", required = false) Integer vidljivost, @RequestParam(value = "contentType", required = false) String contentType, @RequestParam(value = "extenzija", required = false) String extenzija, @RequestParam(value = "fajl", required = false) MultipartFile fileUpload    ){
 		
-		return new ResponseEntity<Void>(HttpStatus.OK);
+		logger.debug("Response dodajdokumentandroid : " + id + " " + naziv + " " +vlasnik + " " + vidljivost + " " + contentType + " " + extenzija + " " + fileUpload.getOriginalFilename(), id);
+		Dokument d=new Dokument();
+		d.setNaziv(naziv);
+		d.setVlasnik(vlasnik);
+		d.setVidljivost(vidljivost+1);
+		d.setContentType(contentType);
+		d.setExtenzija(extenzija);
+		d.setFajl(fileUpload);
+		
+		dokumentService.saveOrUpdate(d);
+		
+		
+		
+		return new ResponseEntity<ResponseBody>(HttpStatus.OK);
 	}
+	
 	
 	@RequestMapping(value = "/dodajkorisnikaandroid", method = RequestMethod.POST)
 	public ResponseEntity<Void> dodajKorisnika(@RequestBody Korisnik korisnik){

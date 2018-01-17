@@ -555,8 +555,6 @@ public class DokumentController {
 	}
 	
 	
-	
-	
 	@RequestMapping(value = "/dokumenti/{id}/skini", method = RequestMethod.GET)
 	protected String skiniDokument(@PathVariable("id") int id, HttpServletRequest request, Model model, HttpSession httpSession, HttpServletResponse response) {
 		try {
@@ -577,15 +575,6 @@ public class DokumentController {
 		}
 		return null;
 	}
-	
-	
-	
-	
-	
-	
-	
-	
-	
 	
 
 	@RequestMapping(value = "/dokumenti/{id}", method = RequestMethod.GET)
